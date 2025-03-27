@@ -75,14 +75,10 @@ namespace SunriseShelter.Areas.Identity.Pages.Account
             [Required]
             public string FirstName { get; set; }
 
+
+
             [Required]
             public string LastName { get; set; }
-
-            [Required]
-            public string Phone { get; set; }
-
-            [Required]
-            public string Address { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -127,6 +123,9 @@ namespace SunriseShelter.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+
+                user.FirstName = Input.LastName;
+                user.LastName = Input.LastName;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

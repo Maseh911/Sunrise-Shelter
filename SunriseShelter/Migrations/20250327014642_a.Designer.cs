@@ -12,8 +12,8 @@ using SunriseShelter.Areas.Identity.Data;
 namespace SunriseShelter.Migrations
 {
     [DbContext(typeof(SunriseShelterDbContext))]
-    [Migration("20250325210455_2")]
-    partial class _2
+    [Migration("20250327014642_a")]
+    partial class a
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -170,10 +170,6 @@ namespace SunriseShelter.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -208,10 +204,6 @@ namespace SunriseShelter.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
