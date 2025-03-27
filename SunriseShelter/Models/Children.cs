@@ -12,16 +12,17 @@ namespace SunriseShelter.Models
         [Required(ErrorMessage = "Name is required.")]
         [MaxLength(25)]
         [Display(Name = "Name")]
+        [RegularExpression(@"^[a-zA-Z]+$")] // Ensures no numbers, spaces, or symbols are added in the 'Name' field //
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Date of birth of child is required.")]
         [Display(Name = "Date of birth")]
-        [DataType(DataType.Date)]
+        [DataType(DataType.Date)]       //Validation//
         public DateTime DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "Date of admission is required.")]
         [Display(Name = "Date of admission")]
-        [DataType(DataType.Date)]
+        [DataType(DataType.Date)]       //Validation//
         public DateTime DateOfAdmission { get; set; }
 
         [Required]
