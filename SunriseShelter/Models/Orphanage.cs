@@ -1,5 +1,4 @@
-﻿using SunriseShelter.Migrations;
-using SunriseShelter.Models;
+﻿using SunriseShelter.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace SunriseShelter.Models
@@ -27,7 +26,7 @@ namespace SunriseShelter.Models
         [Required, MaxLength(25), Display(Name = "Country"), RegularExpression(@"^[a-zA-Z ]+$")]
         public string Country { get; set; }
 
-        public ICollection<Children> Children { get; set; }
+
         public ICollection<Staff> Staff { get; set; }
 
     }

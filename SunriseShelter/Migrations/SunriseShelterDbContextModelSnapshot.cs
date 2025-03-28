@@ -232,6 +232,191 @@ namespace SunriseShelter.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("SunriseShelter.Models.Adoption", b =>
+                {
+                    b.Property<int>("AdoptionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdoptionId"));
+
+                    b.Property<DateTime>("AdoptionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ChildrenId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrphanageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ParentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AdoptionId");
+
+                    b.HasIndex("ChildrenId");
+
+                    b.HasIndex("OrphanageId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Adoption");
+                });
+
+            modelBuilder.Entity("SunriseShelter.Models.Children", b =>
+                {
+                    b.Property<int>("ChildrenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ChildrenId"));
+
+                    b.Property<string>("BirthPlace")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<DateTime>("DateOfAdmission")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("ChildrenId");
+
+                    b.ToTable("Children");
+                });
+
+            modelBuilder.Entity("SunriseShelter.Models.Orphanage", b =>
+                {
+                    b.Property<int>("OrphanageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrphanageId"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("OrphanageId");
+
+                    b.ToTable("Orphanage");
+                });
+
+            modelBuilder.Entity("SunriseShelter.Models.Parent", b =>
+                {
+                    b.Property<int>("ParentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ParentId"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("BirthPlace")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("MartialStatus")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ParentId");
+
+                    b.ToTable("Parent");
+                });
+
+            modelBuilder.Entity("SunriseShelter.Models.Staff", b =>
+                {
+                    b.Property<int>("StaffId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StaffId"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<int>("OrphanageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("StaffId");
+
+                    b.HasIndex("OrphanageId");
+
+                    b.ToTable("Staff");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -281,6 +466,59 @@ namespace SunriseShelter.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SunriseShelter.Models.Adoption", b =>
+                {
+                    b.HasOne("SunriseShelter.Models.Children", "Children")
+                        .WithMany("Adoption")
+                        .HasForeignKey("ChildrenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SunriseShelter.Models.Orphanage", "Orphanage")
+                        .WithMany()
+                        .HasForeignKey("OrphanageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SunriseShelter.Models.Parent", "Parent")
+                        .WithMany("Adoption")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Children");
+
+                    b.Navigation("Orphanage");
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("SunriseShelter.Models.Staff", b =>
+                {
+                    b.HasOne("SunriseShelter.Models.Orphanage", "Orphanage")
+                        .WithMany("Staff")
+                        .HasForeignKey("OrphanageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Orphanage");
+                });
+
+            modelBuilder.Entity("SunriseShelter.Models.Children", b =>
+                {
+                    b.Navigation("Adoption");
+                });
+
+            modelBuilder.Entity("SunriseShelter.Models.Orphanage", b =>
+                {
+                    b.Navigation("Staff");
+                });
+
+            modelBuilder.Entity("SunriseShelter.Models.Parent", b =>
+                {
+                    b.Navigation("Adoption");
                 });
 #pragma warning restore 612, 618
         }
