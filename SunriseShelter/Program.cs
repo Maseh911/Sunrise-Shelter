@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Sunrise_Shelter.Data;
+using SunriseShelter.Data;
 using SunriseShelter.Areas.Identity.Data;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("SunriseShelterDbContextConnection") ?? throw new InvalidOperationException("Connection string 'SunriseShelterDbContextConnection' not found.");
