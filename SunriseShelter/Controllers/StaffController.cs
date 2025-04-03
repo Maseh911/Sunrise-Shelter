@@ -51,7 +51,7 @@ namespace SunriseShelter.Controllers
         // GET: Staff/Create
         public IActionResult Create()
         {
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address");
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name");
             return View();
         }
 
@@ -62,13 +62,13 @@ namespace SunriseShelter.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("StaffId,FirstName,LastName,Role,Phone,Email,OrphanageId")] Staff staff)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(staff);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address", staff.OrphanageId);
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name", staff.OrphanageId);
             return View(staff);
         }
 
@@ -85,7 +85,7 @@ namespace SunriseShelter.Controllers
             {
                 return NotFound();
             }
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address", staff.OrphanageId);
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name", staff.OrphanageId);
             return View(staff);
         }
 
@@ -101,7 +101,7 @@ namespace SunriseShelter.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {
@@ -121,7 +121,7 @@ namespace SunriseShelter.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address", staff.OrphanageId);
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name", staff.OrphanageId);
             return View(staff);
         }
 

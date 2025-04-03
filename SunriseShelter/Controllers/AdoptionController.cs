@@ -53,9 +53,9 @@ namespace SunriseShelter.Controllers
         // GET: Adoption/Create
         public IActionResult Create()
         {
-            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "BirthPlace");
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address");
-            ViewData["ParentId"] = new SelectList(_context.Parent, "ParentId", "Address");
+            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "Name");
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name");
+            ViewData["ParentId"] = new SelectList(_context.Parent, "ParentId", "LastName");
             return View();
         }
 
@@ -72,9 +72,9 @@ namespace SunriseShelter.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "BirthPlace", adoption.ChildrenId);
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address", adoption.OrphanageId);
-            ViewData["ParentId"] = new SelectList(_context.Parent, "ParentId", "Address", adoption.ParentId);
+            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "Name", adoption.ChildrenId);
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name", adoption.OrphanageId);
+            ViewData["ParentId"] = new SelectList(_context.Parent, "ParentId", "LastName", adoption.ParentId);
             return View(adoption);
         }
 
@@ -91,9 +91,9 @@ namespace SunriseShelter.Controllers
             {
                 return NotFound();
             }
-            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "BirthPlace", adoption.ChildrenId);
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address", adoption.OrphanageId);
-            ViewData["ParentId"] = new SelectList(_context.Parent, "ParentId", "Address", adoption.ParentId);
+            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "Name", adoption.ChildrenId);
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name", adoption.OrphanageId);
+            ViewData["ParentId"] = new SelectList(_context.Parent, "ParentId", "LastName", adoption.ParentId);
             return View(adoption);
         }
 
@@ -129,9 +129,9 @@ namespace SunriseShelter.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "BirthPlace", adoption.ChildrenId);
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address", adoption.OrphanageId);
-            ViewData["ParentId"] = new SelectList(_context.Parent, "ParentId", "Address", adoption.ParentId);
+            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "Name", adoption.ChildrenId);
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name", adoption.OrphanageId);
+            ViewData["ParentId"] = new SelectList(_context.Parent, "ParentId", "LastName", adoption.ParentId);
             return View(adoption);
         }
 
