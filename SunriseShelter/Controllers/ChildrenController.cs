@@ -23,9 +23,18 @@ namespace SunriseShelter.Controllers
         [Authorize] // Doesn't allow people that haven't logged in to open this tab //
 
         // GET: Children
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString) // The searchString parameter represents a keyword of a search which will be used for filtering //
         {
-            return View(await _context.Children.ToListAsync());
+            ViewData["CurrentFilter"] = searchString;       // This will pass the value from the controller to the view to display the filtered value //
+
+            var childrens = from c in _context.Children select c;
+
+            if (!String.IsNullOrEmpty(searchString))  // If the searchString is not empty then it will exectute the statement //
+            {
+                childrens = childrens.Where(d => d.Name.Contains(searchString)); // It can filter the diagnosis name //
+            }
+
+            return View(await childrens.ToListAsync());
         }
 
         // GET: Children/Details/5
