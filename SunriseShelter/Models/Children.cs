@@ -1,4 +1,5 @@
-﻿using SunriseShelter.Models;
+﻿using SunriseShelter.Attributes;
+using SunriseShelter.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,8 +10,7 @@ namespace SunriseShelter.Models
         [Key]
         public int ChildrenId { get; set; }
 
-        [Required(ErrorMessage = "Name is required."), MaxLength(25), Display(Name = "Name")]
-        [RegularExpression(@"^[a-zA-Z]+$")] // Ensures no numbers, spaces, or symbols are added in the 'Name' field //
+        [Required(ErrorMessage = "Name is required."), MaxLength(25), NoSpacesOrNumbersOrSymbols, Display(Name = "Name")]
         public string Name { get; set; }
 
 
@@ -19,7 +19,7 @@ namespace SunriseShelter.Models
         public DateTime DateOfBirth { get; set; }
 
 
-        [Required, MaxLength(25), Display(Name = "Country of Origin")]
+        [Required, MaxLength(25), NoNumbersOrSymbols, Display(Name = "Country of Origin")]
         public string BirthPlace { get; set; }
 
 

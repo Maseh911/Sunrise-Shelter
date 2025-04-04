@@ -1,4 +1,5 @@
-﻿using SunriseShelter.Models;
+﻿using SunriseShelter.Attributes;
+using SunriseShelter.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,20 +11,20 @@ namespace SunriseShelter.Models
         public int ParentId { get; set; }
 
 
-        [Required, Display(Name = "First Name"), MaxLength(25)]
+        [Required, Display(Name = "First Name"), NoSpacesOrNumbersOrSymbols, MaxLength(25)]
         public string FirstName { get; set; }
 
 
-        [Required, Display(Name = "Last Name"), MaxLength(25)]
+        [Required, Display(Name = "Last Name"), NoSpacesOrNumbersOrSymbols, MaxLength(25)]
         public string LastName { get; set; }
 
 
-        [Required, Display(Name = "Date Of Birth")]
+        [Required, Display(Name = "Date Of Birth")] // validation //
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
 
 
-        [Required, Display(Name = "Phone"), RegularExpression("^[1-9]\\d{2}-\\d{3}-\\d{4}")] // Valdiation testing //
+        [Required, Display(Name = "Phone"), NewZealandPhone] // Valdiation testing //
         public string Phone { get; set; }
 
 
@@ -31,15 +32,15 @@ namespace SunriseShelter.Models
         public string Email { get; set; }
 
 
-        [Required, Display(Name = "Martial Status"), MaxLength(15)]
+        [Required, Display(Name = "Martial Status"), NoSpacesOrNumbersOrSymbols, MaxLength(15)]
         public string MartialStatus { get; set; }
 
 
-        [Required, Display(Name = "Address"), MaxLength(25)]
+        [Required, Display(Name = "Address"), NoSymbols, MaxLength(25)]
         public string Address { get; set; }
 
 
-        [Required, Display(Name = "Country of Origin"), MaxLength(25)]
+        [Required, Display(Name = "Country of Origin"), NoSpacesOrNumbersOrSymbols ,MaxLength(25)]
         public string BirthPlace { get; set; }
 
 

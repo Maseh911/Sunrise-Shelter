@@ -34,13 +34,13 @@
                 @Html.DisplayFor(modelItem => item.AdoptionDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Parent.Address)
+                @Html.DisplayFor(modelItem => item.Parent.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Children.BirthPlace)
+                @Html.DisplayFor(modelItem => item.Children.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Orphanage.Address)
+                    @Html.DisplayFor(modelItem => item.Orphanage.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.AdoptionId">Edit</a> |

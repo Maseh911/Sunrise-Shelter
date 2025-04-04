@@ -23,6 +23,15 @@ namespace SunriseShelter.Attributes
     }
 }
 
+    public class NoSymbolsAttribute : RegularExpressionAttribute
+{
+    public NoSymbolsAttribute()
+        : base("^[a-zA-Z0-9 ]*$") // This makes it to where no symbols can be entered //
+    {
+        ErrorMessage = "The field must cotain only letters, numbers, and spaces and no special characters";
+    }
+}
+
 public class NoNumbersAttribute : RegularExpressionAttribute
 {
     public NoNumbersAttribute()

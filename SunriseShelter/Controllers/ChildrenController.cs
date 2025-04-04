@@ -59,7 +59,7 @@ namespace SunriseShelter.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ChildrenId,Name,DateOfBirth,BirthPlace,DateOfAdmission")] Children children)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(children);
                 await _context.SaveChangesAsync();
@@ -96,7 +96,7 @@ namespace SunriseShelter.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {
