@@ -23,7 +23,7 @@ namespace SunriseShelter.Models
         public string State { get; set; }
 
 
-        [Required, MaxLength(25), Display(Name = "Country"), NoSpacesOrNumbersOrSymbols]
+        [Required, MaxLength(25), Display(Name = "Country"), NoNumbersOrSymbols]
 
         public string Country { get; set; }
 

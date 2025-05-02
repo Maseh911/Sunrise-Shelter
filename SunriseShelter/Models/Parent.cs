@@ -40,7 +40,7 @@ namespace SunriseShelter.Models
         public string Address { get; set; }
 
 
-        [Required, Display(Name = "Country of Origin"), NoSpacesOrNumbersOrSymbols ,MaxLength(25)]
+        [Required, Display(Name = "Country of Origin"), NoNumbersOrSymbols ,MaxLength(25)]
         public string BirthPlace { get; set; }
 
 
