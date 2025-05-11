@@ -1,0 +1,3 @@
+﻿SELECT *
+FROM [Staff]
+WHERE [Email] IS NOT NULL;

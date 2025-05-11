@@ -1,0 +1,3 @@
+﻿SELECT * 
+FROM Parent 
+WHERE DATEDIFF(YEAR, DateOfBirth, GETDATE()) > 40;
