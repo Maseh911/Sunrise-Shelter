@@ -7,14 +7,14 @@
 <h1>Adopted Childrens</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-success" asp-action="Create">Create New</a>
 </p>
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
             Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />      <!-- This will show the filtering searchbox, thus making it functional-->
             <input type="submit" value="Search" class="btn btn-default" /> |
-            <a asp-action="Index">Back to Full List</a>
+            <a class="btn btn-default" asp-action="Index">Back to Full List</a>
         </p>
     </div>
 </form>
@@ -52,9 +52,9 @@
                 @Html.DisplayFor(modelItem => item.DateOfAdmission)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ChildrenId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ChildrenId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ChildrenId">Delete</a>
+                    <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.ChildrenId">Edit</a> |
+                    <a class="btn btn-default" asp-action="Details" asp-route-id="@item.ChildrenId">Details</a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ChildrenId">Delete</a>
             </td>
         </tr>
 }

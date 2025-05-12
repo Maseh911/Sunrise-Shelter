@@ -7,7 +7,7 @@ var connectionString = builder.Configuration.GetConnectionString("SunriseShelter
 
 builder.Services.AddDbContext<SunriseShelterDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<SunriseShelterUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<SunriseShelterDbContext>();
+builder.Services.AddDefaultIdentity<SunriseShelterUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<SunriseShelterDbContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
