@@ -17,12 +17,7 @@ a {
   border-color: #1861ac;
 }
 
-.navbar-dark .nav-pills .nav-link {
-    color: white; 
-}
-
     .navbar-dark .nav-pills .nav-link:hover {
-        text-decoration: underline;
         transition: text-decoration 0.3s;
     }
 
