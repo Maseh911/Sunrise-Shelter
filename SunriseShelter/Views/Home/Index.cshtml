@@ -9,28 +9,31 @@
     <title>Home Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .rounded-img {
-            border-radius: 15px;
-            height: 200px;
-            width: 200px;
-            background-color: #e9ecef;
+        .banner-container {
+            height: 400px;
+            overflow: hidden;
         }
+
+            .banner-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
     </style>
 </head>
 <body>
-    <div class="mx-auto" style="height: 400px; overflow: hidden;">
-        <img src="~/Images/Kiddo.jpg"
-             class="img-fluid w-100"
-             alt="Front page banner"
-             style="object-fit: cover; height: 100%; width: 100%;">
+    <div class="banner-container">
+        <img src="~/Images/Kiddo.jpg" alt="Front page banner">
     </div>
-    <div class="text-center">
+
+    <div class="text-center mt-4">
         <h1 style="color:dimgray;">Welcome To Sunrise Shelter</h1>
     </div>
-    <br>
-    <br/>
-    <br/>
-        <p class="mt-3">Contact Info:</p>
+
+    <div class="container mt-5">
+        <p>Contact Info:</p>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

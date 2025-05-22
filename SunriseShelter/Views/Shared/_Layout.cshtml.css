@@ -11,15 +11,12 @@ a {
   color: #0077cc;
 }
 
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
-
-    .navbar-dark .nav-pills .nav-link:hover {
-        transition: text-decoration 0.3s;
-    }
 
     .navbar-dark .nav-pills .nav-link.active, .navbar-dark .nav-pills .show > .nav-link {
         color: white;
