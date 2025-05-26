@@ -7,7 +7,8 @@ var connectionString = builder.Configuration.GetConnectionString("SunriseShelter
 
 builder.Services.AddDbContext<SunriseShelterDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<SunriseShelterUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<SunriseShelterDbContext>();
+builder.Services.AddDefaultIdentity<SunriseShelterUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<SunriseShelterDbContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -36,5 +37,35 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 DatabaseStartup.StartUp(app);   // This will run the dummy data in the database //
+
+using (var scope = app.Services.CreateScope())
+{
+    var SunriseShelterRoleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    if (!await SunriseShelterRoleManager.RoleExistsAsync("Admin"))
+        await SunriseShelterRoleManager.CreateAsync(new IdentityRole("Admin"));
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var SunriseShelterUserManager = scope.ServiceProvider.GetRequiredService<UserManager<SunriseShelterUser>>();
+
+    string adminEmail = "admin@sunriseshelter.com";
+    string adminPassword = "Admin";
+
+
+    if (await SunriseShelterUserManager.FindByEmailAsync(adminEmail) == null)
+    {
+        var user = new SunriseShelterUser();
+        user.UserName = adminEmail;
+        user.Email = adminEmail;
+        user.FirstName = "Test";
+        user.LastName = "Admin";
+
+        await SunriseShelterUserManager.CreateAsync(user, adminPassword);
+        await SunriseShelterUserManager.AddToRoleAsync(user, "Admin");
+    }
+}
+
 
 app.Run();
