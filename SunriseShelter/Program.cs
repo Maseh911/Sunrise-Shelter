@@ -7,7 +7,8 @@ var connectionString = builder.Configuration.GetConnectionString("SunriseShelter
 
 builder.Services.AddDbContext<SunriseShelterDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<SunriseShelterUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>()
+builder.Services.AddDefaultIdentity<SunriseShelterUser>(options => options.SignIn.RequireConfirmedAccount = false)
+.AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<SunriseShelterDbContext>();
 
 // Add services to the container.
@@ -40,21 +41,25 @@ DatabaseStartup.StartUp(app);   // This will run the dummy data in the database 
 
 using (var scope = app.Services.CreateScope())
 {
-    var SunriseShelterRoleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roles = new[] { "Admin", "User" };
 
-    if (!await SunriseShelterRoleManager.RoleExistsAsync("Admin"))
-        await SunriseShelterRoleManager.CreateAsync(new IdentityRole("Admin"));
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole(role));
+
+    }
 }
 
 using (var scope = app.Services.CreateScope())
 {
-    var SunriseShelterUserManager = scope.ServiceProvider.GetRequiredService<UserManager<SunriseShelterUser>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<SunriseShelterUser>>();
 
-    string adminEmail = "admin@sunriseshelter.com";
-    string adminPassword = "Admin";
+    string adminEmail = "admin@gmail.com";
+    string adminPassword = "Password123!";
 
-
-    if (await SunriseShelterUserManager.FindByEmailAsync(adminEmail) == null)
+    if (await userManager.FindByEmailAsync(adminEmail) == null)
     {
         var user = new SunriseShelterUser();
         user.UserName = adminEmail;
@@ -62,10 +67,9 @@ using (var scope = app.Services.CreateScope())
         user.FirstName = "Test";
         user.LastName = "Admin";
 
-        await SunriseShelterUserManager.CreateAsync(user, adminPassword);
-        await SunriseShelterUserManager.AddToRoleAsync(user, "Admin");
+        await userManager.CreateAsync(user, adminPassword);
+        await userManager.AddToRoleAsync(user, "Admin");
     }
 }
-
 
 app.Run();

@@ -20,7 +20,7 @@ namespace SunriseShelter.Controllers
             _context = context;
         }
 
-        [Authorize] // Doesn't allow people that haven't logged in to open this tab //
+        [Authorize(Roles = "Admin")] // Doesn't allow people that haven't logged in to open this tab //
 
         // GET: Adoption
         public async Task<IActionResult> Index()

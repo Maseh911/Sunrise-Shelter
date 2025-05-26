@@ -6,9 +6,12 @@
 
 <h1>Orphanages</h1>
 
-<p>
-    <a class="btn btn-success" asp-action="Create">Create New</a>
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a class="btn btn-success" asp-action="Create">Create New</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -43,9 +46,15 @@
                 @Html.DisplayFor(modelItem => item.Country)
             </td>
             <td>
-                    <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.OrphanageId">Edit</a> |
-                    <a class="btn btn-default" asp-action="Details" asp-route-id="@item.OrphanageId">Details</a> |
-                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.OrphanageId">Delete</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.OrphanageId">Edit</a>
+                    }
+                    <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.OrphanageId">Details</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.OrphanageId">Delete</a>
+                    }
             </td>
         </tr>
 }

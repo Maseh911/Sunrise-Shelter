@@ -22,21 +22,26 @@
         </button>
         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
             <ul class="navbar-nav nav-pills flex-grow-1"> <!-- Added nav-pills -->
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Adoption" asp-action="Index">Adoptions</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Children" asp-action="Index">Children</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Orphanage" asp-action="Index">Orphanages</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Parent" asp-action="Index">Parents</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Staff" asp-action="Index">Staff</a>
-                </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Orphanage" asp-action="Index">Orphanages</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Staff" asp-action="Index">Staff</a>
+                        </li>
+
+                        <!-- Only visible to Admins -->
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Adoption" asp-action="Index">Adoptions</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Parent" asp-action="Index">Parents</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Children" asp-action="Index">Childrens</a>
+                            </li>
+                        }
             </ul>
         </div>
     </div>
