@@ -20,12 +20,21 @@ namespace SunriseShelter.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = "Admin")] // Doesn't allow people that haven't logged in to open this tab //
+        [Authorize(Roles = "Admin")] 
 
         // GET: Parent
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString) 
         {
-            return View(await _context.Parent.ToListAsync());
+            ViewData["CurrentFilter"] = searchString;  
+
+            var parents = from p in _context.Parent select p;
+
+            if (!String.IsNullOrEmpty(searchString)) 
+            {
+                parents = parents.Where(p => p.FirstName.Contains(searchString) || p.LastName.Contains(searchString));
+            }
+
+            return View(await parents.ToListAsync());
         }
 
         // GET: Parent/Details/5

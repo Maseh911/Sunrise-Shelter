@@ -23,10 +23,20 @@ namespace SunriseShelter.Controllers
         [Authorize] // Doesn't allow people that haven't logged in to open this tab //
 
         // GET: Orphanage
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString) // The searchString parameter represents a keyword of a search which will be used for filtering //
         {
-            return View(await _context.Orphanage.ToListAsync());
+            ViewData["CurrentFilter"] = searchString;       // This will pass the value from the controller to the view to display the filtered value //
+
+            var orphanages = from o in _context.Orphanage select o;
+
+            if (!String.IsNullOrEmpty(searchString))  // If the searchString is not empty then it will exectute the statement //
+            {
+                orphanages = orphanages.Where(d => d.Name.Contains(searchString)); // It can filter the orphanage name //
+            }
+
+            return View(await orphanages.ToListAsync());
         }
+
 
         // GET: Orphanage/Details/5
         public async Task<IActionResult> Details(int? id)
