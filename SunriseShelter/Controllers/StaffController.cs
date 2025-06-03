@@ -20,13 +20,19 @@ namespace SunriseShelter.Controllers
             _context = context;
         }
 
-        [Authorize] // Doesn't allow people that haven't logged in to open this tab //
-
         // GET: Staff
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var sunriseShelterDbContext = _context.Staff.Include(s => s.Orphanage);
-            return View(await sunriseShelterDbContext.ToListAsync());
+            ViewData["CurrentFilter"] = searchString;
+
+            var staffs = from s in _context.Staff.Include(s => s.Orphanage) select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                staffs = staffs.Where(s => s.FirstName.Contains(searchString) || s.LastName.Contains(searchString));
+            }
+
+            return View(await staffs.ToListAsync());
         }
 
         // GET: Staff/Details/5

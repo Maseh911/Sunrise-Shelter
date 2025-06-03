@@ -23,10 +23,18 @@ namespace SunriseShelter.Controllers
         [Authorize(Roles = "Admin")] // Doesn't allow people that haven't logged in to open this tab //
 
         // GET: Adoption
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var sunriseShelterDbContext = _context.Adoption.Include(a => a.Children).Include(a => a.Orphanage).Include(a => a.Parent);
-            return View(await sunriseShelterDbContext.ToListAsync());
+            ViewData["CurrentFilter"] = searchString;
+
+            var adoptions = from a in _context.Adoption.Include(a => a.Children).Include(a => a.Orphanage).Include(a => a.Parent) select a;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                adoptions = adoptions.Where(a => a.Children.Name.Contains(searchString) || a.Parent.LastName.Contains(searchString) || a.Orphanage.Name.Contains(searchString));
+            }
+
+            return View(await adoptions.ToListAsync());
         }
 
         // GET: Adoption/Details/5
