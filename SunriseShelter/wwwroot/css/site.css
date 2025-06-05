@@ -43,3 +43,16 @@ body {
     .nav-link:hover::after {
         opacity: 1;
     }
+
+
+.custom-hover-link { /* Custom hover effect for order attributes */
+    color: #222222;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+}
+
+    .custom-hover-link:hover {
+        color: #7f7f7f;
+    }
+

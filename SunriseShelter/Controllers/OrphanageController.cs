@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SunriseShelter.Areas.Identity.Data;
 using SunriseShelter.Models;
@@ -21,9 +22,11 @@ namespace SunriseShelter.Controllers
         }
 
         // GET: Orphanage
-        public async Task<IActionResult> Index(string searchString) // The searchString parameter represents a keyword of a search which will be used for filtering //
+        public async Task<IActionResult> Index(string sortOrder, string searchString) // The searchString parameter represents a keyword of a search which will be used for filtering //
         {
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["CurrentFilter"] = searchString;       // This will pass the value from the controller to the view to display the filtered value //
+
 
             var orphanages = from o in _context.Orphanage select o;
 
@@ -32,6 +35,16 @@ namespace SunriseShelter.Controllers
                 orphanages = orphanages.Where(o => o.Name.Contains(searchString) || o.State.Contains(searchString)); // It can filter the orphanage name as well as the state //
             }
 
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    orphanages = orphanages.OrderByDescending(o => o.Name);
+                    break;
+
+                default:
+                    orphanages = orphanages.OrderBy(o => o.Name);
+                    break;
+            }
             return View(await orphanages.ToListAsync());
         }
 
