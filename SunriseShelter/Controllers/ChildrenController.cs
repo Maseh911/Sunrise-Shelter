@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SunriseShelter.Areas.Identity.Data;
 using SunriseShelter.Models;
@@ -23,9 +24,21 @@ namespace SunriseShelter.Controllers
         [Authorize(Roles = "Admin")] // Doesn't allow people that haven't logged in to open this tab //
 
         // GET: Children
-        public async Task<IActionResult> Index(string searchString) 
+        public async Task<IActionResult> Index(string searchString, string sortOrder, int? pageNumber, string currentFilter) 
         {
-            ViewData["CurrentFilter"] = searchString;  
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["CurrentFilter"] = searchString;
+            ViewData["CurrentSort"] = sortOrder;
+
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
             var childrens = from c in _context.Children select c;
 
@@ -34,7 +47,8 @@ namespace SunriseShelter.Controllers
                 childrens = childrens.Where(d => d.Name.Contains(searchString)); 
             }
 
-            return View(await childrens.ToListAsync());
+            int pageSize = 7;
+            return View(await PaginatedList<Children>.CreateAsync(childrens.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Children/Details/5

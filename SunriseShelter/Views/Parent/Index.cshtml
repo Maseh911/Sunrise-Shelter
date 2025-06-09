@@ -29,12 +29,16 @@ else
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
+                <th>
+                    <a href="@Url.Action("Index", new { sortOrder = ViewData["NameSortParm"], searchString = ViewData["CurrentFilter"] }) class="custom-hover-link">
+                        First Name
+                    </a>
+                </th>
+                <th>
+                    <a href="@Url.Action("Index", new { sortOrder = ViewData["LastNameSortParm"], searchString = ViewData["CurrentFilter"] }) class="custom-hover-link">
+                        Last Name
+                    </a>
+                </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateOfBirth)
             </th>

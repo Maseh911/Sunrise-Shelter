@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SunriseShelter.Areas.Identity.Data;
 using SunriseShelter.Models;
@@ -20,18 +21,39 @@ namespace SunriseShelter.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = "Admin")] 
+        [Authorize(Roles = "Admin")]
 
         // GET: Parent
-        public async Task<IActionResult> Index(string searchString) 
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            ViewData["CurrentFilter"] = searchString;  
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["LastNameSortParm"] = sortOrder == "lastName_asc" ? "lastName_desc" : "lastName_asc";
+            ViewData["CurrentFilter"] = searchString;
 
             var parents = from p in _context.Parent select p;
 
-            if (!String.IsNullOrEmpty(searchString)) 
+            if (!String.IsNullOrEmpty(searchString))
             {
                 parents = parents.Where(p => p.FirstName.Contains(searchString) || p.LastName.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    parents = parents.OrderByDescending(p => p.FirstName).ThenByDescending(p => p.LastName);  // Sort by FirstName DESC then LastName DESC
+                    break;
+
+                case "lastName_asc":
+                    parents = parents.OrderBy(p => p.LastName).ThenBy(p => p.FirstName);  // Sort by LastName ASC then FirstName ASC
+                    break;
+
+                case "lastName_desc":
+                    parents = parents.OrderByDescending(p => p.LastName).ThenByDescending(p => p.FirstName); // Sort by LastName DESC then FirstName DESC
+                    break;
+
+                default:
+                    parents = parents.OrderBy(p => p.FirstName).ThenBy(p => p.LastName);  // Default: FirstName ASC then LastName ASC
+                    break;
             }
 
             return View(await parents.ToListAsync());
