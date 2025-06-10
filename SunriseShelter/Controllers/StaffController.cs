@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SunriseShelter.Areas.Identity.Data;
 using SunriseShelter.Models;
@@ -21,8 +22,9 @@ namespace SunriseShelter.Controllers
         }
 
         // GET: Staff
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["CurrentFilter"] = searchString;
 
             var staffs = from s in _context.Staff.Include(s => s.Orphanage) select s;
@@ -30,6 +32,17 @@ namespace SunriseShelter.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 staffs = staffs.Where(s => s.FirstName.Contains(searchString) || s.LastName.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    staffs = staffs.OrderByDescending(s => s.LastName);
+                    break;
+
+                default:
+                    staffs = staffs.OrderBy(s => s.LastName);
+                    break;
             }
 
             return View(await staffs.ToListAsync());

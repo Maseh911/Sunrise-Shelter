@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Adopted Childrens</h1>
+<h1>Childrens</h1>
 
 <p>
     <a class="btn btn-success" asp-action="Create">Create New</a>
@@ -30,18 +30,25 @@ else
     <thead>
         <tr>
             <th>
-                Name
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewData["NameSortParm"]"
+                       class="custom-hover-link">
+                        Name
+                    </a>
             </th>
             <th>
-                DateOfBirth
+                Date Of Birth
             </th>
             <th>
-                BirthPlace
+                Birth Place
             </th>
             <th>
-                DateOfAdmission
+                    <a asp-action="Index" 
+                    asp-route-sortOrder="@ViewData["DateSortParm"]"
+                    class="custom-hover-link">
+                    Date Of Admission
+                </a>
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>

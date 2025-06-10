@@ -50,9 +50,11 @@ body {
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s ease-in-out;
+    text-decoration: underline;
 }
 
     .custom-hover-link:hover {
         color: #7f7f7f;
+
     }
 

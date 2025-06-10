@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SunriseShelter.Areas.Identity.Data;
 using SunriseShelter.Models;
@@ -23,9 +24,12 @@ namespace SunriseShelter.Controllers
         [Authorize(Roles = "Admin")] // Doesn't allow people that haven't logged in to open this tab //
 
         // GET: Adoption
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber, string currentFilter)
         {
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["CurrentFilter"] = searchString;
+            ViewData["CurrentSort"] = sortOrder;
 
             var adoptions = from a in _context.Adoption.Include(a => a.Children).Include(a => a.Orphanage).Include(a => a.Parent) select a;
 
@@ -33,8 +37,26 @@ namespace SunriseShelter.Controllers
             {
                 adoptions = adoptions.Where(a => a.Children.Name.Contains(searchString) || a.Parent.LastName.Contains(searchString) || a.Orphanage.Name.Contains(searchString));
             }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    adoptions = adoptions.OrderByDescending(c => c.Parent.LastName);
+                    break;
 
-            return View(await adoptions.ToListAsync());
+                case "Date":
+                    adoptions = adoptions.OrderBy(c => c.AdoptionDate);
+                    break;
+                case "date_desc":
+                    adoptions = adoptions.OrderByDescending(c => c.AdoptionDate);
+                    break;
+
+                default:
+                    adoptions = adoptions.OrderBy(c => c.Parent.LastName);
+                    break;
+            }
+
+            int pageSize = 7;
+            return View(await PaginatedList<Adoption>.CreateAsync(adoptions.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Adoption/Details/5

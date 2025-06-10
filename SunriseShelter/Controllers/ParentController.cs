@@ -40,19 +40,19 @@ namespace SunriseShelter.Controllers
             switch (sortOrder)
             {
                 case "name_desc":
-                    parents = parents.OrderByDescending(p => p.FirstName).ThenByDescending(p => p.LastName);  // Sort by FirstName DESC then LastName DESC
+                    parents = parents.OrderByDescending(p => p.FirstName).ThenByDescending(p => p.LastName);  // 
                     break;
 
                 case "lastName_asc":
-                    parents = parents.OrderBy(p => p.LastName).ThenBy(p => p.FirstName);  // Sort by LastName ASC then FirstName ASC
+                    parents = parents.OrderBy(p => p.LastName).ThenBy(p => p.FirstName);  // 
                     break;
 
                 case "lastName_desc":
-                    parents = parents.OrderByDescending(p => p.LastName).ThenByDescending(p => p.FirstName); // Sort by LastName DESC then FirstName DESC
+                    parents = parents.OrderByDescending(p => p.LastName).ThenByDescending(p => p.FirstName); 
                     break;
 
                 default:
-                    parents = parents.OrderBy(p => p.FirstName).ThenBy(p => p.LastName);  // Default: FirstName ASC then LastName ASC
+                    parents = parents.OrderBy(p => p.FirstName).ThenBy(p => p.LastName); 
                     break;
             }
 

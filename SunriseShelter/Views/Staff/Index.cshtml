@@ -36,7 +36,11 @@ else
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewData["NameSortParm"]"
+                       class="custom-hover-link">
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Role)

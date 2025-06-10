@@ -27,6 +27,7 @@ namespace SunriseShelter.Controllers
         public async Task<IActionResult> Index(string searchString, string sortOrder, int? pageNumber, string currentFilter) 
         {
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["CurrentFilter"] = searchString;
             ViewData["CurrentSort"] = sortOrder;
 
@@ -44,9 +45,26 @@ namespace SunriseShelter.Controllers
 
             if (!String.IsNullOrEmpty(searchString))  
             {
-                childrens = childrens.Where(d => d.Name.Contains(searchString)); 
+                childrens = childrens.Where(c => c.Name.Contains(searchString)); 
             }
 
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    childrens = childrens.OrderByDescending(c => c.Name);
+                    break;
+
+                case "Date":
+                    childrens = childrens.OrderBy(c => c.DateOfAdmission); 
+                    break;
+                case "date_desc":
+                    childrens = childrens.OrderByDescending(c => c.DateOfAdmission);  
+                    break;
+
+                default:
+                    childrens = childrens.OrderBy(c => c.Name);
+                    break;
+            }
             int pageSize = 7;
             return View(await PaginatedList<Children>.CreateAsync(childrens.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
