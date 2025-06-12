@@ -57,14 +57,14 @@ using (var scope = app.Services.CreateScope())
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<SunriseShelterUser>>();
 
     string adminEmail = "admin@gmail.com";
-    string adminPassword = "Password123!";
+    string adminPassword = "Qwe123!";
 
     if (await userManager.FindByEmailAsync(adminEmail) == null)
     {
         var user = new SunriseShelterUser();
         user.UserName = adminEmail;
         user.Email = adminEmail;
-        user.FirstName = "Test";
+        user.FirstName = "Admin";
         user.LastName = "Admin";
 
         await userManager.CreateAsync(user, adminPassword);
