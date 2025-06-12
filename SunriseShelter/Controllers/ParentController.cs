@@ -46,6 +46,7 @@ namespace SunriseShelter.Controllers
                 parents = parents.Where(p => p.FirstName.Contains(searchString) || p.LastName.Contains(searchString));
             }
 
+
             switch (sortOrder)
             {
                 case "name_desc":
