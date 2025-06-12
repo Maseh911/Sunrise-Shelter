@@ -22,10 +22,19 @@ namespace SunriseShelter.Controllers
         }
 
         // GET: Staff
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber, string currentFilter)
         {
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["CurrentFilter"] = searchString;
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
             var staffs = from s in _context.Staff.Include(s => s.Orphanage) select s;
 
@@ -45,7 +54,8 @@ namespace SunriseShelter.Controllers
                     break;
             }
 
-            return View(await staffs.ToListAsync());
+            int pageSize = 8;
+            return View(await PaginatedList<Staff>.CreateAsync(staffs.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Staff/Details/5

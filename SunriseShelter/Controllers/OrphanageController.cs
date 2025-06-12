@@ -22,11 +22,20 @@ namespace SunriseShelter.Controllers
         }
 
         // GET: Orphanage
-        public async Task<IActionResult> Index(string sortOrder, string searchString) // The searchString parameter represents a keyword of a search which will be used for filtering //
+        public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber, string currentFilter) // The searchString parameter represents a keyword of a search which will be used for filtering //
         {
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["CurrentFilter"] = searchString;       // This will pass the value from the controller to the view to display the filtered value //
+            ViewData["CurrentSort"] = sortOrder;
 
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
             var orphanages = from o in _context.Orphanage select o;
 
@@ -45,7 +54,8 @@ namespace SunriseShelter.Controllers
                     orphanages = orphanages.OrderBy(o => o.Name);
                     break;
             }
-            return View(await orphanages.ToListAsync());
+            int pageSize = 8;
+            return View(await PaginatedList<Orphanage>.CreateAsync(orphanages.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
 

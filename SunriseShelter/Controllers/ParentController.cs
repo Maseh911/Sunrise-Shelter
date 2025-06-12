@@ -24,11 +24,20 @@ namespace SunriseShelter.Controllers
         [Authorize(Roles = "Admin")]
 
         // GET: Parent
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber, string currentFilter)
         {
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["LastNameSortParm"] = sortOrder == "lastName_asc" ? "lastName_desc" : "lastName_asc";
             ViewData["CurrentFilter"] = searchString;
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
             var parents = from p in _context.Parent select p;
 
@@ -56,7 +65,8 @@ namespace SunriseShelter.Controllers
                     break;
             }
 
-            return View(await parents.ToListAsync());
+            int pageSize = 8;
+            return View(await PaginatedList<Parent>.CreateAsync(parents.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Parent/Details/5

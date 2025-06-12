@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SunriseShelter.Models.Staff>
+﻿@model PaginatedList<SunriseShelter.Models.Staff>
 
 @{
     ViewData["Title"] = "Index";
@@ -33,26 +33,26 @@ else
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                First Name
             </th>
             <th>
                     <a asp-action="Index"
                        asp-route-sortOrder="@ViewData["NameSortParm"]"
                        class="custom-hover-link">
-                        @Html.DisplayNameFor(model => model.LastName)
+                        Last Name
                     </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Role)
+                Role
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Phone)
+                Phone
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                Email
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Orphanage)
+                Orphanage
             </th>
             <th></th>
         </tr>
@@ -97,3 +97,23 @@ else
     </tbody>
 </table>
 }
+@{
+    <!-- This is for the pagination for the appointment times page, it will display the previous and next page and will make it functional-->
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
