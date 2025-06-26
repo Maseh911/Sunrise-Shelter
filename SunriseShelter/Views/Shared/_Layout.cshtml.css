@@ -18,12 +18,6 @@ a {
   border-color: #1861ac;
 }
 
-    .navbar-dark .nav-pills .nav-link.active, .navbar-dark .nav-pills .show > .nav-link {
-        color: white;
-        background-color: #1b6ec2;
-        border-color: #1861ac;
-    }
-
 .border-top {
   border-top: 1px solid #e5e5e5;
 }
