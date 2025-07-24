@@ -56,11 +56,54 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - Sunrise Shelter - <a asp-area="" asp-controller="Home" asp-action="Privacy" class="custom-hover-link">Privacy</a>
+
+    <footer class="bg-dark text-white mt-5 px-4 py-5">
+        <div class="container bg-dark rounded-4 px-4 py-5">
+            <div class="row">
+                <!-- Left Column -->
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Sunrise Shelter</h5>
+                    <p class="text-white" style="font-size: 0.9rem;">
+                        We offer a wide range of handyman services to meet all your needs, from minor fixes to major renovations.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <div class="bg-light rounded-circle d-flex justify-content-center align-items-center" style="width: 32px; height: 32px;">
+                            <span class="text-dark fw-bold">A</span>
+                        </div>
+                        <div class="bg-light rounded-circle d-flex justify-content-center align-items-center" style="width: 32px; height: 32px;">
+                            <span class="text-dark fw-bold">B</span>
+                        </div>
+                        <div class="bg-light rounded-circle d-flex justify-content-center align-items-center" style="width: 32px; height: 32px;">
+                            <span class="text-dark fw-bold">C</span>
+                        </div>
+                        <div class="bg-light rounded-circle d-flex justify-content-center align-items-center" style="width: 32px; height: 32px;">
+                            <span class="text-dark fw-bold">D</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Middle Column -->
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h6 class="mb-3">Extra links</h6>
+                    <ul class="list-unstyled text-white" style="font-size: 0.9rem;">
+                        <li><a href="#" class="text-white text-decoration-none">Home</a></li>
+                        <li><a asp-controller="Home" asp-action="Privacy" class="text-white text-decoration-none">Privacy Policy</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Our team</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">About Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Right Column -->
+                <div class="col-md-4">
+                    <h6 class="mb-3">Contact</h6>
+                    <p class="text-white mb-1" style="font-size: 14px;">123 Example Road<br>New Zealand, Auckland 0001</p>
+                    <p class="text-white mb-1" style="font-size: 14px;">Email: info@sunriseshelter.org</p>
+                    <p class="text-white" style="font-size: 14px;">Phone: (555) 123-4567</p>
+                </div>
+            </div>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
