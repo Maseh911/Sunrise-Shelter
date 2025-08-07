@@ -60,3 +60,49 @@ html, body {
 
     }
 
+.table-hover tbody tr:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.sunrise-navbar {
+    background: linear-gradient(to right, #ffecd2, #fcb69f); /* peachy sunrise gradient */
+    padding: 1rem 1.5rem;
+}
+
+    .sunrise-navbar .navbar-brand {
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 1.4rem;
+    }
+
+    .sunrise-navbar .nav-link {
+        color: #2C2C2C !important;
+        font-weight: 500;
+        transition: all 0.2s ease-in-out;
+    }
+
+        .sunrise-navbar .nav-link:hover {
+            color: #FFFFFF !important; /* warm reddish-pink sunrise accent */
+        }
+
+        /* Optional: underlines nav links softly */
+        .sunrise-navbar .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2px;
+            width: 100%;
+            background-color: #FFFFFF;
+            opacity: 0;
+            transition: all 0.2s ease-in-out;
+            pointer-events: none;
+        }
+
+        .sunrise-navbar .nav-link:hover::after {
+            opacity: 1;
+        }
+
+.footer-gradient {
+    background: linear-gradient(to right, #ffecd2, #fcb69f); /* peachy sunrise gradient */
+}

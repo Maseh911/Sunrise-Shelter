@@ -4,22 +4,32 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="container mt-4">
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 
+<div class="container mt-4">
     <h1 class="text-center mb-4">Orphanages</h1>
 
     @if (User.IsInRole("Admin"))
     {
         <div class="d-flex justify-content-center mb-3">
-            <a class="btn btn-success" asp-action="Create">+ Create New</a>
+            <a class="btn btn-success rounded-pill px-4" asp-action="Create">
+                <i class="bi bi-plus-lg"></i> Create New
+            </a>
         </div>
     }
 
-    <!-- Search bar -->
+    <!-- Search Bar -->
     <form asp-action="Index" method="get" class="d-flex justify-content-center mb-4">
-        <div class="input-group" style="max-width: 600px;">
-            <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" class="form-control rounded-pill" placeholder="Find by name..." />
-            <button type="submit" class="btn btn-outline-primary">Search</button>
+        <div class="input-group shadow-sm" style="max-width: 600px;">
+            <span class="input-group-text bg-white border-end-0">
+                <i class="bi bi-search"></i>
+            </span>
+            <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]"
+                   class="form-control border-start-0 rounded-end" placeholder="Find by name..." />
+            <button type="submit" class="btn btn-outline-primary">
+                <i class="bi bi-search"></i>
+            </button>
             <a asp-action="Index" class="btn btn-outline-secondary">Reset</a>
         </div>
     </form>
@@ -32,49 +42,62 @@
     }
     else
     {
-        <!-- Table -->
-        <div class="table-responsive d-flex justify-content-center">
-            <table class="table table-hover shadow-sm rounded text-center" style="max-width: 1000px;">
-                <thead class="table-light">
-                    <tr>
-                        <th>
-                            <a asp-action="Index"
-                               asp-route-sortOrder="@ViewData["NameSortParm"]"
-                               class="text-decoration-none text-dark fw-bold">
-                                Name
-                            </a>
-                        </th>
-                        <th>Address</th>
-                        <th>State</th>
-                        <th>Country</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Address)</td>
-                            <td>@Html.DisplayFor(modelItem => item.State)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Country)</td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.OrphanageId">Edit</a>
-                                    }   |
-                                    <a class="btn btn-outline-dark" asp-action="Details" asp-route-id="@item.OrphanageId">Details</a> 
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.OrphanageId">Delete</a>
-                                    }
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        <!-- Table inside card -->
+        <div class="card shadow-sm border-0 mx-auto" style="max-width: 1000px;">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light text-start">
+                            <tr>
+                                <th>
+                                    <a asp-action="Index"
+                                       asp-route-sortOrder="@ViewData["NameSortParm"]"
+                                       class="text-decoration-none text-dark fw-bold">
+                                        Name
+                                    </a>
+                                </th>
+                                <th>Address</th>
+                                <th>State</th>
+                                <th>Country</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-start">
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.State)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Country)</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <a class="btn btn-sm btn-outline-secondary me-1"
+                                                   asp-action="Edit" asp-route-id="@item.OrphanageId">
+                                                    <i class="bi bi-pencil-square"></i> Edit
+                                                </a>
+                                            }
+                                            <a class="btn btn-sm btn-outline-info me-1"
+                                               asp-action="Details" asp-route-id="@item.OrphanageId">
+                                                <i class="bi bi-info-circle"></i> Details
+                                            </a>
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <a class="btn btn-sm btn-outline-danger"
+                                                   asp-action="Delete" asp-route-id="@item.OrphanageId">
+                                                    <i class="bi bi-trash"></i> Delete
+                                                </a>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     }
 
@@ -89,16 +112,31 @@
            asp-route-sortOrder="@ViewData["CurrentSort"]"
            asp-route-pageNumber="@(Model.PageIndex - 1)"
            asp-route-currentFilter="@ViewData["CurrentFilter"]"
-           class="btn btn-outline-dark @prevDisabled">
+           class="btn btn-outline-secondary rounded-pill @prevDisabled">
             ← Previous
         </a>
         <a asp-action="Index"
            asp-route-sortOrder="@ViewData["CurrentSort"]"
            asp-route-pageNumber="@(Model.PageIndex + 1)"
            asp-route-currentFilter="@ViewData["CurrentFilter"]"
-           class="btn btn-outline-dark @nextDisabled">
+           class="btn btn-outline-secondary rounded-pill @nextDisabled">
             Next →
         </a>
     </div>
-
 </div>
+
+<!-- Optional: Tooltip Script -->
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+</script>
+
+<!-- Optional: Hover shadow -->
+<style>
+    .table-hover tbody tr:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: box-shadow 0.2s ease-in-out;
+    }
+</style>

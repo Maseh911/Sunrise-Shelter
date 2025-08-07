@@ -54,7 +54,7 @@ namespace SunriseShelter.Controllers
                     orphanages = orphanages.OrderBy(o => o.Name);
                     break;
             }
-            int pageSize = 12;
+            int pageSize = 16;
             return View(await PaginatedList<Orphanage>.CreateAsync(orphanages.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
