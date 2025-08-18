@@ -5,7 +5,7 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1 style="text-align:center">@ViewData["Title"]</h1>
+<h1 style="text-align:center" class="mt-5">@ViewData["Title"]</h1>
 <div class="row justify-content-center">
     <div class="col-md-4">
         <section>
@@ -29,15 +29,15 @@
                     </label>
                 </div>
                 <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-dark">Log in</button>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg text-dark" style="background-color: #fcb69f; border-color: #fcb69f;">Log in</button>
                 </div>
                 <div>
                     <br/>
                     <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword" class="w-100 btn btn-lg btn-dark">Forgot your password?</a>
+                        <button id="forgot-pasword" type="submit" class="w-100 btn btn-lg text-dark" style="background-color: #fcb69f; border-color: #fcb69f;">Forgot your password?</button>
                     </p>
                     <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="w-100 btn btn-lg btn-dark">Register as a new user</a>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="w-100 btn btn-lg text-dark" style="background-color: #fcb69f; border-color: #fcb69f;">Register as a new user</a>
                     </p>
                 </div>
             </form>

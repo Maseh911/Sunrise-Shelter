@@ -10,12 +10,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
+
+        body {
+            padding-top: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
         .banner-container {
             position: relative;
             width: 100%;
             height: 400px;
             overflow: hidden;
             border-radius: 25px;
+            margin-bottom: 60px; 
         }
 
             .banner-container img {
@@ -38,20 +45,74 @@
         .section {
             padding: 60px 20px;
         }
+
+        .mission-card, .program-card, .testimonial-card {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            height: 100%;
+        }
+
+            .mission-card:hover, .program-card:hover, .testimonial-card:hover {
+                transform: translateY(-5px);
+            }
+
+        .icon {
+            font-size: 2.5rem;
+            color: #FFAB91;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary-custom {
+            background-color: #FFAB91;
+            border: none;
+            padding: 10px 25px;
+        }
+
+            .btn-primary-custom:hover {
+                background-color: #e6957d;
+            }
     </style>
 </head>
 <body>
 
-    <div class="banner-container">
-        <img src="~/Images/Kiddo.jpg" alt="Front page banner">
-        <div class="banner-text">
-            <h1 class="display-4 fw-bold">Welcome to Sunrise Shelter</h1>
-            <p class="lead">A home of hope and care</p>
-            <a href="/Home/Support" class="btn support-btn btn-lg mt-3 px-4 rounded-pill" style="background-color: #FFAB91; border:none">
-                Support Us
-            </a>
+    <div class="container mt-5">
+        <div class="banner-container">
+            <img src="~/Images/Kiddo.jpg" alt="Front page banner">
+            <div class="banner-text">
+                <h1 class="display-4 fw-bold">Welcome to Sunrise Shelter</h1>
+                <p class="lead">A home of hope and care</p>
+            </div>
         </div>
     </div>
+
+
+    <div class="section bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="fw-bold mb-4">Our Mission</h2>
+                    <p class="lead">
+                        At Sunrise Shelter, we provide a safe, loving home for orphaned and vulnerable children,
+                        ensuring they receive education, healthcare, and emotional support to thrive.
+                    </p>
+                    <a href="/Home/About" class="btn btn-outline-secondary btn-lg mt-3">Learn More</a>
+                </div>
+                <div class="col-md-6">
+                    <img src="~/Images/Book.jpg" alt="Children learning" class="img-fluid" style="border-radius:25px !important">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section text-white" style="background-color: #FFAB91;">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-4">Join Us in Making a Difference</h2>
+            <p class="lead mb-5">Your support can change a child's life forever.</p>
+            <a href="/Home/Support" class="btn btn-light btn-lg mx-2">Donate Now</a>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
