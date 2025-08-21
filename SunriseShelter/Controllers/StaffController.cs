@@ -54,7 +54,7 @@ namespace SunriseShelter.Controllers
                     break;
             }
 
-            int pageSize = 8;
+            int pageSize = 16;
             return View(await PaginatedList<Staff>.CreateAsync(staffs.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

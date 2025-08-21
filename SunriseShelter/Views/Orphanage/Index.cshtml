@@ -22,9 +22,6 @@
     <!-- Search Bar -->
     <form asp-action="Index" method="get" class="d-flex justify-content-center mb-4">
         <div class="input-group shadow-sm" style="max-width: 600px;">
-            <span class="input-group-text bg-white border-end-0">
-                <i class="bi bi-search"></i>
-            </span>
             <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]"
                    class="form-control border-start-0 rounded-end" placeholder="Find by name..." />
             <button type="submit" class="btn btn-outline-primary">
@@ -102,12 +99,13 @@
     }
 
     <!-- Pagination -->
-    @{
-        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-    }
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
 
-    <div class="d-flex justify-content-center mt-3 gap-2">
+    <div class="d-flex justify-content-center align-items-center mt-3 gap-2">
+        <!-- Previous button -->
         <a asp-action="Index"
            asp-route-sortOrder="@ViewData["CurrentSort"]"
            asp-route-pageNumber="@(Model.PageIndex - 1)"
@@ -115,6 +113,13 @@
            class="btn btn-outline-secondary rounded-pill @prevDisabled">
             ← Previous
         </a>
+
+        <!-- Page numbers as text -->
+        <span class="px-2">
+            Page @Model.PageIndex
+        </span>
+
+        <!-- Next button -->
         <a asp-action="Index"
            asp-route-sortOrder="@ViewData["CurrentSort"]"
            asp-route-pageNumber="@(Model.PageIndex + 1)"
@@ -123,20 +128,3 @@
             Next →
         </a>
     </div>
-</div>
-
-<!-- Optional: Tooltip Script -->
-<script>
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
-    });
-</script>
-
-<!-- Optional: Hover shadow -->
-<style>
-    .table-hover tbody tr:hover {
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        transition: box-shadow 0.2s ease-in-out;
-    }
-</style>
