@@ -7,6 +7,19 @@
 <!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 
+<style>
+    .sort-icon {
+        margin-left: 5px;
+        font-size: 0.9rem;
+    }
+
+    .sortable-header:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+    }
+</style>
+
 <div class="container mt-4">
     <h1 class="text-center mb-4">Orphanages</h1>
 
@@ -49,8 +62,21 @@
                                 <th>
                                     <a asp-action="Index"
                                        asp-route-sortOrder="@ViewData["NameSortParm"]"
-                                       class="text-decoration-none text-dark fw-bold">
+                                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                       class="text-decoration-none text-dark fw-bold d-flex align-items-center sortable-header">
                                         Name
+                                        @if (ViewData["CurrentSort"]?.ToString() == "name_desc")
+                                        {
+                                            <i class="bi bi-sort-down-alt sort-icon"></i>
+                                        }
+                                        else if (ViewData["CurrentSort"]?.ToString() == "name_asc" || ViewData["CurrentSort"]?.ToString() == "")
+                                        {
+                                            <i class="bi bi-sort-up-alt sort-icon"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-filter sort-icon"></i>
+                                        }
                                     </a>
                                 </th>
                                 <th>Address</th>
@@ -99,17 +125,17 @@
     }
 
     <!-- Pagination -->
-@{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-}
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
 
     <div class="d-flex justify-content-center align-items-center mt-3 gap-2">
         <!-- Previous button -->
         <a asp-action="Index"
            asp-route-sortOrder="@ViewData["CurrentSort"]"
-           asp-route-pageNumber="@(Model.PageIndex - 1)"
            asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
            class="btn btn-outline-secondary rounded-pill @prevDisabled">
             ← Previous
         </a>
@@ -122,9 +148,10 @@
         <!-- Next button -->
         <a asp-action="Index"
            asp-route-sortOrder="@ViewData["CurrentSort"]"
-           asp-route-pageNumber="@(Model.PageIndex + 1)"
            asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
            class="btn btn-outline-secondary rounded-pill @nextDisabled">
             Next →
         </a>
     </div>
+</div>
