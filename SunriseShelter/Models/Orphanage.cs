@@ -11,7 +11,7 @@ namespace SunriseShelter.Models
         public int OrphanageId { get; set; }
 
 
-        [Required, MaxLength(25), NoSpacesOrNumbersOrSymbols, Display(Name = "Orphanage")]
+        [Required, MaxLength(25), NoNumbersOrSymbols, Display(Name = "Orphanage")]
         public string Name { get; set; }
 
 
@@ -19,7 +19,7 @@ namespace SunriseShelter.Models
         public string Address { get; set; } 
 
 
-        [Required, MaxLength(25), Display(Name = "State"), NoSpacesOrNumbersOrSymbols]
+        [Required, MaxLength(25), Display(Name = "State"), NoNumbersOrSymbols]
         public string State { get; set; }
 
 

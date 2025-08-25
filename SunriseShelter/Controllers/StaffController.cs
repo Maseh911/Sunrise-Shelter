@@ -46,11 +46,11 @@ namespace SunriseShelter.Controllers
             switch (sortOrder)
             {
                 case "name_desc":
-                    staffs = staffs.OrderByDescending(s => s.LastName);
+                    staffs = staffs.OrderByDescending(s => s.FirstName);
                     break;
 
                 default:
-                    staffs = staffs.OrderBy(s => s.LastName);
+                    staffs = staffs.OrderBy(s => s.FirstName);
                     break;
             }
 
