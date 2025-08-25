@@ -2,14 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,6 +11,15 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SunriseShelter.Areas.Identity.Data;
+using SunriseShelter.Attributes;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SunriseShelter.Areas.Identity.Pages.Account
 {
@@ -72,12 +73,19 @@ namespace SunriseShelter.Areas.Identity.Pages.Account
         public class InputModel
         {
 
-            [Required]
+            [Required]  
+            [StringLength(20)]
+            [Display(Name = "First Name")] 
+            [NoNumbersOrSymbols]
             public string FirstName { get; set; }
 
 
 
+
             [Required]
+            [StringLength(20)]
+            [Display(Name = "Last Name")]
+            [NoNumbersOrSymbols]
             public string LastName { get; set; }
 
             /// <summary>
