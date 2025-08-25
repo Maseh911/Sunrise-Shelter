@@ -21,6 +21,8 @@ namespace SunriseShelter.Controllers
             _context = context;
         }
 
+        [Authorize]
+
         // GET: Orphanage
         public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber, string currentFilter) // The searchString parameter represents a keyword of a search which will be used for filtering //
         {

@@ -21,6 +21,8 @@ namespace SunriseShelter.Controllers
             _context = context;
         }
 
+        [Authorize]
+
         // GET: Staff
         public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber, string currentFilter)
         {
