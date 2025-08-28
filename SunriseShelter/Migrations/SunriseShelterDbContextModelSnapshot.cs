@@ -262,6 +262,9 @@ namespace SunriseShelter.Migrations
                     b.Property<DateTime>("AdoptionDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("ApplicationDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("ChildrenId")
                         .HasColumnType("int");
 
@@ -271,6 +274,10 @@ namespace SunriseShelter.Migrations
                     b.Property<string>("ParentId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AdoptionId");
 
@@ -302,12 +309,25 @@ namespace SunriseShelter.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
+                    b.Property<int?>("OrphanageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ChildrenId");
+
+                    b.HasIndex("OrphanageId");
 
                     b.ToTable("Children");
                 });
@@ -441,7 +461,7 @@ namespace SunriseShelter.Migrations
             modelBuilder.Entity("SunriseShelter.Models.Adoption", b =>
                 {
                     b.HasOne("SunriseShelter.Models.Children", "Children")
-                        .WithMany("Adoption")
+                        .WithMany("Adoptions")
                         .HasForeignKey("ChildrenId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -465,6 +485,15 @@ namespace SunriseShelter.Migrations
                     b.Navigation("Parent");
                 });
 
+            modelBuilder.Entity("SunriseShelter.Models.Children", b =>
+                {
+                    b.HasOne("SunriseShelter.Models.Orphanage", "Orphanage")
+                        .WithMany()
+                        .HasForeignKey("OrphanageId");
+
+                    b.Navigation("Orphanage");
+                });
+
             modelBuilder.Entity("SunriseShelter.Models.Staff", b =>
                 {
                     b.HasOne("SunriseShelter.Models.Orphanage", "Orphanage")
@@ -483,7 +512,7 @@ namespace SunriseShelter.Migrations
 
             modelBuilder.Entity("SunriseShelter.Models.Children", b =>
                 {
-                    b.Navigation("Adoption");
+                    b.Navigation("Adoptions");
                 });
 
             modelBuilder.Entity("SunriseShelter.Models.Orphanage", b =>

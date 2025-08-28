@@ -17,16 +17,28 @@
             @Html.DisplayFor(model => model.AdoptionDate)
         </dd>
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ApplicationDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ApplicationDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Parent)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Parent.LastName)
+            @Html.DisplayFor(model => model.Parent.FirstName)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Children)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Children.Name)
+            @Html.DisplayFor(model => model.Children.BirthPlace)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Orphanage)

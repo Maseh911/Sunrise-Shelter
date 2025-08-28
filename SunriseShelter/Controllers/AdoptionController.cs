@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using SunriseShelter.Areas.Identity.Data;
 using SunriseShelter.Models;
 
 namespace SunriseShelter.Controllers
@@ -16,116 +12,115 @@ namespace SunriseShelter.Controllers
     public class AdoptionController : Controller
     {
         private readonly SunriseShelterDbContext _context;
-        private readonly UserManager<SunriseShelterUser> _userManager;
 
-        public AdoptionController(SunriseShelterDbContext context, UserManager<SunriseShelterUser> userManager)
+        public AdoptionController(SunriseShelterDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber, string currentFilter)
+        // GET: Adoption
+        public async Task<IActionResult> Index(string searchString, int? pageNumber)
         {
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["CurrentFilter"] = searchString;
-            ViewData["CurrentSort"] = sortOrder;
 
-            // Changed from _context.Parent to _context.Users
             var adoptions = from a in _context.Adoption
-                .Include(a => a.Children)
-                .Include(a => a.Orphanage)
-                .Include(a => a.Parent)
+                            .Include(a => a.Parent)
+                            .Include(a => a.Children)
+                            .Include(a => a.Orphanage)
                             select a;
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                adoptions = adoptions.Where(a => a.Children.Name.Contains(searchString) ||
-                                               a.Parent.LastName.Contains(searchString) ||
-                                               a.Orphanage.Name.Contains(searchString));
+                adoptions = adoptions.Where(a =>
+                    a.Parent.Id.ToString().Contains(searchString) ||
+                    a.Children.Name.Contains(searchString));
             }
 
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    adoptions = adoptions.OrderByDescending(c => c.Parent.LastName);
-                    break;
-                case "Date":
-                    adoptions = adoptions.OrderBy(c => c.AdoptionDate);
-                    break;
-                case "date_desc":
-                    adoptions = adoptions.OrderByDescending(c => c.AdoptionDate);
-                    break;
-                default:
-                    adoptions = adoptions.OrderBy(c => c.Parent.LastName);
-                    break;
-            }
-
-            int pageSize = 16;
+            int pageSize = 10;
             return View(await PaginatedList<Adoption>.CreateAsync(adoptions.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
+        // GET: Adoption/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
             var adoption = await _context.Adoption
                 .Include(a => a.Children)
                 .Include(a => a.Orphanage)
                 .Include(a => a.Parent)
                 .FirstOrDefaultAsync(m => m.AdoptionId == id);
+            if (adoption == null)
+            {
+                return NotFound();
+            }
 
-            if (adoption == null) return NotFound();
             return View(adoption);
         }
 
+        // GET: Adoption/Create
         public IActionResult Create()
         {
-            // Changed from _context.Parent to _context.Users
-            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "Name");
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name");
-            ViewData["ParentId"] = new SelectList(_context.Users, "Id", "LastName"); // Changed here
+            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "BirthPlace");
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address");
+            ViewData["ParentId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
+        // POST: Adoption/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AdoptionId,AdoptionDate,ParentId,ChildrenId,OrphanageId")] Adoption adoption)
+        public async Task<IActionResult> Create([Bind("AdoptionId,AdoptionDate,ApplicationDate,Status,ParentId,ChildrenId,OrphanageId")] Adoption adoption)
         {
-            if (ModelState.IsValid) // Changed from !ModelState.IsValid to ModelState.IsValid
+            if (ModelState.IsValid)
             {
                 _context.Add(adoption);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "Name", adoption.ChildrenId);
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name", adoption.OrphanageId);
-            ViewData["ParentId"] = new SelectList(_context.Users, "Id", "LastName", adoption.ParentId); // Changed here
+            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "BirthPlace", adoption.ChildrenId);
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address", adoption.OrphanageId);
+            ViewData["ParentId"] = new SelectList(_context.Users, "Id", "Id", adoption.ParentId);
             return View(adoption);
         }
 
+        // GET: Adoption/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
             var adoption = await _context.Adoption.FindAsync(id);
-            if (adoption == null) return NotFound();
-
-            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "Name", adoption.ChildrenId);
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name", adoption.OrphanageId);
-            ViewData["ParentId"] = new SelectList(_context.Users, "Id", "LastName", adoption.ParentId); // Changed here
+            if (adoption == null)
+            {
+                return NotFound();
+            }
+            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "BirthPlace", adoption.ChildrenId);
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address", adoption.OrphanageId);
+            ViewData["ParentId"] = new SelectList(_context.Users, "Id", "Id", adoption.ParentId);
             return View(adoption);
         }
 
+        // POST: Adoption/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AdoptionId,AdoptionDate,ParentId,ChildrenId,OrphanageId")] Adoption adoption)
+        public async Task<IActionResult> Edit(int id, [Bind("AdoptionId,AdoptionDate,ApplicationDate,Status,ParentId,ChildrenId,OrphanageId")] Adoption adoption)
         {
-            if (id != adoption.AdoptionId) return NotFound();
+            if (id != adoption.AdoptionId)
+            {
+                return NotFound();
+            }
 
-            if (ModelState.IsValid) // Changed from !ModelState.IsValid to ModelState.IsValid
+            if (ModelState.IsValid)
             {
                 try
                 {
@@ -134,38 +129,55 @@ namespace SunriseShelter.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AdoptionExists(adoption.AdoptionId)) return NotFound();
-                    else throw;
+                    if (!AdoptionExists(adoption.AdoptionId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "Name", adoption.ChildrenId);
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name", adoption.OrphanageId);
-            ViewData["ParentId"] = new SelectList(_context.Users, "Id", "LastName", adoption.ParentId); // Changed here
+            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "BirthPlace", adoption.ChildrenId);
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address", adoption.OrphanageId);
+            ViewData["ParentId"] = new SelectList(_context.Users, "Id", "Id", adoption.ParentId);
             return View(adoption);
         }
 
+        // GET: Adoption/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
             var adoption = await _context.Adoption
                 .Include(a => a.Children)
                 .Include(a => a.Orphanage)
                 .Include(a => a.Parent)
                 .FirstOrDefaultAsync(m => m.AdoptionId == id);
+            if (adoption == null)
+            {
+                return NotFound();
+            }
 
-            if (adoption == null) return NotFound();
             return View(adoption);
         }
 
+        // POST: Adoption/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var adoption = await _context.Adoption.FindAsync(id);
-            if (adoption != null) _context.Adoption.Remove(adoption);
+            if (adoption != null)
+            {
+                _context.Adoption.Remove(adoption);
+            }
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

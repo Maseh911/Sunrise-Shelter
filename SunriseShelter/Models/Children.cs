@@ -20,10 +20,6 @@ namespace SunriseShelter.Models
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
 
-        // Calculated property for age
-        [NotMapped]
-        public int Age => DateTime.Now.Year - DateOfBirth.Year - (DateTime.Now.DayOfYear < DateOfBirth.DayOfYear ? 1 : 0);
-
         [Required, MaxLength(25), NoNumbersOrSymbols, Display(Name = "Country of Origin")]
         public string BirthPlace { get; set; }
 
@@ -36,7 +32,7 @@ namespace SunriseShelter.Models
 
         // Foreign key for Orphanage (if children belong to specific orphanages)
         [Display(Name = "Orphanage")]
-        public int? OrphanageId { get; set; }
+        public int OrphanageId { get; set; }
         public virtual Orphanage Orphanage { get; set; }
 
         public ICollection<Adoption> Adoptions { get; set; }

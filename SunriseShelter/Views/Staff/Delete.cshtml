@@ -4,54 +4,125 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Staff</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Role)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Role)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Orphanage)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Orphanage.Address)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="StaffId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-6">
+            <!-- Card Container -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-light py-4">
+                    <h4 class="card-title mb-0 text-center text-dark">
+                        <i class="bi bi-trash me-2"></i>Delete Staff
+                    </h4>
+                </div>
+                <div class="card-body p-5">
+                    <!-- Warning Alert -->
+                    <div class="alert alert-warning text-center" role="alert">
+                        <h5 class="alert-heading">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>Are you sure you want to delete this staff member?
+                        </h5>
+                    </div>
+
+                    <!-- Staff Details -->
+                    <div class="details-container bg-light rounded-3 p-4 mb-4">
+                        <h5 class="text-center mb-4">Staff Details</h5>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-4 fw-bold">
+                                @Html.DisplayNameFor(model => model.FirstName)
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DisplayFor(model => model.FirstName)
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-4 fw-bold">
+                                @Html.DisplayNameFor(model => model.LastName)
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DisplayFor(model => model.LastName)
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-4 fw-bold">
+                                @Html.DisplayNameFor(model => model.Role)
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DisplayFor(model => model.Role)
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-4 fw-bold">
+                                @Html.DisplayNameFor(model => model.Phone)
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DisplayFor(model => model.Phone)
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-4 fw-bold">
+                                @Html.DisplayNameFor(model => model.Email)
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DisplayFor(model => model.Email)
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4 fw-bold">
+                                @Html.DisplayNameFor(model => model.Orphanage)
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DisplayFor(model => model.Orphanage.Name)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delete Form -->
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="StaffId" />
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <button type="submit" class="btn btn-danger rounded-pill px-4 py-2">
+                                <i class="bi bi-trash me-2"></i>Delete
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 py-2">
+                                <i class="bi bi-arrow-left me-2"></i>Back to List
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    .card {
+        border-radius: 15px;
+    }
+
+    .card-header {
+        border-top-left-radius: 15px !important;
+        border-top-right-radius: 15px !important;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .btn {
+        font-size: 1.1rem;
+        min-width: 140px;
+    }
+
+    .details-container {
+        background-color: #f8f9fa !important;
+    }
+
+    .alert-warning {
+        border-radius: 12px;
+    }
+</style>

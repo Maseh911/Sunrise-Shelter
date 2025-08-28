@@ -63,8 +63,6 @@ namespace SunriseShelter.Data
                     }
                 }
 
-                // No need to call SaveChanges here - userManager.CreateAsync already saves
-
                 var orphanages = new Orphanage[]
                 {
                     new Orphanage { Name = "Napier Haven", Address = "29 Marine Parade", State = "Hawke's Bay", Country = "New Zealand" },
@@ -97,18 +95,19 @@ namespace SunriseShelter.Data
                 context.Staff.AddRange(staffs);
                 await context.SaveChangesAsync();
 
+                // Updated Children data with new fields
                 var childrens = new Children[]
                 {
-                    new Children { Name = "Lucas", DateOfBirth = new DateTime(2016, 9, 11), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2020, 10, 12) },
-                    new Children { Name = "Amelia", DateOfBirth = new DateTime(2015, 12, 20), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2019, 12, 1) },
-                    new Children { Name = "Henry", DateOfBirth = new DateTime(2013, 10, 7), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2017, 11, 3) },
-                    new Children { Name = "Isla", DateOfBirth = new DateTime(2016, 5, 16), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2021, 2, 28) },
-                    new Children { Name = "Leo", DateOfBirth = new DateTime(2017, 3, 8), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2022, 6, 30) },
-                    new Children { Name = "Grace", DateOfBirth = new DateTime(2014, 8, 19), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2018, 10, 22) },
-                    new Children { Name = "Jack", DateOfBirth = new DateTime(2015, 2, 24), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2019, 3, 11) },
-                    new Children { Name = "Ella", DateOfBirth = new DateTime(2016, 1, 30), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2020, 8, 14) },
-                    new Children { Name = "Harper", DateOfBirth = new DateTime(2017, 11, 9), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2021, 12, 9) },
-                    new Children { Name = "Aria", DateOfBirth = new DateTime(2014, 6, 18), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2018, 7, 23) }
+                    new Children { Name = "Lucas", Gender = "Male", DateOfBirth = new DateTime(2016, 9, 11), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2020, 10, 12), Status = "Adopted", OrphanageId = 1 },
+                    new Children { Name = "Amelia", Gender = "Female", DateOfBirth = new DateTime(2015, 12, 20), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2019, 12, 1), Status = "Adopted", OrphanageId = 2 },
+                    new Children { Name = "Henry", Gender = "Male", DateOfBirth = new DateTime(2013, 10, 7), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2017, 11, 3), Status = "Adopted", OrphanageId = 3 },
+                    new Children { Name = "Isla", Gender = "Female", DateOfBirth = new DateTime(2016, 5, 16), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2021, 2, 28), Status = "Adopted", OrphanageId = 4 },
+                    new Children { Name = "Leo", Gender = "Male", DateOfBirth = new DateTime(2017, 3, 8), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2022, 6, 30), Status = "Available", OrphanageId = 5 },
+                    new Children { Name = "Grace", Gender = "Female", DateOfBirth = new DateTime(2014, 8, 19), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2018, 10, 22), Status = "In Process", OrphanageId = 6 },
+                    new Children { Name = "Jack", Gender = "Male", DateOfBirth = new DateTime(2015, 2, 24), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2019, 3, 11), Status = "Available", OrphanageId = 7 },
+                    new Children { Name = "Ella", Gender = "Female", DateOfBirth = new DateTime(2016, 1, 30), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2020, 8, 14), Status = "In Process", OrphanageId = 8 },
+                    new Children { Name = "Harper", Gender = "Female", DateOfBirth = new DateTime(2017, 11, 9), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2021, 12, 9), Status = "Available", OrphanageId = 9 },
+                    new Children { Name = "Aria", Gender = "Female", DateOfBirth = new DateTime(2014, 6, 18), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2018, 7, 23), Status = "Available", OrphanageId = 10 }
                 };
                 context.Children.AddRange(childrens);
                 await context.SaveChangesAsync();
@@ -116,18 +115,19 @@ namespace SunriseShelter.Data
                 // Get the created user IDs for adoption records
                 var parentUsers = await context.Users.ToListAsync();
 
+                // Updated Adoption data with new fields
                 var adoptions = new Adoption[]
                 {
-                    new Adoption { AdoptionDate = new DateTime(2024, 7, 23), ParentId = parentUsers[0].Id, ChildrenId = 1, OrphanageId = 1 },
-                    new Adoption { AdoptionDate = new DateTime(2023, 6, 15), ParentId = parentUsers[1].Id, ChildrenId = 2, OrphanageId = 2 },
-                    new Adoption { AdoptionDate = new DateTime(2022, 5, 10), ParentId = parentUsers[2].Id, ChildrenId = 3, OrphanageId = 3 },
-                    new Adoption { AdoptionDate = new DateTime(2021, 8, 18), ParentId = parentUsers[3].Id, ChildrenId = 4, OrphanageId = 4 },
-                    new Adoption { AdoptionDate = new DateTime(2021, 5, 11), ParentId = parentUsers[4].Id, ChildrenId = 5, OrphanageId = 5 },
-                    new Adoption { AdoptionDate = new DateTime(2020, 9, 25), ParentId = parentUsers[5].Id, ChildrenId = 6, OrphanageId = 6 },
-                    new Adoption { AdoptionDate = new DateTime(2019, 3, 5), ParentId = parentUsers[6].Id, ChildrenId = 7, OrphanageId = 7 },
-                    new Adoption { AdoptionDate = new DateTime(2018, 12, 12), ParentId = parentUsers[7].Id, ChildrenId = 8, OrphanageId = 8 },
-                    new Adoption { AdoptionDate = new DateTime(2017, 7, 30), ParentId = parentUsers[8].Id, ChildrenId = 9, OrphanageId = 9 },
-                    new Adoption { AdoptionDate = new DateTime(2016, 10, 22), ParentId = parentUsers[9].Id, ChildrenId = 10, OrphanageId = 10 }
+                    new Adoption { AdoptionDate = new DateTime(2024, 7, 23), ApplicationDate = new DateTime(2024, 6, 15), Status = "Completed", ParentId = parentUsers[0].Id, ChildrenId = 1, OrphanageId = 1 },
+                    new Adoption { AdoptionDate = new DateTime(2023, 6, 15), ApplicationDate = new DateTime(2023, 5, 10), Status = "Completed", ParentId = parentUsers[1].Id, ChildrenId = 2, OrphanageId = 2 },
+                    new Adoption { AdoptionDate = new DateTime(2022, 5, 10), ApplicationDate = new DateTime(2022, 4, 5), Status = "Completed", ParentId = parentUsers[2].Id, ChildrenId = 3, OrphanageId = 3 },
+                    new Adoption { AdoptionDate = new DateTime(2021, 8, 18), ApplicationDate = new DateTime(2021, 7, 12), Status = "Completed", ParentId = parentUsers[3].Id, ChildrenId = 4, OrphanageId = 4 },
+                    new Adoption { AdoptionDate = new DateTime(2021, 5, 11), ApplicationDate = new DateTime(2021, 4, 1), Status = "Approved", ParentId = parentUsers[4].Id, ChildrenId = 5, OrphanageId = 5 },
+                    new Adoption { AdoptionDate = new DateTime(2020, 9, 25), ApplicationDate = new DateTime(2020, 8, 15), Status = "Pending", ParentId = parentUsers[5].Id, ChildrenId = 6, OrphanageId = 6 },
+                    new Adoption { AdoptionDate = new DateTime(2019, 3, 5), ApplicationDate = new DateTime(2019, 2, 1), Status = "Rejected", ParentId = parentUsers[6].Id, ChildrenId = 7, OrphanageId = 7 },
+                    new Adoption { AdoptionDate = new DateTime(2018, 12, 12), ApplicationDate = new DateTime(2018, 11, 5), Status = "Pending", ParentId = parentUsers[7].Id, ChildrenId = 8, OrphanageId = 8 },
+                    new Adoption { AdoptionDate = new DateTime(2017, 7, 30), ApplicationDate = new DateTime(2017, 6, 20), Status = "Approved", ParentId = parentUsers[8].Id, ChildrenId = 9, OrphanageId = 9 },
+                    new Adoption { AdoptionDate = new DateTime(2016, 10, 22), ApplicationDate = new DateTime(2016, 9, 15), Status = "Completed", ParentId = parentUsers[9].Id, ChildrenId = 10, OrphanageId = 10 }
                 };
                 context.Adoption.AddRange(adoptions);
                 await context.SaveChangesAsync();

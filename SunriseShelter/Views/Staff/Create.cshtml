@@ -1,57 +1,118 @@
 ﻿@model SunriseShelter.Models.Staff
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Staff";
 }
 
-<h1>Create</h1>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 
-<h4>Staff</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-6">
+
+            <!-- Card Container -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-light py-4">
+                    <h4 class="card-title mb-0 text-center text-dark">
+                        <i class="bi bi-person-plus me-2"></i>Add New Staff Member
+                    </h4>
+                </div>
+                <div class="card-body p-5">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="FirstName" class="form-label fw-bold"></label>
+                                <input asp-for="FirstName" class="form-control rounded-pill py-2" placeholder="Enter first name" />
+                                <span asp-validation-for="FirstName" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="LastName" class="form-label fw-bold"></label>
+                                <input asp-for="LastName" class="form-control rounded-pill py-2" placeholder="Enter last name" />
+                                <span asp-validation-for="LastName" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="Role" class="form-label fw-bold"></label>
+                                <input asp-for="Role" class="form-control rounded-pill py-2" placeholder="Enter role (e.g., Caretaker, Manager)" />
+                                <span asp-validation-for="Role" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="Phone" class="form-label fw-bold"></label>
+                                <input asp-for="Phone" class="form-control rounded-pill py-2" placeholder="Enter phone number" />
+                                <span asp-validation-for="Phone" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="Email" class="form-label fw-bold"></label>
+                                <input asp-for="Email" class="form-control rounded-pill py-2" placeholder="Enter email address" />
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="OrphanageId" class="form-label fw-bold"></label>
+                                <select asp-for="OrphanageId" class="form-control rounded-pill py-2" asp-items="ViewBag.OrphanageId">
+                                    <option value="">Select Orphanage</option>
+                                </select>
+                                <span asp-validation-for="OrphanageId" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-5">
+                            <div class="d-flex justify-content-center gap-3">
+                                <button type="submit" class="btn btn-success rounded-pill px-4 py-2">
+                                    <i class="bi bi-check-circle me-2"></i>Create Staff
+                                </button>
+                                <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 py-2">
+                                    <i class="bi bi-arrow-left me-2"></i>Back to List
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Role" class="control-label"></label>
-                <input asp-for="Role" class="form-control" />
-                <span asp-validation-for="Role" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrphanageId" class="control-label"></label>
-                <select asp-for="OrphanageId" class ="form-control" asp-items="ViewBag.OrphanageId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+
+<style>
+    .card {
+        border-radius: 15px;
+    }
+
+    .card-header {
+        border-top-left-radius: 15px !important;
+        border-top-right-radius: 15px !important;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .form-control {
+        font-size: 1.1rem;
+        padding-left: 20px;
+    }
+
+    .btn {
+        font-size: 1.1rem;
+        min-width: 140px;
+    }
+
+    .form-label {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+        padding-left: 10px;
+    }
+
+    select.form-control {
+        padding-left: 15px;
+    }
+</style>

@@ -57,22 +57,6 @@ namespace SunriseShelter.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Children",
-                columns: table => new
-                {
-                    ChildrenId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BirthPlace = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    DateOfAdmission = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Children", x => x.ChildrenId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Orphanage",
                 columns: table => new
                 {
@@ -195,12 +179,62 @@ namespace SunriseShelter.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Children",
+                columns: table => new
+                {
+                    ChildrenId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BirthPlace = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    DateOfAdmission = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrphanageId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Children", x => x.ChildrenId);
+                    table.ForeignKey(
+                        name: "FK_Children_Orphanage_OrphanageId",
+                        column: x => x.OrphanageId,
+                        principalTable: "Orphanage",
+                        principalColumn: "OrphanageId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Staff",
+                columns: table => new
+                {
+                    StaffId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    OrphanageId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Staff", x => x.StaffId);
+                    table.ForeignKey(
+                        name: "FK_Staff_Orphanage_OrphanageId",
+                        column: x => x.OrphanageId,
+                        principalTable: "Orphanage",
+                        principalColumn: "OrphanageId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Adoption",
                 columns: table => new
                 {
                     AdoptionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AdoptionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ApplicationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ParentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ChildrenId = table.Column<int>(type: "int", nullable: false),
                     OrphanageId = table.Column<int>(type: "int", nullable: false)
@@ -222,30 +256,6 @@ namespace SunriseShelter.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Adoption_Orphanage_OrphanageId",
-                        column: x => x.OrphanageId,
-                        principalTable: "Orphanage",
-                        principalColumn: "OrphanageId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Staff",
-                columns: table => new
-                {
-                    StaffId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    OrphanageId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Staff", x => x.StaffId);
-                    table.ForeignKey(
-                        name: "FK_Staff_Orphanage_OrphanageId",
                         column: x => x.OrphanageId,
                         principalTable: "Orphanage",
                         principalColumn: "OrphanageId",
@@ -305,6 +315,11 @@ namespace SunriseShelter.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Children_OrphanageId",
+                table: "Children",
+                column: "OrphanageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Staff_OrphanageId",
