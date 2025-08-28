@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SunriseShelter.Areas.Identity.Data;
 
 #nullable disable
 
@@ -167,9 +166,22 @@ namespace SunriseShelter.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("BirthPlace")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -180,17 +192,24 @@ namespace SunriseShelter.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("MartialStatus")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -249,8 +268,9 @@ namespace SunriseShelter.Migrations
                     b.Property<int>("OrphanageId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ParentId")
-                        .HasColumnType("int");
+                    b.Property<string>("ParentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("AdoptionId");
 
@@ -323,56 +343,6 @@ namespace SunriseShelter.Migrations
                     b.HasKey("OrphanageId");
 
                     b.ToTable("Orphanage");
-                });
-
-            modelBuilder.Entity("SunriseShelter.Models.Parent", b =>
-                {
-                    b.Property<int>("ParentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ParentId"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("BirthPlace")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("MartialStatus")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ParentId");
-
-                    b.ToTable("Parent");
                 });
 
             modelBuilder.Entity("SunriseShelter.Models.Staff", b =>
@@ -482,10 +452,10 @@ namespace SunriseShelter.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SunriseShelter.Models.Parent", "Parent")
-                        .WithMany("Adoption")
+                    b.HasOne("SunriseShelter.Areas.Identity.Data.SunriseShelterUser", "Parent")
+                        .WithMany("Adoptions")
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Children");
@@ -506,6 +476,11 @@ namespace SunriseShelter.Migrations
                     b.Navigation("Orphanage");
                 });
 
+            modelBuilder.Entity("SunriseShelter.Areas.Identity.Data.SunriseShelterUser", b =>
+                {
+                    b.Navigation("Adoptions");
+                });
+
             modelBuilder.Entity("SunriseShelter.Models.Children", b =>
                 {
                     b.Navigation("Adoption");
@@ -514,11 +489,6 @@ namespace SunriseShelter.Migrations
             modelBuilder.Entity("SunriseShelter.Models.Orphanage", b =>
                 {
                     b.Navigation("Staff");
-                });
-
-            modelBuilder.Entity("SunriseShelter.Models.Parent", b =>
-                {
-                    b.Navigation("Adoption");
                 });
 #pragma warning restore 612, 618
         }

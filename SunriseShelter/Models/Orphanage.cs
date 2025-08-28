@@ -1,5 +1,4 @@
 ﻿using SunriseShelter.Attributes;
-using SunriseShelter.Migrations;
 using SunriseShelter.Models;
 using System.ComponentModel.DataAnnotations;
 

@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SunriseShelter.Areas.Identity.Data;
 using SunriseShelter.Models;
-
-namespace SunriseShelter.Areas.Identity.Data;
 
 public class SunriseShelterDbContext : IdentityDbContext<SunriseShelterUser>
 {
@@ -16,18 +13,20 @@ public class SunriseShelterDbContext : IdentityDbContext<SunriseShelterUser>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        // Customize the ASP.NET Identity model and override the defaults if needed.
-        // For example, you can rename the ASP.NET Identity table names and more.
-        // Add your customizations after calling base.OnModelCreating(builder);
+
+        // Add your relationship configurations here
+        builder.Entity<Adoption>()
+            .HasOne(a => a.Parent)
+            .WithMany(u => u.Adoptions)
+            .HasForeignKey(a => a.ParentId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 
-public DbSet<SunriseShelter.Models.Adoption> Adoption { get; set; } = default!;
+    // KEEP these DbSets:
+    public DbSet<SunriseShelter.Models.Adoption> Adoption { get; set; } = default!;
+    public DbSet<SunriseShelter.Models.Children> Children { get; set; } = default!;
+    public DbSet<SunriseShelter.Models.Orphanage> Orphanage { get; set; } = default!;
+    public DbSet<SunriseShelter.Models.Staff> Staff { get; set; } = default!;
 
-public DbSet<SunriseShelter.Models.Children> Children { get; set; } = default!;
-
-public DbSet<SunriseShelter.Models.Orphanage> Orphanage { get; set; } = default!;
-
-public DbSet<SunriseShelter.Models.Parent> Parent { get; set; } = default!;
-
-public DbSet<SunriseShelter.Models.Staff> Staff { get; set; } = default!;
+    // REMOVE the Parent DbSet - IdentityDbContext<SunriseShelterUser> already handles users
 }

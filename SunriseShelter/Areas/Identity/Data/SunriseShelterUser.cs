@@ -1,17 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using SunriseShelter.Attributes;
+using System.ComponentModel.DataAnnotations.Schema;
+using SunriseShelter.Models;
 
-namespace SunriseShelter.Areas.Identity.Data;
-
-// Add profile data for application users by adding properties to the SunriseShelterUser class
-public class SunriseShelterUser : IdentityUser
+namespace SunriseShelter.Areas.Identity.Data
 {
-    public string FirstName { get; set; }
-    
-    public string LastName { get; set; }
+    public class SunriseShelterUser : IdentityUser
+    {
+        [Required, Display(Name = "First Name"), NoSpacesOrNumbersOrSymbols, MaxLength(25)]
+        public string FirstName { get; set; }
+        
+        [Required, Display(Name = "Last Name"), NoSpacesOrNumbersOrSymbols, MaxLength(25)]
+        public string LastName { get; set; }
 
+        [Required, Display(Name = "Date Of Birth")]
+        [DataType(DataType.Date)]
+        public DateTime DateOfBirth { get; set; }
+
+        // Phone is already inherited from IdentityUser
+        
+        // Email is already inherited from IdentityUser
+
+        [Required, Display(Name = "Martial Status"), NoSpacesOrNumbersOrSymbols, MaxLength(15)]
+        public string MartialStatus { get; set; }
+
+        [Required, Display(Name = "Address"), NoSymbols, MaxLength(25)]
+        public string Address { get; set; }
+
+        [Required, Display(Name = "Country of Origin"), NoNumbersOrSymbols, MaxLength(25)]
+        public string BirthPlace { get; set; }
+
+        // Navigation property for adoptions
+        public virtual ICollection<Adoption> Adoptions { get; set; }
+    }
 }
-

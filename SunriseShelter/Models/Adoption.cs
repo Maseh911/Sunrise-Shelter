@@ -1,4 +1,5 @@
-﻿using SunriseShelter.Models;
+﻿using SunriseShelter.Areas.Identity.Data;
+using SunriseShelter.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,12 +14,20 @@ namespace SunriseShelter.Models
         [Required, Display(Name = "Date of Adoption")] // Validating date needed //
         public DateTime AdoptionDate { get; set; }
 
+        [Required, Display(Name = "Application Date")]
+        [DataType(DataType.Date)]
+        public DateTime ApplicationDate { get; set; } = DateTime.Now;
+
+        [Required]
+        [Display(Name = "Status")]
+        public string Status { get; set; } = "Pending"; // "Pending", "Approved", "Rejected", "Completed"
+
 
         [Required]
         [Display(Name = "Parent")]
-        [ForeignKey("ParentId")]
-        public int ParentId { get; set; }
-        public Parent Parent { get; set; }
+        [ForeignKey("Parent")]
+        public string ParentId { get; set; }
+        public virtual SunriseShelterUser Parent { get; set; }
 
 
         [Required]

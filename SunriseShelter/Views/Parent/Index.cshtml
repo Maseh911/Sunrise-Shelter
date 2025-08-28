@@ -1,4 +1,4 @@
-﻿@model PaginatedList<SunriseShelter.Models.Parent>
+﻿@model PaginatedList<SunriseShelter.Areas.Identity.Data.SunriseShelterUser>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,14 +7,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 
 <div class="container mt-4">
-    <h1 class="text-center mb-4">Signed in Parents</h1>
+    <h1 class="text-center mb-4">Registered Parents</h1>
 
-    <div class="d-flex justify-content-center mb-3">
-        <a class="btn btn-success rounded-pill px-4" asp-action="Create">
-            <i class="bi bi-plus-lg"></i> Create New
-        </a>
-    </div>
-
+    <!-- REMOVED: Create button - Users should register through authentication system -->
     <!-- Search Bar -->
     <form asp-action="Index" method="get" class="d-flex justify-content-center mb-4">
         <div class="input-group shadow-sm" style="max-width: 600px;">
@@ -51,7 +46,7 @@
                                 </th>
                                 <th>
                                     <a asp-action="Index"
-                                       asp-route-sortOrder="@ViewData["NameSortParm"]"
+                                       asp-route-sortOrder="@ViewData["LastNameSortParm"]"
                                        class="text-decoration-none text-dark fw-bold">
                                         Last Name
                                     </a>
@@ -72,7 +67,7 @@
                                     <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
                                     <td>@Html.DisplayFor(modelItem => item.LastName)</td>
                                     <td>@Html.DisplayFor(modelItem => item.DateOfBirth)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Email)</td>
                                     <td>@Html.DisplayFor(modelItem => item.MartialStatus)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Address)</td>
@@ -80,15 +75,15 @@
                                     <td>
                                         <div class="btn-group" role="group">
                                             <a class="btn btn-sm btn-outline-secondary me-1"
-                                               asp-action="Edit" asp-route-id="@item.ParentId">
+                                               asp-action="Edit" asp-route-id="@item.Id">
                                                 <i class="bi bi-pencil-square"></i> Edit
                                             </a>
                                             <a class="btn btn-sm btn-outline-info me-1"
-                                               asp-action="Details" asp-route-id="@item.ParentId">
+                                               asp-action="Details" asp-route-id="@item.Id">
                                                 <i class="bi bi-info-circle"></i> Details
                                             </a>
                                             <a class="btn btn-sm btn-outline-danger"
-                                               asp-action="Delete" asp-route-id="@item.ParentId">
+                                               asp-action="Delete" asp-route-id="@item.Id">
                                                 <i class="bi bi-trash"></i> Delete
                                             </a>
                                         </div>

@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SunriseShelter.Data;
 using SunriseShelter.Areas.Identity.Data;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System.Net;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("SunriseShelterDbContextConnection") ?? throw new InvalidOperationException("Connection string 'SunriseShelterDbContextConnection' not found.");
 
@@ -37,12 +39,11 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
-DatabaseStartup.StartUp(app);   // This will run the dummy data in the database //
 
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var roles = new[] { "Admin", "User" };
+    var roles = new[] { "Admin", "Parent" };
 
     foreach (var role in roles)
     {
@@ -61,15 +62,26 @@ using (var scope = app.Services.CreateScope())
 
     if (await userManager.FindByEmailAsync(adminEmail) == null)
     {
-        var user = new SunriseShelterUser();
-        user.UserName = adminEmail;
-        user.Email = adminEmail;
-        user.FirstName = "Admin";
-        user.LastName = "Admin";
+        var user = new SunriseShelterUser
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+            FirstName = "Admin",
+            LastName = "Admin",
+            // ADD ALL REQUIRED FIELDS:
+            DateOfBirth = new DateTime(2008, 3, 4), // Required field
+            PhoneNumber = "02102786388", // Required field
+            MartialStatus = "Single", // Required field
+            Address = "123 Admin Street", // Required field
+            BirthPlace = "New Zealand", // Required field
+            EmailConfirmed = true
+        };
 
         await userManager.CreateAsync(user, adminPassword);
         await userManager.AddToRoleAsync(user, "Admin");
     }
 }
+
+DatabaseStartup.StartUp(app);   // This will run the dummy data in the database //
 
 app.Run();
