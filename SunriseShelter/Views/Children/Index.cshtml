@@ -7,6 +7,36 @@
 <!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 
+<style>
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table th, .table td {
+        white-space: nowrap;
+        min-width: 120px;
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 12px 8px;
+    }
+
+    .table td {
+        white-space: normal;
+        word-wrap: break-word;
+    }
+
+    .actions-column {
+        min-width: 250px;
+        white-space: nowrap;
+    }
+
+    .btn-group .btn {
+        white-space: nowrap;
+    }
+</style>
+
 <div class="container mt-4">
     <h1 class="text-center mb-4">Children</h1>
 
@@ -39,48 +69,57 @@
     }
     else
     {
-        <div class="card shadow-sm border-0 mx-auto" style="max-width: 1000px;">
+        <div class="card shadow-sm border-0 mx-auto" style="max-width: 1400px;">
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light text-start">
                             <tr>
-                                <th>Name</th>
-                                <th>Gender</th>
-                                <th>Date of Birth</th>
-                                <th>Birth Place</th>
-                                <th>Date of Admission</th>
-                                <th>Status</th>
-                                <th>Orphanage</th>
-                                <th>Actions</th>
+                                <th style="min-width: 150px;">Name</th>
+                                <th style="min-width: 100px;">Gender</th>
+                                <th style="min-width: 130px;">Date of Birth</th>
+                                <th style="min-width: 150px;">Birth Place</th>
+                                <th style="min-width: 150px;">Date of Admission</th>
+                                <th style="min-width: 120px;">Status</th>
+                                <th style="min-width: 180px;">Orphanage</th>
+                                <th class="actions-column">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>@item.Name</td>
-                                    <td>@item.Gender</td>
-                                    <td>@item.DateOfBirth.ToShortDateString()</td>
-                                    <td>@item.BirthPlace</td>
-                                    <td>@item.DateOfAdmission.ToShortDateString()</td>
-                                    <td>@item.Status</td>
-                                    <td>@item.Orphanage.Name</td>
-                                    <td>
-                                        <div class="btn-group">
+                                    <td data-label="Name" style="max-width: 150px;">
+                                        <div class="text-truncate" title="@item.Name">@item.Name</div>
+                                    </td>
+                                    <td data-label="Gender" style="max-width: 100px;">@item.Gender</td>
+                                    <td data-label="Date of Birth" style="max-width: 130px;">@item.DateOfBirth.ToShortDateString()</td>
+                                    <td data-label="Birth Place" style="max-width: 150px;">
+                                        <div class="text-truncate" title="@item.BirthPlace">@item.BirthPlace</div>
+                                    </td>
+                                    <td data-label="Date of Admission" style="max-width: 150px;">@item.DateOfAdmission.ToShortDateString()</td>
+                                    <td data-label="Status" style="max-width: 120px;">@item.Status</td>
+                                    <td data-label="Orphanage" style="max-width: 180px;">
+                                        <div class="text-truncate" title="@item.Orphanage.Name">@item.Orphanage.Name</div>
+                                    </td>
+                                    <td class="actions-column">
+                                        <div class="btn-group btn-group-sm">
                                             @if (User.IsInRole("Admin"))
                                             {
-                                                <a class="btn btn-sm btn-outline-secondary me-1" asp-action="Edit" asp-route-id="@item.ChildrenId">
-                                                    <i class="bi bi-pencil-square"></i> Edit
+                                                <a class="btn btn-outline-secondary me-1" asp-action="Edit" asp-route-id="@item.ChildrenId" title="Edit">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                    <span class="d-none d-md-inline">Edit</span>
                                                 </a>
                                             }
-                                            <a class="btn btn-sm btn-outline-info me-1" asp-action="Details" asp-route-id="@item.ChildrenId">
-                                                <i class="bi bi-info-circle"></i> Details
+                                            <a class="btn btn-outline-info me-1" asp-action="Details" asp-route-id="@item.ChildrenId" title="Details">
+                                                <i class="bi bi-info-circle"></i>
+                                                <span class="d-none d-md-inline">Details</span>
                                             </a>
                                             @if (User.IsInRole("Admin"))
                                             {
-                                                <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@item.ChildrenId">
-                                                    <i class="bi bi-trash"></i> Delete
+                                                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ChildrenId" title="Delete">
+                                                    <i class="bi bi-trash"></i>
+                                                    <span class="d-none d-md-inline">Delete</span>
                                                 </a>
                                             }
                                         </div>

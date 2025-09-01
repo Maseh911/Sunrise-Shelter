@@ -68,12 +68,11 @@ using (var scope = app.Services.CreateScope())
             Email = adminEmail,
             FirstName = "Admin",
             LastName = "Admin",
-            // ADD ALL REQUIRED FIELDS:
-            DateOfBirth = new DateTime(2008, 3, 4), // Required field
-            PhoneNumber = "02102786388", // Required field
-            MartialStatus = "Single", // Required field
-            Address = "123 Admin Street", // Required field
-            BirthPlace = "New Zealand", // Required field
+            DateOfBirth = new DateTime(2008, 3, 4), 
+            PhoneNumber = "02102786388", 
+            MartialStatus = "Single", 
+            Address = "123 Admin Street", 
+            BirthPlace = "New Zealand", 
             EmailConfirmed = true
         };
 
