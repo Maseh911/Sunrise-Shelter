@@ -28,5 +28,4 @@ public class SunriseShelterDbContext : IdentityDbContext<SunriseShelterUser>
     public DbSet<SunriseShelter.Models.Orphanage> Orphanage { get; set; } = default!;
     public DbSet<SunriseShelter.Models.Staff> Staff { get; set; } = default!;
 
-    // REMOVE the Parent DbSet - IdentityDbContext<SunriseShelterUser> already handles users
 }

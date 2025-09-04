@@ -71,6 +71,7 @@ namespace SunriseShelter.Areas.Identity.Pages.Account
             [Required]
             [DataType(DataType.Date)]
             [Display(Name = "Date of Birth")]
+            [AgeRange(18, 70, ErrorMessage = "You must be between 18 and 69 years old to register.")]
             public DateTime DateOfBirth { get; set; }
 
             [Required]

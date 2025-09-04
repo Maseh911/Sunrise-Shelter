@@ -11,8 +11,8 @@ namespace SunriseShelter.Models
         public int AdoptionId { get; set; }
 
 
-        [Required, Display(Name = "Date of Adoption")] // Validating date needed //
-        public DateTime AdoptionDate { get; set; }
+        [Display(Name = "Date of Adoption")] 
+        public DateTime? AdoptionDate { get; set; }
 
         [Required, Display(Name = "Application Date")]
         [DataType(DataType.Date)]

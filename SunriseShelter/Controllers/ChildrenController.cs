@@ -19,7 +19,7 @@ namespace SunriseShelter.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = "Admin")] // Doesn't allow people that haven't logged in to open this tab //
+        [Authorize] // Doesn't allow people that haven't logged in to open this tab //
 
         // GET: Children
         public async Task<IActionResult> Index(string searchString, string sortOrder, string statusFilter, string genderFilter, int? pageNumber, string currentFilter)

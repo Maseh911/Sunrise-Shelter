@@ -10,7 +10,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-6">
 
-            <!-- Card Container -->
+
             <div class="card shadow-sm border-0">
                 <div class="card-header bg-light py-4">
                     <h4 class="card-title mb-0 text-center text-dark">
@@ -19,7 +19,7 @@
                 </div>
                 <div class="card-body p-5">
 
-                    <!-- Details Section -->
+
                     <div class="details-container bg-light rounded-3 p-4 mb-4">
                         <h5 class="text-center mb-4 text-muted">Staff Information</h5>
 
@@ -50,23 +50,26 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-sm-4 fw-bold text-dark">
-                                <i class="bi bi-telephone me-2"></i>@Html.DisplayNameFor(model => model.Phone)
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <div class="row mb-3">
+                                <div class="col-sm-4 fw-bold text-dark">
+                                    <i class="bi bi-telephone me-2"></i>@Html.DisplayNameFor(model => model.Phone)
+                                </div>
+                                <div class="col-sm-8">
+                                    @Html.DisplayFor(model => model.Phone)
+                                </div>
                             </div>
-                            <div class="col-sm-8">
-                                @Html.DisplayFor(model => model.Phone)
-                            </div>
-                        </div>
 
-                        <div class="row mb-3">
-                            <div class="col-sm-4 fw-bold text-dark">
-                                <i class="bi bi-envelope me-2"></i>@Html.DisplayNameFor(model => model.Email)
+                            <div class="row mb-3">
+                                <div class="col-sm-4 fw-bold text-dark">
+                                    <i class="bi bi-envelope me-2"></i>@Html.DisplayNameFor(model => model.Email)
+                                </div>
+                                <div class="col-sm-8">
+                                    @Html.DisplayFor(model => model.Email)
+                                </div>
                             </div>
-                            <div class="col-sm-8">
-                                @Html.DisplayFor(model => model.Email)
-                            </div>
-                        </div>
+                        }
 
                         <div class="row">
                             <div class="col-sm-4 fw-bold text-dark">
@@ -78,7 +81,6 @@
                         </div>
                     </div>
 
-                    <!-- Action Buttons -->
                     <div class="d-flex justify-content-center gap-3 mt-4">
                         @if (User.IsInRole("Admin"))
                         {

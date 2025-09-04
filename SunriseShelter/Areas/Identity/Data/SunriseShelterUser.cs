@@ -16,10 +16,11 @@ namespace SunriseShelter.Areas.Identity.Data
 
         [Required, Display(Name = "Date Of Birth")]
         [DataType(DataType.Date)]
+        [AgeRange(18, 70, ErrorMessage = "You must be between 18 and 69 years old to register.")]
         public DateTime DateOfBirth { get; set; }
 
         // Phone is already inherited from IdentityUser
-        
+
         // Email is already inherited from IdentityUser
 
         [Required, Display(Name = "Martial Status"), NoSpacesOrNumbersOrSymbols, MaxLength(15)]

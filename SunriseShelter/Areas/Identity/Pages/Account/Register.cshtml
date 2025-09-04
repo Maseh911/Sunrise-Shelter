@@ -31,9 +31,13 @@
             </div>
 
             <div class="form-floating mb-3">
-                <input asp-for="Input.DateOfBirth" class="form-control" type="date" aria-required="true" />
+                <input asp-for="Input.DateOfBirth" class="form-control" type="date" 
+                min="@DateTime.Today.AddYears(-70).AddDays(1).ToString("yyyy-MM-dd")"
+                max="@DateTime.Today.AddYears(-18).ToString("yyyy-MM-dd")"
+                aria-required="true" />
                 <label asp-for="Input.DateOfBirth">Date of Birth</label>
-                <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
+                 <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
+                 <small class="form-text text-muted">You must be between 18 and 69 years old to register.</small>
             </div>
 
             <div class="form-floating mb-3">
@@ -50,12 +54,9 @@
 
             <div class="form-floating mb-3">
                 <select asp-for="Input.MartialStatus" class="form-control" aria-required="true">
-                    <option value="">Select Marital Status</option>
                     <option value="Single">Single</option>
                     <option value="Married">Married</option>
-                    <option value="Divorced">Divorced</option>
-                    <option value="Widowed">Widowed</option>
-                    <option value="Separated">Separated</option>
+                    <option value="Divorced">Prefer not to say</option>
                 </select>
                 <label asp-for="Input.MartialStatus">Marital Status</label>
                 <span asp-validation-for="Input.MartialStatus" class="text-danger"></span>

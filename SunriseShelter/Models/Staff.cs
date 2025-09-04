@@ -11,11 +11,11 @@ namespace SunriseShelter.Models
         public int StaffId { get; set; }
 
 
-        [Required, Display(Name = "First Name"), NoSpacesOrNumbersOrSymbols ,MaxLength(25)]
+        [Required, Display(Name = "First Name"), NoNumbersOrSymbols ,MaxLength(25)]
         public string FirstName { get; set; }
 
 
-        [Required, Display(Name = "Last Name"), NoSpacesOrNumbersOrSymbols, MaxLength(25)]
+        [Required, Display(Name = "Last Name"), NoNumbersOrSymbols, MaxLength(25)]
         public string LastName { get; set; }
 
 

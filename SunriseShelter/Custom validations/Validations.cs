@@ -51,3 +51,49 @@ public class NewZealandPhone : RegularExpressionAttribute
         ErrorMessage = "Please enter a valid phone number.";
     }
 }
+
+public class AgeRangeAttribute : ValidationAttribute
+{
+    private readonly int _minAge;
+    private readonly int _maxAge;
+
+    public AgeRangeAttribute(int minAge, int maxAge)
+    {
+        _minAge = minAge;
+        _maxAge = maxAge;
+    }
+
+    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    {
+        if (value == null)
+        {
+            return ValidationResult.Success;
+        }
+
+        if (value is DateTime dateOfBirth)
+        {
+            var today = DateTime.Today;
+            var age = today.Year - dateOfBirth.Year;
+
+            // Check if birthday hasn't occurred yet this year
+            if (dateOfBirth > today.AddYears(-age))
+            {
+                age--;
+            }
+
+            if (age < _minAge)
+            {
+                return new ValidationResult(ErrorMessage ?? $"You must be at least {_minAge} years old to register.");
+            }
+
+            if (age >= _maxAge)
+            {
+                return new ValidationResult(ErrorMessage ?? $"You must be under {_maxAge} years old to register.");
+            }
+
+            return ValidationResult.Success;
+        }
+
+        return new ValidationResult("Please enter a valid date of birth.");
+    }
+}
