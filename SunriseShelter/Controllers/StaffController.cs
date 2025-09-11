@@ -16,12 +16,13 @@ namespace SunriseShelter.Controllers
     {
         private readonly SunriseShelterDbContext _context;
 
+
         public StaffController(SunriseShelterDbContext context)
         {
             _context = context;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
 
         // GET: Staff
         public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber, string currentFilter)

@@ -29,12 +29,13 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-controller="Orphanage" asp-action="Index">Orphanages</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Staff" asp-action="Index">Staffs</a>
-                </li>
+
+                @if (User.Identity.IsAuthenticated) //Check if the user is authenticated (logged in), create new button will only display if so.
+{
                 <li class="nav-item">
                      <a class="nav-link" asp-area="" asp-controller="Children" asp-action="Index">Childrens</a>
                  </li>
+}
                          @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
@@ -42,6 +43,9 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Parent" asp-action="Index">Parents</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Staff" asp-action="Index">Staffs</a>
                             </li>
                         }
                         

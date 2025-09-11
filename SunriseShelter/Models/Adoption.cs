@@ -12,7 +12,7 @@ namespace SunriseShelter.Models
 
 
         [Display(Name = "Date of Adoption")] 
-        public DateTime? AdoptionDate { get; set; }
+        public DateTime AdoptionDate { get; set; }
 
         [Required, Display(Name = "Application Date")]
         [DataType(DataType.Date)]
