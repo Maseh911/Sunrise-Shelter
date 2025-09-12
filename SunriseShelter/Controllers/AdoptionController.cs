@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using SunriseShelter.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using SunriseShelter.Models;
 
 namespace SunriseShelter.Controllers
 {
@@ -19,9 +20,10 @@ namespace SunriseShelter.Controllers
         }
 
         // GET: Adoption
-        public async Task<IActionResult> Index(string searchString, int? pageNumber)
+        public async Task<IActionResult> Index(string searchString, int? pageNumber, string sortOrder)
         {
             ViewData["CurrentFilter"] = searchString;
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
 
             var adoptions = from a in _context.Adoption
                             .Include(a => a.Parent)
@@ -34,6 +36,18 @@ namespace SunriseShelter.Controllers
                 adoptions = adoptions.Where(a =>
                     a.Parent.Id.ToString().Contains(searchString) ||
                     a.Children.Name.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+
+                case "Date":
+                    adoptions = adoptions.OrderBy(c => c.AdoptionDate);
+                    break;
+                case "date_desc":
+                    adoptions = adoptions.OrderByDescending(c => c.AdoptionDate);
+                    break;
+
             }
 
             int pageSize = 10;

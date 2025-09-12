@@ -22,16 +22,12 @@ namespace SunriseShelter.Controllers
         [Authorize] // Doesn't allow people that haven't logged in to open this tab //
 
         // GET: Children
-        public async Task<IActionResult> Index(string searchString, string sortOrder, string statusFilter, string genderFilter, int? pageNumber, string currentFilter)
+        public async Task<IActionResult> Index(string searchString, string sortOrder, int? pageNumber, string currentFilter)
         {
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
-            ViewData["StatusSortParm"] = sortOrder == "Status" ? "status_desc" : "Status";
-            ViewData["GenderSortParm"] = sortOrder == "Gender" ? "gender_desc" : "Gender";
             ViewData["CurrentFilter"] = searchString;
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["CurrentStatusFilter"] = statusFilter;
-            ViewData["CurrentGenderFilter"] = genderFilter;
 
             if (searchString != null)
             {
@@ -52,18 +48,6 @@ namespace SunriseShelter.Controllers
                                                 c.Orphanage.Name.Contains(searchString));
             }
 
-            // Status filter
-            if (!String.IsNullOrEmpty(statusFilter))
-            {
-                childrens = childrens.Where(c => c.Status == statusFilter);
-            }
-
-            // Gender filter
-            if (!String.IsNullOrEmpty(genderFilter))
-            {
-                childrens = childrens.Where(c => c.Gender == genderFilter);
-            }
-
             // Sorting
             switch (sortOrder)
             {
@@ -71,22 +55,10 @@ namespace SunriseShelter.Controllers
                     childrens = childrens.OrderByDescending(c => c.Name);
                     break;
                 case "Date":
-                    childrens = childrens.OrderBy(c => c.DateOfAdmission);
+                    childrens = childrens.OrderBy(c => c.DateOfBirth);
                     break;
                 case "date_desc":
-                    childrens = childrens.OrderByDescending(c => c.DateOfAdmission);
-                    break;
-                case "Status":
-                    childrens = childrens.OrderBy(c => c.Status);
-                    break;
-                case "status_desc":
-                    childrens = childrens.OrderByDescending(c => c.Status);
-                    break;
-                case "Gender":
-                    childrens = childrens.OrderBy(c => c.Gender);
-                    break;
-                case "gender_desc":
-                    childrens = childrens.OrderByDescending(c => c.Gender);
+                    childrens = childrens.OrderByDescending(c => c.DateOfBirth);
                     break;
                 default:
                     childrens = childrens.OrderBy(c => c.Name);
