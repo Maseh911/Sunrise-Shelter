@@ -1,11 +1,9 @@
-﻿using SunriseShelter.Areas.Identity.Data;
-using SunriseShelter.Models;
+﻿// ... your using statements remain unchanged
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+using SunriseShelter.Areas.Identity.Data;
+using SunriseShelter.Models;
 
 namespace SunriseShelter.Data
 {
@@ -24,7 +22,6 @@ namespace SunriseShelter.Data
 
                 await context.Database.EnsureCreatedAsync();
 
-                // Check if we already have data
                 if (context.Users.Any() && context.Orphanage.Any() && context.Staff.Any() && context.Children.Any() && context.Adoption.Any())
                 {
                     logger.LogInformation("DatabaseStartup: Data already exists. Skipping seed.");
@@ -33,7 +30,7 @@ namespace SunriseShelter.Data
 
                 logger.LogInformation("DatabaseStartup: Seeding data...");
 
-                // Create parent users
+                // --- Users ---
                 var parents = new SunriseShelterUser[]
                 {
                     new SunriseShelterUser { UserName = "jack.taylor@example.com", Email = "jack.taylor@example.com", FirstName = "Jack", LastName = "Taylor", DateOfBirth = new DateTime(1988, 9, 10), PhoneNumber = "0210123456", MartialStatus = "Married", Address = "Mt Eden", BirthPlace = "New Zealand", EmailConfirmed = true },
@@ -45,95 +42,125 @@ namespace SunriseShelter.Data
                     new SunriseShelterUser { UserName = "lucas.allen@example.com", Email = "lucas.allen@example.com", FirstName = "Lucas", LastName = "Allen", DateOfBirth = new DateTime(1991, 3, 14), PhoneNumber = "0210789012", MartialStatus = "Married", Address = "New Lynn", BirthPlace = "New Zealand", EmailConfirmed = true },
                     new SunriseShelterUser { UserName = "amelia.young@example.com", Email = "amelia.young@example.com", FirstName = "Amelia", LastName = "Young", DateOfBirth = new DateTime(1987, 5, 30), PhoneNumber = "0210890123", MartialStatus = "Single", Address = "Epsom", BirthPlace = "New Zealand", EmailConfirmed = true },
                     new SunriseShelterUser { UserName = "mason.harris@example.com", Email = "mason.harris@example.com", FirstName = "Mason", LastName = "Harris", DateOfBirth = new DateTime(1982, 7, 21), PhoneNumber = "0210901234", MartialStatus = "Married", Address = "Mt Albert", BirthPlace = "New Zealand", EmailConfirmed = true },
-                    new SunriseShelterUser { UserName = "ella.martin@example.com", Email = "ella.martin@example.com", FirstName = "Ella", LastName = "Martin", DateOfBirth = new DateTime(1995, 9, 11), PhoneNumber = "0211012345", MartialStatus = "Single", Address = "Manukau", BirthPlace = "New Zealand", EmailConfirmed = true }
+                    new SunriseShelterUser { UserName = "ella.martin@example.com", Email = "ella.martin@example.com", FirstName = "Ella", LastName = "Martin", DateOfBirth = new DateTime(1995, 9, 11), PhoneNumber = "0211012345", MartialStatus = "Single", Address = "Manukau", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "james.young@example.com", Email = "james.young@example.com", FirstName = "James", LastName = "Young", DateOfBirth = new DateTime(1975, 1, 5), PhoneNumber = "0211111121", MartialStatus = "Divorced", Address = "Palmerston North", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "charlotte.king@example.com", Email = "charlotte.king@example.com", FirstName = "Charlotte", LastName = "King", DateOfBirth = new DateTime(1994, 2, 16), PhoneNumber = "0211111122", MartialStatus = "Single", Address = "Whanganui", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "alexander.scott@example.com", Email = "alexander.scott@example.com", FirstName = "Alexander", LastName = "Scott", DateOfBirth = new DateTime(1981, 8, 9), PhoneNumber = "0211111123", MartialStatus = "Married", Address = "Gisborne", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "amelia.green@example.com", Email = "amelia.green@example.com", FirstName = "Amelia", LastName = "Green", DateOfBirth = new DateTime(1989, 3, 25), PhoneNumber = "0211111124", MartialStatus = "Single", Address = "Masterton", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "daniel.adams@example.com", Email = "daniel.adams@example.com", FirstName = "Daniel", LastName = "Adams", DateOfBirth = new DateTime(1978, 12, 30), PhoneNumber = "0211111125", MartialStatus = "Married", Address = "Kerikeri", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "sophia.ward@example.com", Email = "sophia.ward@example.com", FirstName = "Sophia", LastName = "Ward", DateOfBirth = new DateTime(1992, 5, 11), PhoneNumber = "0211111126", MartialStatus = "Married", Address = "Cambridge", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "michael.turner@example.com", Email = "michael.turner@example.com", FirstName = "Michael", LastName = "Turner", DateOfBirth = new DateTime(1986, 9, 17), PhoneNumber = "0211111127", MartialStatus = "Divorced", Address = "Hastings", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "ella.parker@example.com", Email = "ella.parker@example.com", FirstName = "Ella", LastName = "Parker", DateOfBirth = new DateTime(1995, 7, 4), PhoneNumber = "0211111128", MartialStatus = "Single", Address = "New Plymouth", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "benjamin.carter@example.com", Email = "benjamin.carter@example.com", FirstName = "Benjamin", LastName = "Carter", DateOfBirth = new DateTime(1983, 2, 22), PhoneNumber = "0211111129", MartialStatus = "Married", Address = "Timaru", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "grace.mitchell@example.com", Email = "grace.mitchell@example.com", FirstName = "Grace", LastName = "Mitchell", DateOfBirth = new DateTime(1988, 11, 1), PhoneNumber = "0211111130", MartialStatus = "Widowed", Address = "Queenstown", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "lucas.harris@example.com", Email = "lucas.harris@example.com", FirstName = "Lucas", LastName = "Harris", DateOfBirth = new DateTime(1979, 10, 18), PhoneNumber = "0211111131", MartialStatus = "Married", Address = "Blenheim", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "zoe.phillips@example.com", Email = "zoe.phillips@example.com", FirstName = "Zoe", LastName = "Phillips", DateOfBirth = new DateTime(1996, 1, 12), PhoneNumber = "0211111132", MartialStatus = "Single", Address = "Wanaka", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "henry.evans@example.com", Email = "henry.evans@example.com", FirstName = "Henry", LastName = "Evans", DateOfBirth = new DateTime(1985, 6, 29), PhoneNumber = "0211111133", MartialStatus = "Married", Address = "Greymouth", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "lily.richards@example.com", Email = "lily.richards@example.com", FirstName = "Lily", LastName = "Richards", DateOfBirth = new DateTime(1982, 9, 15), PhoneNumber = "0211111134", MartialStatus = "Single", Address = "Taupo", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "jack.cooper@example.com", Email = "jack.cooper@example.com", FirstName = "Jack", LastName = "Cooper", DateOfBirth = new DateTime(1990, 4, 2), PhoneNumber = "0211111135", MartialStatus = "Divorced", Address = "Oamaru", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "aria.hughes@example.com", Email = "aria.hughes@example.com", FirstName = "Aria", LastName = "Hughes", DateOfBirth = new DateTime(1987, 3, 6), PhoneNumber = "0211111136", MartialStatus = "Married", Address = "Ashburton", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "samuel.ward@example.com", Email = "samuel.ward@example.com", FirstName = "Samuel", LastName = "Ward", DateOfBirth = new DateTime(1984, 8, 24), PhoneNumber = "0211111137", MartialStatus = "Married", Address = "Levin", BirthPlace = "New Zealand", EmailConfirmed = true },
+                    new SunriseShelterUser { UserName = "chloe.bennett@example.com", Email = "chloe.bennett@example.com", FirstName = "Chloe", LastName = "Bennett", DateOfBirth = new DateTime(1992, 12, 19), PhoneNumber = "0211111138", MartialStatus = "Single", Address = "Rotorua", BirthPlace = "New Zealand", EmailConfirmed = true }
                 };
 
-                // Create parent users with a default password
                 foreach (var parent in parents)
                 {
                     var result = await userManager.CreateAsync(parent, "Password123!");
-                    if (result.Succeeded)
-                    {
-                        await userManager.AddToRoleAsync(parent, "Parent");
-                    }
-                    else
-                    {
-                        logger.LogError("Failed to create user {Email}: {Errors}",
-                            parent.Email, string.Join(", ", result.Errors.Select(e => e.Description)));
-                    }
+                    if (result.Succeeded) await userManager.AddToRoleAsync(parent, "Parent");
                 }
 
+                // --- Orphanages ---
                 var orphanages = new Orphanage[]
                 {
-                    new Orphanage { Name = "Napier Haven", Address = "29 Marine Parade", State = "Hawke's Bay", Country = "New Zealand" },
-                    new Orphanage { Name = "Rotorua Refuge", Address = "54 Fenton St", State = "Bay of Plenty", Country = "New Zealand" },
-                    new Orphanage { Name = "New Plymouth Home", Address = "12 Devon St East", State = "Taranaki", Country = "New Zealand" },
-                    new Orphanage { Name = "Nelson Shelter", Address = "33 Hardy St", State = "Nelson", Country = "New Zealand" },
-                    new Orphanage { Name = "Wellington Haven", Address = "80 Cuba St", State = "Wellington", Country = "New Zealand" },
-                    new Orphanage { Name = "Auckland North Home", Address = "17 Dominion Rd", State = "Auckland", Country = "New Zealand" },
-                    new Orphanage { Name = "Hamilton Shelter", Address = "49 Victoria St", State = "Waikato", Country = "New Zealand" },
-                    new Orphanage { Name = "Porirua Refuge", Address = "21 Lyttelton Ave", State = "Wellington", Country = "New Zealand" },
-                    new Orphanage { Name = "Lower Hutt Orphanage", Address = "64 High St", State = "Wellington", Country = "New Zealand" },
-                    new Orphanage { Name = "Christchurch East Home", Address = "78 Ferry Rd", State = "Canterbury", Country = "New Zealand" }
+    new Orphanage { Name = "Auckland Hope Orphanage", Address = "12 Queen St, Auckland", State = "Auckland", Country = "New Zealand" },
+    new Orphanage { Name = "Wellington Care Home", Address = "45 Lambton Quay, Wellington", State = "Wellington", Country = "New Zealand" },
+    new Orphanage { Name = "Christchurch Family Shelter", Address = "78 Cashel St, Christchurch", State = "Canterbury", Country = "New Zealand" },
+    new Orphanage { Name = "Hamilton Children's Haven", Address = "23 Victoria St, Hamilton", State = "Waikato", Country = "New Zealand" },
+    new Orphanage { Name = "Dunedin Sunshine Home", Address = "5 Stuart St, Dunedin", State = "Otago", Country = "New Zealand" },
+    new Orphanage { Name = "Tauranga Safe Haven", Address = "101 Cameron Rd, Tauranga", State = "Bay of Plenty", Country = "New Zealand" },
+    new Orphanage { Name = "Rotorua Little Angels", Address = "32 Fenton St, Rotorua", State = "Bay of Plenty", Country = "New Zealand" },
+    new Orphanage { Name = "Palmerston North Kids' Home", Address = "88 Main St, Palmerston North", State = "Manawatu-Wanganui", Country = "New Zealand" },
+    new Orphanage { Name = "Napier Family Care", Address = "14 Hastings St, Napier", State = "Hawke's Bay", Country = "New Zealand" },
+    new Orphanage { Name = "Invercargill Children's Shelter", Address = "66 Dee St, Invercargill", State = "Southland", Country = "New Zealand" },
+    new Orphanage { Name = "Whangarei Hope Home", Address = "77 Bank St, Whangarei", State = "Northland", Country = "New Zealand" },
+    new Orphanage { Name = "Queenstown Family Haven", Address = "2 Beach St, Queenstown", State = "Otago", Country = "New Zealand" },
+    new Orphanage { Name = "Gisborne Kids' Care", Address = "34 Reads Quay, Gisborne", State = "Gisborne", Country = "New Zealand" },
+    new Orphanage { Name = "Taupo Little Stars", Address = "56 Tongariro St, Taupo", State = "Waikato", Country = "New Zealand" },
+    new Orphanage { Name = "Blenheim Safe Haven", Address = "19 High St, Blenheim", State = "Marlborough", Country = "New Zealand" },
+    new Orphanage { Name = "New Plymouth Children's Home", Address = "21 Devon St, New Plymouth", State = "Taranaki", Country = "New Zealand" },
+    new Orphanage { Name = "Hastings Family Shelter", Address = "9 Russell St, Hastings", State = "Hawke's Bay", Country = "New Zealand" },
+    new Orphanage { Name = "Palmerston Hope Home", Address = "44 Church St, Palmerston", State = "Otago", Country = "New Zealand" },
+    new Orphanage { Name = "Cambridge Kids' Haven", Address = "33 Victoria St, Cambridge", State = "Waikato", Country = "New Zealand" },
+    new Orphanage { Name = "Ashburton Family Care", Address = "10 Tancred St, Ashburton", State = "Canterbury", Country = "New Zealand" },
+    new Orphanage { Name = "Levin Children's Haven", Address = "55 Oxford St, Levin", State = "Manawatu-Wanganui", Country = "New Zealand" },
+    new Orphanage { Name = "Rotorua Safe Home", Address = "12 Tutanekai St, Rotorua", State = "Bay of Plenty", Country = "New Zealand" },
+    new Orphanage { Name = "Queenstown Little Angels", Address = "77 Shotover St, Queenstown", State = "Otago", Country = "New Zealand" },
+    new Orphanage { Name = "Whanganui Family Shelter", Address = "88 Victoria Ave, Whanganui", State = "Manawatu-Wanganui", Country = "New Zealand" },
+    new Orphanage { Name = "Timaru Hope Home", Address = "31 King St, Timaru", State = "Canterbury", Country = "New Zealand" },
+    new Orphanage { Name = "Wanaka Kids' Haven", Address = "17 Ardmore St, Wanaka", State = "Otago", Country = "New Zealand" },
+    new Orphanage { Name = "Kerikeri Family Care", Address = "24 Cobham Rd, Kerikeri", State = "Northland", Country = "New Zealand" },
+    new Orphanage { Name = "Oamaru Little Stars", Address = "9 Thames St, Oamaru", State = "Otago", Country = "New Zealand" },
+    new Orphanage { Name = "Bluff Safe Haven", Address = "33 Gore St, Bluff", State = "Southland", Country = "New Zealand" },
+    new Orphanage { Name = "Napier Little Angels", Address = "42 Station St, Napier", State = "Hawke's Bay", Country = "New Zealand" },
+    new Orphanage { Name = "Hamilton Hope Home", Address = "56 Victoria St, Hamilton", State = "Waikato", Country = "New Zealand" }
                 };
-                context.Orphanage.AddRange(orphanages);
-                await context.SaveChangesAsync();
+
 
                 var staffs = new Staff[]
                 {
-                    new Staff { FirstName = "Jane", LastName = "Doe", Role = "Caretaker", Phone = "021022393", Email = "jane.doe@example.com", OrphanageId = 1 },
-                    new Staff { FirstName = "Michael", LastName = "Smith", Role = "Manager", Phone = "021045678", Email = "michael.smith@example.com", OrphanageId = 2 },
-                    new Staff { FirstName = "Sarah", LastName = "Johnson", Role = "Caretaker", Phone = "021078945", Email = "sarah.johnson@example.com", OrphanageId = 3 },
-                    new Staff { FirstName = "Robert", LastName = "Brown", Role = "Counselor", Phone = "021098765", Email = "robert.brown@example.com", OrphanageId = 4 },
-                    new Staff { FirstName = "Emily", LastName = "Williams", Role = "Nurse", Phone = "021034567", Email = "emily.williams@example.com", OrphanageId = 5 },
-                    new Staff { FirstName = "Daniel", LastName = "Martinez", Role = "Security", Phone = "021023456", Email = "daniel.martinez@example.com", OrphanageId = 6 },
-                    new Staff { FirstName = "Jessica", LastName = "Garcia", Role = "Caretaker", Phone = "021045982", Email = "jessica.garcia@example.com", OrphanageId = 7 },
-                    new Staff { FirstName = "Thomas", LastName = "Hernandez", Role = "Administrator", Phone = "021078954", Email = "thomas.hernandez@example.com", OrphanageId = 8 },
-                    new Staff { FirstName = "Laura", LastName = "Lopez", Role = "Teacher", Phone = "021034789", Email = "laura.lopez@example.com", OrphanageId = 9 },
-                    new Staff { FirstName = "Kevin", LastName = "Clark", Role = "Caretaker", Phone = "021098234", Email = "kevin.clark@example.com", OrphanageId = 10 }
+    new Staff { FirstName = "Jane", LastName = "Doe", Role = "Caretaker", Phone = "0210123456", Email = "jane.doe@example.com", OrphanageId = 1 },
+    new Staff { FirstName = "Michael", LastName = "Smith", Role = "Manager", Phone = "0210234567", Email = "michael.smith@example.com", OrphanageId = 2 },
+    new Staff { FirstName = "Sarah", LastName = "Johnson", Role = "Caretaker", Phone = "0210345678", Email = "sarah.johnson@example.com", OrphanageId = 3 },
+    new Staff { FirstName = "Robert", LastName = "Brown", Role = "Counselor", Phone = "0210456789", Email = "robert.brown@example.com", OrphanageId = 4 },
+    new Staff { FirstName = "Emily", LastName = "Williams", Role = "Nurse", Phone = "0210567890", Email = "emily.williams@example.com", OrphanageId = 5 },
+    new Staff { FirstName = "Daniel", LastName = "Martinez", Role = "Security", Phone = "0210678901", Email = "daniel.martinez@example.com", OrphanageId = 6 },
+    new Staff { FirstName = "Jessica", LastName = "Garcia", Role = "Caretaker", Phone = "0210789012", Email = "jessica.garcia@example.com", OrphanageId = 7 },
+    new Staff { FirstName = "Laura", LastName = "Lopez", Role = "Teacher", Phone = "0210890123", Email = "laura.lopez@example.com", OrphanageId = 8 },
+    new Staff { FirstName = "Kevin", LastName = "Clark", Role = "Caretaker", Phone = "0210901234", Email = "kevin.clark@example.com", OrphanageId = 9 },
+    new Staff { FirstName = "Sophia", LastName = "Lewis", Role = "Manager", Phone = "0211012345", Email = "sophia.lewis@example.com", OrphanageId = 10 },
+    new Staff { FirstName = "James", LastName = "Walker", Role = "Teacher", Phone = "0211123456", Email = "james.walker@example.com", OrphanageId = 11 },
+    new Staff { FirstName = "Olivia", LastName = "Hall", Role = "Nurse", Phone = "0211234567", Email = "olivia.hall@example.com", OrphanageId = 12 },
+    new Staff { FirstName = "Ethan", LastName = "Allen", Role = "Counselor", Phone = "0211345678", Email = "ethan.allen@example.com", OrphanageId = 13 },
+    new Staff { FirstName = "Mia", LastName = "Young", Role = "Caretaker", Phone = "0211456789", Email = "mia.young@example.com", OrphanageId = 14 },
+    new Staff { FirstName = "Benjamin", LastName = "Scott", Role = "Caretaker", Phone = "0211567890", Email = "benjamin.scott@example.com", OrphanageId = 15 },
+    new Staff { FirstName = "Charlotte", LastName = "Torres", Role = "Teacher", Phone = "0211678901", Email = "charlotte.torres@example.com", OrphanageId = 16 },
+    new Staff { FirstName = "Alexander", LastName = "Nguyen", Role = "Manager", Phone = "0211789012", Email = "alexander.nguyen@example.com", OrphanageId = 17 },
+    new Staff { FirstName = "Grace", LastName = "Hill", Role = "Nurse", Phone = "0211890123", Email = "grace.hill@example.com", OrphanageId = 18 },
+    new Staff { FirstName = "Lucas", LastName = "Adams", Role = "Counselor", Phone = "0211901234", Email = "lucas.adams@example.com", OrphanageId = 19 },
+    new Staff { FirstName = "Ava", LastName = "Baker", Role = "Caretaker", Phone = "0212012345", Email = "ava.baker@example.com", OrphanageId = 20 },
+    new Staff { FirstName = "Mason", LastName = "Parker", Role = "Security", Phone = "0212123456", Email = "mason.parker@example.com", OrphanageId = 21 },
+    new Staff { FirstName = "Harper", LastName = "Rivera", Role = "Administrator", Phone = "0212234567", Email = "harper.rivera@example.com", OrphanageId = 22 },
+    new Staff { FirstName = "Elijah", LastName = "Mitchell", Role = "Caretaker", Phone = "0212345678", Email = "elijah.mitchell@example.com", OrphanageId = 23 },
+    new Staff { FirstName = "Amelia", LastName = "Carter", Role = "Teacher", Phone = "0212456789", Email = "amelia.carter@example.com", OrphanageId = 24 },
+    new Staff { FirstName = "Daniel", LastName = "Phillips", Role = "Manager", Phone = "0212567890", Email = "daniel.phillips@example.com", OrphanageId = 25 },
+    new Staff { FirstName = "Sofia", LastName = "Evans", Role = "Nurse", Phone = "0212678901", Email = "sofia.evans@example.com", OrphanageId = 26 },
+    new Staff { FirstName = "Henry", LastName = "Turner", Role = "Counselor", Phone = "0212789012", Email = "henry.turner@example.com", OrphanageId = 27 },
+    new Staff { FirstName = "Ella", LastName = "Ramirez", Role = "Caretaker", Phone = "0212890123", Email = "ella.ramirez@example.com", OrphanageId = 28 },
+    new Staff { FirstName = "Jackson", LastName = "Campbell", Role = "Security", Phone = "0212901234", Email = "jackson.campbell@example.com", OrphanageId = 29 },
+    new Staff { FirstName = "Lily", LastName = "Roberts", Role = "Teacher", Phone = "0213012345", Email = "lily.roberts@example.com", OrphanageId = 30 },
                 };
-                context.Staff.AddRange(staffs);
-                await context.SaveChangesAsync();
 
-                // Updated Children data with new fields
-                var childrens = new Children[]
+                // --- Children ---
+                var childrens = new Children[30];
+                for (int i = 0; i < 30; i++)
                 {
-                    new Children { Name = "Lucas", Gender = "Male", DateOfBirth = new DateTime(2016, 9, 11), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2020, 10, 12), Status = "Adopted", OrphanageId = 1 },
-                    new Children { Name = "Amelia", Gender = "Female", DateOfBirth = new DateTime(2015, 12, 20), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2019, 12, 1), Status = "Adopted", OrphanageId = 2 },
-                    new Children { Name = "Henry", Gender = "Male", DateOfBirth = new DateTime(2013, 10, 7), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2017, 11, 3), Status = "Adopted", OrphanageId = 3 },
-                    new Children { Name = "Isla", Gender = "Female", DateOfBirth = new DateTime(2016, 5, 16), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2021, 2, 28), Status = "Adopted", OrphanageId = 4 },
-                    new Children { Name = "Leo", Gender = "Male", DateOfBirth = new DateTime(2017, 3, 8), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2022, 6, 30), Status = "Available", OrphanageId = 5 },
-                    new Children { Name = "Grace", Gender = "Female", DateOfBirth = new DateTime(2014, 8, 19), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2018, 10, 22), Status = "In Process", OrphanageId = 6 },
-                    new Children { Name = "Jack", Gender = "Male", DateOfBirth = new DateTime(2015, 2, 24), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2019, 3, 11), Status = "Available", OrphanageId = 7 },
-                    new Children { Name = "Ella", Gender = "Female", DateOfBirth = new DateTime(2016, 1, 30), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2020, 8, 14), Status = "In Process", OrphanageId = 8 },
-                    new Children { Name = "Harper", Gender = "Female", DateOfBirth = new DateTime(2017, 11, 9), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2021, 12, 9), Status = "Available", OrphanageId = 9 },
-                    new Children { Name = "Aria", Gender = "Female", DateOfBirth = new DateTime(2014, 6, 18), BirthPlace = "New Zealand", DateOfAdmission = new DateTime(2018, 7, 23), Status = "Available", OrphanageId = 10 }
-                };
+                    childrens[i] = new Children
+                    {
+                        Name = $"Child{i + 1}",
+                        Gender = i % 2 == 0 ? "Male" : "Female",
+                        DateOfBirth = new DateTime(2013 + (i % 5), (i % 12) + 1, ((i * 2) % 28) + 1),
+                        BirthPlace = "New Zealand",
+                        DateOfAdmission = new DateTime(2018 + (i % 5), ((i + 6) % 12) + 1, ((i * 3) % 28) + 1),
+                        Status = i % 3 == 0 ? "Available" : i % 3 == 1 ? "Adopted" : "In Process",
+                        OrphanageId = (i % 30) + 1
+                    };
+                }
                 context.Children.AddRange(childrens);
                 await context.SaveChangesAsync();
 
-                // Get the created user IDs for adoption records
+                // --- Adoptions ---
                 var parentUsers = await context.Users.ToListAsync();
-
-                // Updated Adoption data with new fields
-                var adoptions = new Adoption[]
+                var adoptions = new Adoption[30];
+                for (int i = 0; i < 30; i++)
                 {
-                    new Adoption { AdoptionDate = new DateTime(2024, 7, 23), ApplicationDate = new DateTime(2024, 6, 15), Status = "Completed", ParentId = parentUsers[0].Id, ChildrenId = 1, OrphanageId = 1 },
-                    new Adoption { AdoptionDate = new DateTime(2023, 6, 15), ApplicationDate = new DateTime(2023, 5, 10), Status = "Completed", ParentId = parentUsers[1].Id, ChildrenId = 2, OrphanageId = 2 },
-                    new Adoption { AdoptionDate = new DateTime(2022, 5, 10), ApplicationDate = new DateTime(2022, 4, 5), Status = "Completed", ParentId = parentUsers[2].Id, ChildrenId = 3, OrphanageId = 3 },
-                    new Adoption { AdoptionDate = new DateTime(2021, 8, 18), ApplicationDate = new DateTime(2021, 7, 12), Status = "Completed", ParentId = parentUsers[3].Id, ChildrenId = 4, OrphanageId = 4 },
-                    new Adoption { AdoptionDate = new DateTime(2021, 5, 11), ApplicationDate = new DateTime(2021, 4, 1), Status = "Approved", ParentId = parentUsers[4].Id, ChildrenId = 5, OrphanageId = 5 },
-                    new Adoption { AdoptionDate = new DateTime(2020, 9, 25), ApplicationDate = new DateTime(2020, 8, 15), Status = "Pending", ParentId = parentUsers[5].Id, ChildrenId = 6, OrphanageId = 6 },
-                    new Adoption { AdoptionDate = new DateTime(2019, 3, 5), ApplicationDate = new DateTime(2019, 2, 1), Status = "Rejected", ParentId = parentUsers[6].Id, ChildrenId = 7, OrphanageId = 7 },
-                    new Adoption { AdoptionDate = new DateTime(2018, 12, 12), ApplicationDate = new DateTime(2018, 11, 5), Status = "Pending", ParentId = parentUsers[7].Id, ChildrenId = 8, OrphanageId = 8 },
-                    new Adoption { AdoptionDate = new DateTime(2017, 7, 30), ApplicationDate = new DateTime(2017, 6, 20), Status = "Approved", ParentId = parentUsers[8].Id, ChildrenId = 9, OrphanageId = 9 },
-                    new Adoption { AdoptionDate = new DateTime(2016, 10, 22), ApplicationDate = new DateTime(2016, 9, 15), Status = "Completed", ParentId = parentUsers[9].Id, ChildrenId = 10, OrphanageId = 10 }
-                };
-                context.Adoption.AddRange(adoptions);
-                await context.SaveChangesAsync();
-
-                logger.LogInformation("DatabaseStartup: Data seeded successfully!");
-            }
-        }
-    }
-}
+                    adoptions[i

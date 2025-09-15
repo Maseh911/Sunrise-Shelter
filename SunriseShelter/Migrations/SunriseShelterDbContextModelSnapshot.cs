@@ -259,16 +259,13 @@ namespace SunriseShelter.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdoptionId"));
 
-                    b.Property<DateTime>("AdoptionDate")
+                    b.Property<DateTime?>("AdoptionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("ApplicationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ChildrenId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrphanageId")
                         .HasColumnType("int");
 
                     b.Property<string>("ParentId")
@@ -282,8 +279,6 @@ namespace SunriseShelter.Migrations
                     b.HasKey("AdoptionId");
 
                     b.HasIndex("ChildrenId");
-
-                    b.HasIndex("OrphanageId");
 
                     b.HasIndex("ParentId");
 
@@ -318,7 +313,7 @@ namespace SunriseShelter.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<int?>("OrphanageId")
+                    b.Property<int>("OrphanageId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
@@ -466,12 +461,6 @@ namespace SunriseShelter.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SunriseShelter.Models.Orphanage", "Orphanage")
-                        .WithMany()
-                        .HasForeignKey("OrphanageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SunriseShelter.Areas.Identity.Data.SunriseShelterUser", "Parent")
                         .WithMany("Adoptions")
                         .HasForeignKey("ParentId")
@@ -480,8 +469,6 @@ namespace SunriseShelter.Migrations
 
                     b.Navigation("Children");
 
-                    b.Navigation("Orphanage");
-
                     b.Navigation("Parent");
                 });
 
@@ -489,7 +476,9 @@ namespace SunriseShelter.Migrations
                 {
                     b.HasOne("SunriseShelter.Models.Orphanage", "Orphanage")
                         .WithMany()
-                        .HasForeignKey("OrphanageId");
+                        .HasForeignKey("OrphanageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Orphanage");
                 });

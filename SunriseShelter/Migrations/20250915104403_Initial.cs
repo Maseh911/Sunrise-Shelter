@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SunriseShelter.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -190,7 +190,7 @@ namespace SunriseShelter.Migrations
                     BirthPlace = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     DateOfAdmission = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrphanageId = table.Column<int>(type: "int", nullable: true)
+                    OrphanageId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -199,7 +199,8 @@ namespace SunriseShelter.Migrations
                         name: "FK_Children_Orphanage_OrphanageId",
                         column: x => x.OrphanageId,
                         principalTable: "Orphanage",
-                        principalColumn: "OrphanageId");
+                        principalColumn: "OrphanageId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -232,12 +233,11 @@ namespace SunriseShelter.Migrations
                 {
                     AdoptionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AdoptionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AdoptionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ApplicationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ParentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ChildrenId = table.Column<int>(type: "int", nullable: false),
-                    OrphanageId = table.Column<int>(type: "int", nullable: false)
+                    ChildrenId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -254,23 +254,12 @@ namespace SunriseShelter.Migrations
                         principalTable: "Children",
                         principalColumn: "ChildrenId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Adoption_Orphanage_OrphanageId",
-                        column: x => x.OrphanageId,
-                        principalTable: "Orphanage",
-                        principalColumn: "OrphanageId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adoption_ChildrenId",
                 table: "Adoption",
                 column: "ChildrenId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Adoption_OrphanageId",
-                table: "Adoption",
-                column: "OrphanageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adoption_ParentId",

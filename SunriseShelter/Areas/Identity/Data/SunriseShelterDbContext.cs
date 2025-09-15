@@ -14,7 +14,6 @@ public class SunriseShelterDbContext : IdentityDbContext<SunriseShelterUser>
     {
         base.OnModelCreating(builder);
 
-        // Add your relationship configurations here
         builder.Entity<Adoption>()
             .HasOne(a => a.Parent)
             .WithMany(u => u.Adoptions)

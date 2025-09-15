@@ -49,6 +49,15 @@
         </div>
     }
 
+    @if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <a class="btn btn-success rounded-pill px-4" asp-controller="Adoption" asp-action="UserCreate">
+                <i class="bi bi-heart-fill me-2"></i>Request Adoption
+            </a>
+        </div>
+    }
+
     <!-- Search -->
     <form asp-action="Index" method="get" class="d-flex justify-content-center mb-4">
         <div class="input-group shadow-sm" style="max-width: 600px;">
@@ -104,6 +113,13 @@
                                     </td>
                                     <td class="actions-column">
                                         <div class="btn-group btn-group-sm">
+                                            @if (User.Identity.IsAuthenticated && !User.IsInRole("Admin") && item.Status == "Available")
+                                            {
+                                                <a class="btn btn-sm btn-success me-1" asp-controller="Adoption" asp-action="UserCreate" asp-route-childrenId="@item.ChildrenId" title="Adopt">
+                                                    <i class="bi bi-heart-fill"></i>
+                                                    <span class="d-none d-md-inline">Adopt</span>
+                                                </a>
+                                            }
                                             @if (User.IsInRole("Admin"))
                                             {
                                                 <a class="btn btn-outline-secondary me-1" asp-action="Edit" asp-route-id="@item.ChildrenId" title="Edit">

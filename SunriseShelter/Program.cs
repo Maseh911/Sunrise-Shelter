@@ -81,6 +81,6 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-DatabaseStartup.StartUp(app);   // This will run the dummy data in the database //
+await DatabaseStartup.StartUp(app);   // This will run the dummy data in the database //
 
 app.Run();

@@ -64,65 +64,56 @@
                                 <i class="bi bi-people me-2"></i>@Html.DisplayNameFor(model => model.Children)
                             </div>
                             <div class="col-sm-8">
-                                @Html.DisplayFor(model => model.Children.Name) 
+                                @Html.DisplayFor(model => model.Children.Name)
                                 <small class="text-muted d-block">(Born in: @Html.DisplayFor(model => model.Children.BirthPlace))</small>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-sm-4 fw-bold text-dark">
-                                <i class="bi bi-house me-2"></i>@Html.DisplayNameFor(model => model.Orphanage)
-                            </div>
-                            <div class="col-sm-8">
-                                @Html.DisplayFor(model => model.Orphanage.Name)
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Action Buttons -->
-                    <div class="d-flex justify-content-center gap-3 mt-4">
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <a asp-action="Edit" asp-route-id="@Model?.AdoptionId" class="btn btn-outline-primary rounded-pill px-4 py-2">
-                                <i class="bi bi-pencil-square me-2"></i>Edit
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@Model?.AdoptionId" class="btn btn-outline-primary rounded-pill px-4 py-2">
+                                    <i class="bi bi-pencil-square me-2"></i>Edit
+                                </a>
+                            }
+                            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 py-2">
+                                <i class="bi bi-arrow-left me-2"></i>Back to List
                             </a>
-                        }
-                        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 py-2">
-                            <i class="bi bi-arrow-left me-2"></i>Back to List
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<style>
-    .card {
-        border-radius: 15px;
-    }
-
-    .card-header {
-        border-top-left-radius: 15px !important;
-        border-top-right-radius: 15px !important;
-        border-bottom: 1px solid rgba(0,0,0,0.1);
-    }
-
-    .btn {
-        font-size: 1.1rem;
-        min-width: 140px;
-    }
-
-    .details-container {
-        background-color: #f8f9fa !important;
-    }
-
-    .row {
-        padding: 10px 0;
-        border-bottom: 1px solid rgba(0,0,0,0.05);
-    }
-
-        .row:last-child {
-            border-bottom: none;
+    <style>
+        .card {
+            border-radius: 15px;
         }
-</style>
+
+        .card-header {
+            border-top-left-radius: 15px !important;
+            border-top-right-radius: 15px !important;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .btn {
+            font-size: 1.1rem;
+            min-width: 140px;
+        }
+
+        .details-container {
+            background-color: #f8f9fa !important;
+        }
+
+        .row {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+            .row:last-child {
+                border-bottom: none;
+            }
+    </style>

@@ -12,7 +12,7 @@ namespace SunriseShelter.Models
 
 
         [Display(Name = "Date of Adoption")] 
-        public DateTime AdoptionDate { get; set; }
+        public DateTime? AdoptionDate { get; set; }
 
         [Required, Display(Name = "Application Date")]
         [DataType(DataType.Date)]
@@ -35,13 +35,6 @@ namespace SunriseShelter.Models
         [ForeignKey("ChildrenId")]
         public int ChildrenId { get; set; }
         public Children Children { get; set; }
-
-
-        [Required]
-        [Display(Name = "Orphanage")]
-        [ForeignKey("OrphanageId")]
-        public int OrphanageId { get; set; }
-        public Orphanage Orphanage { get; set; }
 
     }
 }

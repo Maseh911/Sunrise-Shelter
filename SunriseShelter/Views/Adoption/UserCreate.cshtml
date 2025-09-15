@@ -1,0 +1,101 @@
+﻿@model SunriseShelter.Models.Adoption
+
+@{
+    ViewData["Title"] = "Adoption Request";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white py-3">
+                    <h4 class="mb-0 text-center">
+                        <i class="bi bi-heart-fill me-2"></i>Adoption Application Form
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            @TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <div class="alert alert-info mb-4">
+                        <h6 class="alert-heading"><i class="bi bi-info-circle me-2"></i>Important Information</h6>
+                        <p class="mb-2">Thank you for considering adoption!</p>
+                        <p class="mb-0">Our team will review your application</p>
+                    </div>
+
+                    @if (ViewBag.SelectedChild != null)
+                    {
+                        var child = ViewBag.SelectedChild as SunriseShelter.Models.Children;
+                        <div class="alert alert-warning mb-4">
+                            <h6 class="alert-heading"><i class="bi bi-person-circle me-2"></i>Selected Child</h6>
+                            <p class="mb-1"><strong>Name:</strong> @child.Name</p>
+                            <p class="mb-1"><strong>Age:</strong> @(DateTime.Today.Year - child.DateOfBirth.Year) years old</p>
+                        </div>
+                    }
+
+                    <form asp-action="UserCreate">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <!-- Child Selection -->
+                        <div class="form-group mb-4">
+                            <label class="form-label fw-bold text-dark">
+                                <i class="bi bi-person-circle me-2"></i>Select Child for Adoption
+                            </label>
+                            <select asp-for="ChildrenId" class="form-control form-control-lg"
+                                    asp-items="ViewBag.AvailableChildren" required>
+                                <option value="">-- Please choose a child --</option>
+                            </select>
+                            <span asp-validation-for="ChildrenId" class="text-danger small"></span>
+                            <div class="form-text">Choose from children currently available for adoption</div>
+                        </div>
+
+                        <!-- Auto-filled Information Display -->
+                        <div class="card bg-light mb-4">
+                            <div class="card-header">
+                                <h6 class="mb-0"><i class="bi bi-card-checklist me-2"></i>Application Details</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="mb-2"><strong>Application Date:</strong> @DateTime.Today.ToString("MMMM d, yyyy")</p>
+                                        <p class="mb-2"><strong>Status:</strong> <span class="badge bg-warning">Pending Review</span></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="mb-2"><strong>Your Name:</strong> Will be auto-filled</p>
+                                        <p class="mb-0"><strong>Contact Info:</strong> From your profile</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="form-group">
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success btn-lg py-3">
+                                    <i class="bi me-2"></i>Submit Adoption Application
+                                </button>
+                                <a asp-action="Index" asp-controller="Children" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left me-2"></i>Back to Children List
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
