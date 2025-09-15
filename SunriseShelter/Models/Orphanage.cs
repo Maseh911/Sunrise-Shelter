@@ -10,11 +10,11 @@ namespace SunriseShelter.Models
         public int OrphanageId { get; set; }
 
 
-        [Required, MaxLength(25), NoNumbersOrSymbols, Display(Name = "Orphanage")]
+        [Required, MaxLength(50), NoNumbersOrSymbols, Display(Name = "Orphanage")]
         public string Name { get; set; }
 
 
-        [Required, MaxLength(25), Display(Name = "Address"), NoSymbols]
+        [Required, MaxLength(50), Display(Name = "Address"), NoSymbols]
         public string Address { get; set; } 
 
 

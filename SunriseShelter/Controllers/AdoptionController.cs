@@ -163,7 +163,6 @@ namespace SunriseShelter.Controllers
             return View(adoption);
         }
 
-        // POST: Adoption/Edit/5
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
@@ -174,66 +173,69 @@ namespace SunriseShelter.Controllers
                 return NotFound();
             }
 
-            if (!ModelState.IsValid)
+            // Fetch the tracked Adoption entity including the child
+            var existingAdoption = await _context.Adoption
+                .Include(a => a.Children)
+                .FirstOrDefaultAsync(a => a.AdoptionId == id);
+
+            if (existingAdoption == null)
             {
-                try
-                {
-                    // If status is being changed to Approved, set adoption date and update child status
-                    var existingAdoption = await _context.Adoption
-                        .Include(a => a.Children)
-                        .FirstOrDefaultAsync(a => a.AdoptionId == id);
-
-                    if (existingAdoption != null)
-                    {
-                        // If status changed to Approved
-                        if (adoption.Status == "Approved" && existingAdoption.Status != "Approved")
-                        {
-                            adoption.AdoptionDate = DateTime.Now;
-                            // Update child status to "In Process"
-                            var child = await _context.Children.FindAsync(adoption.ChildrenId);
-                            if (child != null)
-                            {
-                                child.Status = "In Process";
-                                _context.Update(child);
-                            }
-                        }
-                        // If status changed from Approved to something else
-                        else if (existingAdoption.Status == "Approved" && adoption.Status != "Approved")
-                        {
-                            adoption.AdoptionDate = null;
-                            // Revert child status to "Available" if needed
-                            var child = await _context.Children.FindAsync(adoption.ChildrenId);
-                            if (child != null && child.Status == "In Process")
-                            {
-                                child.Status = "Available";
-                                _context.Update(child);
-                            }
-                        }
-                    }
-
-                    _context.Update(adoption);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AdoptionExists(adoption.AdoptionId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                TempData["SuccessMessage"] = "Adoption application updated successfully!";
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
 
-            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "Name", adoption.ChildrenId);
-            ViewData["ParentId"] = new SelectList(_context.Users, "Id", "FirstName", adoption.ParentId);
-            ViewData["StatusList"] = new SelectList(new[] { "Pending", "Approved", "Rejected" }, adoption.Status);
+            // Update only the properties you want from the bound model
+            existingAdoption.ApplicationDate = adoption.ApplicationDate;
+            existingAdoption.Status = adoption.Status;
 
-            return View(adoption);
+            // Handle AdoptionDate and child status logic
+            if (existingAdoption.Status == "Approved")
+            {
+                // Set AdoptionDate if not already set
+                if (!existingAdoption.AdoptionDate.HasValue)
+                {
+                    existingAdoption.AdoptionDate = DateTime.Now;
+                }
+
+                // Update child status to "In Process"
+                if (existingAdoption.Children != null)
+                {
+                    existingAdoption.Children.Status = "In Process";
+                }
+            }
+            else
+            {
+                // Reset AdoptionDate if not Approved
+                existingAdoption.AdoptionDate = null;
+
+                // Revert child status to "Available" if needed
+                if (existingAdoption.Children != null && existingAdoption.Children.Status == "In Process")
+                {
+                    existingAdoption.Children.Status = "Available";
+                }
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Adoption application updated successfully!";
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AdoptionExists(existingAdoption.AdoptionId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            ViewData["ChildrenId"] = new SelectList(_context.Children, "ChildrenId", "Name", existingAdoption.ChildrenId);
+            ViewData["ParentId"] = new SelectList(_context.Users, "Id", "FirstName", existingAdoption.ParentId);
+            ViewData["StatusList"] = new SelectList(new[] { "Pending", "Approved", "Rejected" }, existingAdoption.Status);
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Adoption/Delete/5

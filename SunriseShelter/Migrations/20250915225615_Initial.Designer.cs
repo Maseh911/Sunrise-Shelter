@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace SunriseShelter.Migrations
 {
     [DbContext(typeof(SunriseShelterDbContext))]
-    [Migration("20250915104403_Initial")]
+    [Migration("20250915225615_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -340,8 +340,8 @@ namespace SunriseShelter.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Country")
                         .IsRequired()
@@ -350,8 +350,8 @@ namespace SunriseShelter.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("State")
                         .IsRequired()
