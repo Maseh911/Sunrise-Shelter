@@ -21,21 +21,25 @@
                     <form asp-action="Edit">
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
                         <input type="hidden" asp-for="AdoptionId" />
+                        <input type="hidden" asp-for="AdoptionDate" />
+                        <input type="hidden" asp-for="ApplicationDate" />
 
                         <div class="row">
                             <div class="col-md-6 mb-4">
-                                <label asp-for="AdoptionDate" class="form-label fw-bold">
-                                    <i class="bi bi-calendar-check me-2"></i>@Html.DisplayNameFor(model => model.AdoptionDate)
+                                <label class="form-label fw-bold">
+                                    <i class="bi bi-calendar-check me-2"></i>Adoption Date
                                 </label>
-                                <input asp-for="AdoptionDate" class="form-control rounded-pill py-2" />
-                                <span asp-validation-for="AdoptionDate" class="text-danger small"></span>
+                                <input value="@(Model.AdoptionDate?.ToString("yyyy-MM-dd") ?? "Not set")"
+                                       class="form-control rounded-pill py-2 bg-light" readonly />
+                                <small class="form-text text-muted">Cannot be edited</small>
                             </div>
                             <div class="col-md-6 mb-4">
-                                <label asp-for="ApplicationDate" class="form-label fw-bold">
-                                    <i class="bi bi-calendar-event me-2"></i>@Html.DisplayNameFor(model => model.ApplicationDate)
+                                <label class="form-label fw-bold">
+                                    <i class="bi bi-calendar-event me-2"></i>Application Date
                                 </label>
-                                <input asp-for="ApplicationDate" class="form-control rounded-pill py-2" />
-                                <span asp-validation-for="ApplicationDate" class="text-danger small"></span>
+                                <input value="@Model.ApplicationDate.ToString("yyyy-MM-dd")"
+                                       class="form-control rounded-pill py-2 bg-light" readonly />
+                                <small class="form-text text-muted">Cannot be edited</small>
                             </div>
                         </div>
 
@@ -44,7 +48,13 @@
                                 <label asp-for="Status" class="form-label fw-bold">
                                     <i class="bi bi-info-circle me-2"></i>@Html.DisplayNameFor(model => model.Status)
                                 </label>
-                                <input asp-for="Status" class="form-control rounded-pill py-2" placeholder="Enter adoption status" />
+                                <select asp-for="Status" class="form-control rounded-pill py-2">
+                                    <option value="">Select Status</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Approved">Approved</option>
+                                    <option value="Rejected">Rejected</option>
+                                    <option value="Completed">Completed</option>
+                                </select>
                                 <span asp-validation-for="Status" class="text-danger small"></span>
                             </div>
                         </div>
@@ -52,21 +62,19 @@
                         <div class="row">
                             <div class="col-md-6 mb-4">
                                 <label asp-for="ParentId" class="form-label fw-bold">
-                                    <i class="bi bi-person me-2"></i>@Html.DisplayNameFor(model => model.ParentId)
+                                    <i class="bi bi-person me-2"></i>Parent
                                 </label>
                                 <select asp-for="ParentId" class="form-control rounded-pill py-2" asp-items="ViewBag.ParentId"></select>
                                 <span asp-validation-for="ParentId" class="text-danger small"></span>
                             </div>
                             <div class="col-md-6 mb-4">
                                 <label asp-for="ChildrenId" class="form-label fw-bold">
-                                    <i class="bi bi-people me-2"></i>@Html.DisplayNameFor(model => model.ChildrenId)
+                                    <i class="bi bi-people me-2"></i>Child
                                 </label>
                                 <select asp-for="ChildrenId" class="form-control rounded-pill py-2" asp-items="ViewBag.ChildrenId"></select>
                                 <span asp-validation-for="ChildrenId" class="text-danger small"></span>
                             </div>
                         </div>
-
-
                         <div class="form-group mt-5">
                             <div class="d-flex justify-content-center gap-3">
                                 <button type="submit" class="btn btn-success rounded-pill px-4 py-2">
@@ -124,5 +132,15 @@
 
     select.form-control {
         height: calc(2.5rem + 2px);
+    }
+
+    .bg-light {
+        background-color: #f8f9fa !important;
+    }
+
+    .form-text {
+        padding-left: 15px;
+        font-size: 0.9rem;
+        color: #6c757d;
     }
 </style>
