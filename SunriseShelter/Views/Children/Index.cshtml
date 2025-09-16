@@ -16,17 +16,16 @@
 
     .table th, .table td {
         padding: 12px 8px;
-        /* Removed fixed min/max widths to allow natural sizing */
     }
 
     .actions-column {
         white-space: nowrap;
-        min-width: 180px; /* Adjusted to a minimal width that fits icons + text */
+        min-width: 180px;
     }
 
     .btn-group .btn {
         white-space: nowrap;
-        margin-right: 4px; /* Small spacing for clarity */
+        margin-right: 4px;
     }
 
     .text-truncate-cell {
@@ -37,7 +36,18 @@
     }
 
     .card {
-        width: 100%; /* Ensures card expands to container width */
+        width: 100%;
+    }
+
+    .sort-icon {
+        margin-left: 5px;
+        font-size: 0.9rem;
+    }
+
+    .sortable-header:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
     }
 </style>
 
@@ -83,15 +93,54 @@
     else
     {
         <div class="card shadow-sm border-0 mx-auto" style="max-width: none;">
-            <!-- No fixed max-width for flexibility -->
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light text-start">
                             <tr>
-                                <th style="min-width: 150px;">Name</th>
+                                <th style="min-width: 150px;">
+                                    <a asp-action="Index"
+                                       asp-route-sortOrder="@ViewData["NameSortParm"]"
+                                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                       asp-route-pageNumber="@Model.PageIndex"
+                                       class="text-decoration-none text-dark fw-bold d-flex align-items-center sortable-header">
+                                        Name
+                                        @if (ViewData["CurrentSort"]?.ToString() == "name_desc")
+                                        {
+                                            <i class="bi bi-sort-down-alt sort-icon"></i>
+                                        }
+                                        else if (ViewData["CurrentSort"]?.ToString() == "name_asc" || ViewData["CurrentSort"]?.ToString() == "")
+                                        {
+                                            <i class="bi bi-sort-up-alt sort-icon"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-filter sort-icon"></i>
+                                        }
+                                    </a>
+                                </th>
                                 <th style="min-width: 80px;">Gender</th>
-                                <th style="min-width: 120px;">Date of Birth</th>
+                                <th style="min-width: 120px;">
+                                    <a asp-action="Index"
+                                       asp-route-sortOrder="@ViewData["DateSortParm"]"
+                                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                       asp-route-pageNumber="@Model.PageIndex"
+                                       class="text-decoration-none text-dark fw-bold d-flex align-items-center sortable-header">
+                                        Date of Birth
+                                        @if (ViewData["CurrentSort"]?.ToString() == "date_desc")
+                                        {
+                                            <i class="bi bi-sort-down-alt sort-icon"></i>
+                                        }
+                                        else if (ViewData["CurrentSort"]?.ToString() == "date_asc")
+                                        {
+                                            <i class="bi bi-sort-up-alt sort-icon"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-filter sort-icon"></i>
+                                        }
+                                    </a>
+                                </th>
                                 <th style="min-width: 120px;">Birth Place</th>
                                 <th style="min-width: 120px;">Date of Admission</th>
                                 <th style="min-width: 100px;">Status</th>
@@ -161,10 +210,14 @@
     }
     <div class="d-flex justify-content-center align-items-center mt-3 gap-2">
         <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
            asp-route-pageNumber="@(Model.PageIndex - 1)"
            class="btn btn-outline-secondary rounded-pill @prevDisabled">← Previous</a>
         <span class="px-2">Page @Model.PageIndex</span>
         <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
            asp-route-pageNumber="@(Model.PageIndex + 1)"
            class="btn btn-outline-secondary rounded-pill @nextDisabled">Next →</a>
     </div>

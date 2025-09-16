@@ -24,7 +24,6 @@ namespace SunriseShelter.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index(string searchString, string sortOrder, int? pageNumber, string currentFilter)
         {
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["StatusSortParm"] = sortOrder == "Status" ? "status_desc" : "Status";
             ViewData["CurrentFilter"] = searchString;
@@ -56,9 +55,6 @@ namespace SunriseShelter.Controllers
             // Sorting
             switch (sortOrder)
             {
-                case "name_desc":
-                    adoptions = adoptions.OrderByDescending(a => a.Children.Name);
-                    break;
                 case "Date":
                     adoptions = adoptions.OrderBy(a => a.ApplicationDate);
                     break;
@@ -76,7 +72,7 @@ namespace SunriseShelter.Controllers
                     break;
             }
 
-            int pageSize = 10;
+            int pageSize = 16;
             return View(await PaginatedList<Adoption>.CreateAsync(adoptions.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
