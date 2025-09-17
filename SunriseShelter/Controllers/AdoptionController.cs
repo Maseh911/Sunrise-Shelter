@@ -24,55 +24,61 @@ namespace SunriseShelter.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index(string searchString, string sortOrder, int? pageNumber, string currentFilter)
         {
+            // Set up sorting parameters for the view
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["StatusSortParm"] = sortOrder == "Status" ? "status_desc" : "Status";
             ViewData["CurrentFilter"] = searchString;
             ViewData["CurrentSort"] = sortOrder;
 
+            // Reset to first page if a new search is entered
             if (searchString != null)
             {
                 pageNumber = 1;
             }
             else
             {
-                searchString = currentFilter;
+                searchString = currentFilter; // Keep using the current filter if no new search is entered
             }
 
+            // Get all adoptions including related Parent and Children info
             var adoptions = from a in _context.Adoption
                                 .Include(a => a.Parent)
                                 .Include(a => a.Children)
                             select a;
 
-            // Search filter
+            // Apply search filter if search string is not empty
             if (!String.IsNullOrEmpty(searchString))
             {
                 adoptions = adoptions.Where(a => a.Parent.FirstName.Contains(searchString) ||
-                                               a.Parent.LastName.Contains(searchString) ||
-                                               a.Children.Name.Contains(searchString) ||
-                                               a.Status.Contains(searchString));
+                                                 a.Parent.LastName.Contains(searchString) ||
+                                                 a.Children.Name.Contains(searchString) ||
+                                                 a.Status.Contains(searchString));
             }
 
-            // Sorting
+            // Apply sorting logic
             switch (sortOrder)
             {
-                case "Date":
+                case "Date": // Sort by Application Date (ascending)
                     adoptions = adoptions.OrderBy(a => a.ApplicationDate);
                     break;
-                case "date_desc":
+                case "date_desc": // Sort by Application Date (descending)
                     adoptions = adoptions.OrderByDescending(a => a.ApplicationDate);
                     break;
-                case "Status":
+                case "Status": // Sort by Status (ascending)
                     adoptions = adoptions.OrderBy(a => a.Status);
                     break;
-                case "status_desc":
+                case "status_desc": // Sort by Status (descending)
                     adoptions = adoptions.OrderByDescending(a => a.Status);
                     break;
-                default:
+                default: // Default sort: Application Date (ascending)
                     adoptions = adoptions.OrderBy(a => a.ApplicationDate);
                     break;
             }
 
+            // Set the number of items per page
             int pageSize = 16;
+
+            // Return the paginated and filtered list to the view
             return View(await PaginatedList<Adoption>.CreateAsync(adoptions.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

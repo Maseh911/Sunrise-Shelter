@@ -57,30 +57,38 @@ using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<SunriseShelterUser>>();
 
+    // Define the admin user credentials
     string adminEmail = "admin@gmail.com";
     string adminPassword = "Qwe123!";
 
+    // Check if an admin user with this email already exists
     if (await userManager.FindByEmailAsync(adminEmail) == null)
     {
+        // Create a new admin user with required details
         var user = new SunriseShelterUser
         {
             UserName = adminEmail,
             Email = adminEmail,
             FirstName = "Admin",
             LastName = "Admin",
-            DateOfBirth = new DateTime(2008, 3, 4), 
+            DateOfBirth = new DateTime(2008, 3, 4),  // Example date of birth
             PhoneNumber = "02102786388",
             MaritalStatus = "Single", 
             Address = "123 Admin Street", 
             BirthPlace = "New Zealand", 
-            EmailConfirmed = true
+            EmailConfirmed = true // Confirm email so user can log in immediately
         };
 
+        // Create the admin user in the database with the given password
         await userManager.CreateAsync(user, adminPassword);
+
+        // Assign the "Admin" role to this user
         await userManager.AddToRoleAsync(user, "Admin");
     }
 }
 
-await DatabaseStartup.StartUp(app);   // This will run the dummy data in the database //
+// Seed the database with dummy data
+await DatabaseStartup.StartUp(app);   
 
+// Run the application
 app.Run();
