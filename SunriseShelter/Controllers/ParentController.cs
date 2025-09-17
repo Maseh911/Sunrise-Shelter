@@ -111,7 +111,7 @@ namespace SunriseShelter.Controllers
         // POST: Parent/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,DateOfBirth,PhoneNumber,Email,MartialStatus,Address,BirthPlace")] SunriseShelterUser parent)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,DateOfBirth,PhoneNumber,Email,MaritalStatus,Address,BirthPlace")] SunriseShelterUser parent)
         {
             if (id != parent.Id)
             {
@@ -134,7 +134,7 @@ namespace SunriseShelter.Controllers
                     existingUser.PhoneNumber = parent.PhoneNumber;
                     existingUser.Email = parent.Email;
                     existingUser.UserName = parent.Email;
-                    existingUser.MartialStatus = parent.MartialStatus;
+                    existingUser.MaritalStatus = parent.MaritalStatus;
                     existingUser.Address = parent.Address;
                     existingUser.BirthPlace = parent.BirthPlace;
 

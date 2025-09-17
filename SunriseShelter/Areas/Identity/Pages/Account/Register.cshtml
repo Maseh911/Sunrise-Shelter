@@ -32,12 +32,12 @@
 
             <div class="form-floating mb-3">
                 <input asp-for="Input.DateOfBirth" class="form-control" type="date" 
-                min="@DateTime.Today.AddYears(-70).AddDays(1).ToString("yyyy-MM-dd")"
+                min="@DateTime.Today.AddYears(-100).AddDays(1).ToString("yyyy-MM-dd")"
                 max="@DateTime.Today.AddYears(-18).ToString("yyyy-MM-dd")"
                 aria-required="true" />
                 <label asp-for="Input.DateOfBirth">Date of Birth</label>
                  <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
-                 <small class="form-text text-muted">You must be between 18 and 69 years old to register.</small>
+                 <small class="form-text text-muted">You must be between 18 and 100 years old to register.</small>
             </div>
 
             <div class="form-floating mb-3">

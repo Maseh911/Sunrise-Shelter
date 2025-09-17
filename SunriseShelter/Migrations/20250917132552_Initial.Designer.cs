@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace SunriseShelter.Migrations
 {
     [DbContext(typeof(SunriseShelterDbContext))]
-    [Migration("20250915225615_Initial")]
+    [Migration("20250917132552_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -209,10 +209,9 @@ namespace SunriseShelter.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("MartialStatus")
+                    b.Property<string>("MaritalStatus")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
