@@ -11,8 +11,6 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-6">
-
-
             <div class="card shadow-sm border-0">
                 <div class="card-header bg-light py-4">
                     <h4 class="card-title mb-0 text-center text-dark">
@@ -20,6 +18,12 @@
                     </h4>
                 </div>
                 <div class="card-body p-5">
+                    @if (ViewData["ValidationErrors"] != null)
+                    {
+                        <div class="alert alert-warning">
+                            <strong>Validation Errors:</strong> @ViewData["ValidationErrors"]
+                        </div>
+                    }
                     <form asp-action="Create">
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
@@ -34,7 +38,7 @@
                         <div class="row">
                             <div class="col-md-6 mb-4">
                                 <label asp-for="Gender" class="form-label fw-bold"></label>
-                                <select asp-for="Gender" class="form-control rounded-pill py-2">
+                                <select asp-for="Gender" class="form-control rounded-pill py-2" required>
                                     <option value="">Select Gender</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
@@ -74,7 +78,7 @@
                         <div class="row">
                             <div class="col-md-6 mb-4">
                                 <label asp-for="Status" class="form-label fw-bold"></label>
-                                <select asp-for="Status" class="form-control rounded-pill py-2">
+                                <select asp-for="Status" class="form-control rounded-pill py-2" required>
                                     <option value="">Select Status</option>
                                     <option value="Available">Available</option>
                                     <option value="In Process">In Process</option>
@@ -84,7 +88,7 @@
                             </div>
                             <div class="col-md-6 mb-4">
                                 <label asp-for="OrphanageId" class="form-label fw-bold"></label>
-                                <select asp-for="OrphanageId" class="form-control rounded-pill py-2" asp-items="ViewBag.OrphanageId">
+                                <select asp-for="OrphanageId" class="form-control rounded-pill py-2" required asp-items="ViewBag.OrphanageId">
                                     <option value="">Select Orphanage</option>
                                 </select>
                                 <span asp-validation-for="OrphanageId" class="text-danger small"></span>
@@ -154,3 +158,4 @@
         font-size: 0.9rem;
         color: #6c757d;
     }
+</style>

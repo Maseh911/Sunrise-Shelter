@@ -16,66 +16,110 @@
                     </h4>
                 </div>
                 <div class="card-body p-5">
-                    <div class="alert alert-warning text-center">
-                        <h5><i class="bi bi-exclamation-triangle-fill me-2"></i>Are you sure you want to delete this child?</h5>
-                    </div>
-
-                    <div class="details-container bg-light rounded-3 p-4 mb-4">
-                        <h5 class="text-center mb-4">Child Details</h5>
-
-                        <div class="row mb-3">
-                            <div class="col-sm-4 fw-bold">@Html.DisplayNameFor(m => m.Name)</div>
-                            <div class="col-sm-8">@Html.DisplayFor(m => m.Name)</div>
+                    @if (Model == null)
+                    {
+                        <div class="alert alert-warning text-center">
+                            <h5><i class="bi bi-exclamation-triangle-fill me-2"></i>Child not found.</h5>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning text-center">
+                            <h5><i class="bi bi-exclamation-triangle-fill me-2"></i>Are you sure you want to delete this child?</h5>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-sm-4 fw-bold">@Html.DisplayNameFor(m => m.Gender)</div>
-                            <div class="col-sm-8">@Html.DisplayFor(m => m.Gender)</div>
-                        </div>
+                        <div class="details-container bg-light rounded-3 p-4 mb-4">
+                            <h5 class="text-center mb-4">Child Details</h5>
 
-                        <div class="row mb-3">
-                            <div class="col-sm-4 fw-bold">@Html.DisplayNameFor(m => m.DateOfBirth)</div>
-                            <div class="col-sm-8">@Html.DisplayFor(m => m.DateOfBirth)</div>
-                        </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-4 fw-bold">@Html.DisplayNameFor(m => m.Name)</div>
+                                <div class="col-sm-8">@Html.DisplayFor(m => m.Name)</div>
+                            </div>
 
-                        <div class="row mb-3">
-                            <div class="col-sm-4 fw-bold">@Html.DisplayNameFor(m => m.BirthPlace)</div>
-                            <div class="col-sm-8">@Html.DisplayFor(m => m.BirthPlace)</div>
-                        </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-4 fw-bold">@Html.DisplayNameFor(m => m.Gender)</div>
+                                <div class="col-sm-8">@Html.DisplayFor(m => m.Gender)</div>
+                            </div>
 
-                        <div class="row mb-3">
-                            <div class="col-sm-4 fw-bold">@Html.DisplayNameFor(m => m.DateOfAdmission)</div>
-                            <div class="col-sm-8">@Html.DisplayFor(m => m.DateOfAdmission)</div>
-                        </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-4 fw-bold">@Html.DisplayNameFor(m => m.DateOfBirth)</div>
+                                <div class="col-sm-8">@Html.DisplayFor(m => m.DateOfBirth, "{0:yyyy-MM-dd}")</div>
+                            </div>
 
-                        <div class="row mb-3">
-                            <div class="col-sm-4 fw-bold">@Html.DisplayNameFor(m => m.Status)</div>
-                            <div class="col-sm-8">@Html.DisplayFor(m => m.Status)</div>
-                        </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-4 fw-bold">@Html.DisplayNameFor(m => m.BirthPlace)</div>
+                                <div class="col-sm-8">@Html.DisplayFor(m => m.BirthPlace)</div>
+                            </div>
 
-                        <div class="row">
-                            <div class="col-sm-4 fw-bold">@Html.DisplayNameFor(m => m.Orphanage)</div>
-                            <div class="col-sm-8">
-                                @(Model.Orphanage != null
-                                    ? Model.Orphanage.Name + " - " + Model.Orphanage.Name
-                                    : "No Orphanage Assigned")
+                            <div class="row mb-3">
+                                <div class="col-sm-4 fw-bold">@Html.DisplayNameFor(m => m.DateOfAdmission)</div>
+                                <div class="col-sm-8">@Html.DisplayFor(m => m.DateOfAdmission, "{0:yyyy-MM-dd}")</div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-sm-4 fw-bold">@Html.DisplayNameFor(m => m.Status)</div>
+                                <div class="col-sm-8">@Html.DisplayFor(m => m.Status)</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4 fw-bold">@Html.DisplayNameFor(m => m.OrphanageId)</div>
+                                <div class="col-sm-8">
+                                    @(Model.Orphanage != null
+                                        ? Model.Orphanage.Address
+                                        : "No Orphanage Assigned")
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <form asp-action="Delete">
-                        <input type="hidden" asp-for="ChildrenId" />
-                        <div class="d-flex justify-content-center gap-3 mt-4">
-                            <button type="submit" class="btn btn-danger rounded-pill px-4 py-2">
-                                <i class="bi bi-trash me-2"></i>Delete
-                            </button>
-                            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 py-2">
-                                <i class="bi bi-arrow-left me-2"></i>Back to List
-                            </a>
-                        </div>
-                    </form>
+                        <form asp-action="Delete" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" asp-for="ChildrenId" />
+                            <div class="d-flex justify-content-center gap-3 mt-4">
+                                <button type="submit" class="btn btn-danger rounded-pill px-4 py-2">
+                                    <i class="bi bi-trash me-2"></i>Delete
+                                </button>
+                                <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 py-2">
+                                    <i class="bi bi-arrow-left me-2"></i>Back to List
+                                </a>
+                            </div>
+                        </form>
+                    }
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .card {
+        border-radius: 15px;
+    }
+
+    .card-header {
+        border-top-left-radius: 15px !important;
+        border-top-right-radius: 15px !important;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .btn {
+        font-size: 1.1rem;
+        min-width: 140px;
+    }
+
+    .details-container {
+        background-color: #f8f9fa !important;
+    }
+
+    .row {
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+        .row:last-child {
+            border-bottom: none;
+        }
+
+    .alert-warning {
+        border-radius: 12px;
+    }
+</style>

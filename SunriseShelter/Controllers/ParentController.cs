@@ -187,13 +187,28 @@ namespace SunriseShelter.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             var parent = await _userManager.FindByIdAsync(id);
             if (parent != null)
             {
+                // Remove all Adoption records linked to this parent
+                var adoptions = await _context.Adoption
+                    .Where(a => a.ParentId == id)
+                    .ToListAsync();
+                if (adoptions.Any())
+                {
+                    _context.Adoption.RemoveRange(adoptions);
+                    await _context.SaveChangesAsync();
+                }
+
+                // Delete the parent using UserManager
                 var result = await _userManager.DeleteAsync(parent);
                 if (!result.Succeeded)
                 {
-                    // Handle errors
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
@@ -202,7 +217,6 @@ namespace SunriseShelter.Controllers
                 }
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

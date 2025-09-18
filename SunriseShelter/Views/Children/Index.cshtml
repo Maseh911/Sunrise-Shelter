@@ -20,7 +20,7 @@
 
     .actions-column {
         white-space: nowrap;
-        min-width: 180px;
+        min-width: 220px;
     }
 
     .btn-group .btn {
@@ -163,7 +163,7 @@
                                     <td data-label="Date of Admission">@item.DateOfAdmission.ToShortDateString()</td>
                                     <td data-label="Status">@item.Status</td>
                                     <td data-label="Orphanage">
-                                        <div class="text-truncate-cell" title="@item.Orphanage.Name">@item.Orphanage.Name</div>
+                                        <div class="text-truncate-cell" title="@item.Orphanage.Address">@item.Orphanage.Address</div>
                                     </td>
                                     <td class="actions-column">
                                         <div class="btn-group btn-group-sm">
@@ -214,7 +214,7 @@
            asp-route-currentFilter="@ViewData["CurrentFilter"]"
            asp-route-pageNumber="@(Model.PageIndex - 1)"
            class="btn btn-outline-secondary rounded-pill @prevDisabled">← Previous</a>
-        <span class="px-2">Page @Model.PageIndex</span>
+        <span class="px-2">Page @Model.PageIndex of @Model.TotalPages</span>
         <a asp-action="Index"
            asp-route-sortOrder="@ViewData["CurrentSort"]"
            asp-route-currentFilter="@ViewData["CurrentFilter"]"
@@ -222,3 +222,9 @@
            class="btn btn-outline-secondary rounded-pill @nextDisabled">Next →</a>
     </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

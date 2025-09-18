@@ -9,7 +9,6 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-6">
-
             <!-- Card Container -->
             <div class="card shadow-sm border-0">
                 <div class="card-header bg-light py-4">
@@ -18,87 +17,95 @@
                     </h4>
                 </div>
                 <div class="card-body p-5">
-
                     <!-- Details Section -->
-                    <div class="details-container bg-light rounded-3 p-4 mb-4">
-                        <h5 class="text-center mb-4 text-muted">Child Information</h5>
+                    @if (Model == null)
+                    {
+                        <div class="alert alert-warning text-center">
+                            Child details not found.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="details-container bg-light rounded-3 p-4 mb-4">
+                            <h5 class="text-center mb-4 text-muted">Child Information</h5>
 
-                        <div class="row mb-3">
-                            <div class="col-sm-4 fw-bold text-dark">
-                                <i class="bi bi-person me-2"></i>@Html.DisplayNameFor(model => model.Name)
+                            <div class="row mb-3">
+                                <div class="col-sm-4 fw-bold text-dark">
+                                    <i class="bi bi-person me-2"></i>@Html.DisplayNameFor(model => model.Name)
+                                </div>
+                                <div class="col-sm-8">
+                                    @Html.DisplayFor(model => model.Name)
+                                </div>
                             </div>
-                            <div class="col-sm-8">
-                                @Html.DisplayFor(model => model.Name)
+
+                            <div class="row mb-3">
+                                <div class="col-sm-4 fw-bold text-dark">
+                                    <i class="bi bi-gender-ambiguous me-2"></i>@Html.DisplayNameFor(model => model.Gender)
+                                </div>
+                                <div class="col-sm-8">
+                                    @Html.DisplayFor(model => model.Gender)
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-sm-4 fw-bold text-dark">
+                                    <i class="bi bi-calendar me-2"></i>@Html.DisplayNameFor(model => model.DateOfBirth)
+                                </div>
+                                <div class="col-sm-8">
+                                    @Html.DisplayFor(model => model.DateOfBirth, "{0:yyyy-MM-dd}")
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-sm-4 fw-bold text-dark">
+                                    <i class="bi bi-geo me-2"></i>@Html.DisplayNameFor(model => model.BirthPlace)
+                                </div>
+                                <div class="col-sm-8">
+                                    @Html.DisplayFor(model => model.BirthPlace)
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-sm-4 fw-bold text-dark">
+                                    <i class="bi bi-calendar-check me-2"></i>@Html.DisplayNameFor(model => model.DateOfAdmission)
+                                </div>
+                                <div class="col-sm-8">
+                                    @Html.DisplayFor(model => model.DateOfAdmission, "{0:yyyy-MM-dd}")
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-sm-4 fw-bold text-dark">
+                                    <i class="bi bi-info-circle me-2"></i>@Html.DisplayNameFor(model => model.Status)
+                                </div>
+                                <div class="col-sm-8">
+                                    @Html.DisplayFor(model => model.Status)
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4 fw-bold text-dark">
+                                    <i class="bi bi-house me-2"></i>@Html.DisplayNameFor(model => model.OrphanageId)
+                                </div>
+                                <div class="col-sm-8">
+                                    @Html.DisplayFor(model => model.Orphanage.Address)
+                                </div>
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-sm-4 fw-bold text-dark">
-                                <i class="bi bi-gender-ambiguous me-2"></i>@Html.DisplayNameFor(model => model.Gender)
-                            </div>
-                            <div class="col-sm-8">
-                                @Html.DisplayFor(model => model.Gender)
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-sm-4 fw-bold text-dark">
-                                <i class="bi bi-calendar me-2"></i>@Html.DisplayNameFor(model => model.DateOfBirth)
-                            </div>
-                            <div class="col-sm-8">
-                                @Html.DisplayFor(model => model.DateOfBirth)
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-sm-4 fw-bold text-dark">
-                                <i class="bi bi-geo me-2"></i>@Html.DisplayNameFor(model => model.BirthPlace)
-                            </div>
-                            <div class="col-sm-8">
-                                @Html.DisplayFor(model => model.BirthPlace)
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-sm-4 fw-bold text-dark">
-                                <i class="bi bi-calendar-check me-2"></i>@Html.DisplayNameFor(model => model.DateOfAdmission)
-                            </div>
-                            <div class="col-sm-8">
-                                @Html.DisplayFor(model => model.DateOfAdmission)
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-sm-4 fw-bold text-dark">
-                                <i class="bi bi-info-circle me-2"></i>@Html.DisplayNameFor(model => model.Status)
-                            </div>
-                            <div class="col-sm-8">
-                                @Html.DisplayFor(model => model.Status)
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-4 fw-bold text-dark">
-                                <i class="bi bi-house me-2"></i>@Html.DisplayNameFor(model => model.Orphanage)
-                            </div>
-                            <div class="col-sm-8">
-                                @Html.DisplayFor(model => model.Orphanage.Name)
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="d-flex justify-content-center gap-3 mt-4">
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <a asp-action="Edit" asp-route-id="@Model?.ChildrenId" class="btn btn-outline-primary rounded-pill px-4 py-2">
-                                <i class="bi bi-pencil-square me-2"></i>Edit
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@Model.ChildrenId" class="btn btn-outline-primary rounded-pill px-4 py-2">
+                                    <i class="bi bi-pencil-square me-2"></i>Edit
+                                </a>
+                            }
+                            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 py-2">
+                                <i class="bi bi-arrow-left me-2"></i>Back to List
                             </a>
-                        }
-                        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 py-2">
-                            <i class="bi bi-arrow-left me-2"></i>Back to List
-                        </a>
-                    </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -130,7 +137,11 @@
         border-bottom: 1px solid rgba(0,0,0,0.05);
     }
 
-        .row:last-child {
-            border-bottom: none;
-        }
+    .row:last-child {
+        border-bottom: none;
+    }
+
+    .alert-warning {
+        border-radius: 12px;
+    }
 </style>

@@ -10,6 +10,7 @@ using SunriseShelter.Models;
 
 namespace SunriseShelter.Controllers
 {
+    [Authorize] 
     public class ChildrenController : Controller
     {
         private readonly SunriseShelterDbContext _context;
@@ -18,8 +19,6 @@ namespace SunriseShelter.Controllers
         {
             _context = context;
         }
-
-        [Authorize] // Doesn't allow people that haven't logged in to open this tab //
 
         // GET: Children
         public async Task<IActionResult> Index(string searchString, string sortOrder, int? pageNumber, string currentFilter)
@@ -95,7 +94,7 @@ namespace SunriseShelter.Controllers
         // GET: Children/Create
         public IActionResult Create()
         {
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name");
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address");
             ViewData["StatusList"] = new SelectList(new[] { "Available", "In Process", "Adopted" });
             ViewData["GenderList"] = new SelectList(new[] { "Male", "Female", "Other" });
             return View();
@@ -112,9 +111,15 @@ namespace SunriseShelter.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name", children.OrphanageId);
-            ViewData["StatusList"] = new SelectList(new[] { "Available", "In Process", "Adopted" });
-            ViewData["GenderList"] = new SelectList(new[] { "Male", "Female", "Other" });
+            // Debug validation errors
+            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+            if (errors.Any())
+            {
+                ViewData["ValidationErrors"] = string.Join("; ", errors);
+            }
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address", children.OrphanageId);
+            ViewData["StatusList"] = new SelectList(new[] { "Available", "In Process", "Adopted" }, children.Status);
+            ViewData["GenderList"] = new SelectList(new[] { "Male", "Female", "Other" }, children.Gender);
             return View(children);
         }
 
@@ -131,7 +136,7 @@ namespace SunriseShelter.Controllers
             {
                 return NotFound();
             }
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name", children.OrphanageId);
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address", children.OrphanageId);
             ViewData["StatusList"] = new SelectList(new[] { "Available", "In Process", "Adopted" }, children.Status);
             ViewData["GenderList"] = new SelectList(new[] { "Male", "Female", "Other" }, children.Gender);
             return View(children);
@@ -167,7 +172,13 @@ namespace SunriseShelter.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name", children.OrphanageId);
+            // Debug validation errors
+            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+            if (errors.Any())
+            {
+                ViewData["ValidationErrors"] = string.Join("; ", errors);
+            }
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address", children.OrphanageId);
             ViewData["StatusList"] = new SelectList(new[] { "Available", "In Process", "Adopted" }, children.Status);
             ViewData["GenderList"] = new SelectList(new[] { "Male", "Female", "Other" }, children.Gender);
             return View(children);
@@ -213,4 +224,3 @@ namespace SunriseShelter.Controllers
         }
     }
 }
-

@@ -21,6 +21,12 @@
     .actions-column {
         white-space: nowrap;
         min-width: 180px;
+        /* Make the Actions column sticky on the right */
+        position: sticky;
+        right: 0;
+        background-color: #fff; /* Match table background to avoid content overlap */
+        z-index: 1; /* Ensure it stays above other cells */
+        border-left: 1px solid #dee2e6; /* Add a subtle separator */
     }
 
     .btn-group .btn {
@@ -48,6 +54,19 @@
         background-color: rgba(0, 0, 0, 0.05);
         border-radius: 4px;
         transition: background-color 0.2s ease;
+    }
+
+    /* Ensure table header aligns with sticky column */
+    .table thead th:last-child {
+        position: sticky;
+        right: 0;
+        background-color: #f8f9fa; /* Match thead background */
+        z-index: 2; /* Above td but below any overlays */
+    }
+
+    /* Adjust other columns to reduce total width if needed */
+    .table th:not(:last-child), .table td:not(:last-child) {
+        min-width: 120px; /* Reduced from various values to fit better */
     }
 </style>
 
@@ -81,7 +100,7 @@
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light text-start">
                             <tr>
-                                <th style="min-width: 150px;">
+                                <th style="min-width: 120px;">
                                     <a asp-action="Index"
                                        asp-route-sortOrder="@ViewData["NameSortParm"]"
                                        asp-route-currentFilter="@ViewData["CurrentFilter"]"
@@ -102,7 +121,7 @@
                                         }
                                     </a>
                                 </th>
-                                <th style="min-width: 150px;">
+                                <th style="min-width: 120px;">
                                     <a asp-action="Index"
                                        asp-route-sortOrder="@ViewData["LastNameSortParm"]"
                                        asp-route-currentFilter="@ViewData["CurrentFilter"]"
@@ -125,10 +144,16 @@
                                 </th>
                                 <th style="min-width: 120px;">Date Of Birth</th>
                                 <th style="min-width: 120px;">Phone</th>
-                                <th style="min-width: 150px;">Email</th>
+                                <th style="min-width: 120px;">
+                                    <div class="text-truncate-cell" title="Email">Email</div>
+                                </th>
                                 <th style="min-width: 120px;">Marital Status</th>
-                                <th style="min-width: 150px;">Address</th>
-                                <th style="min-width: 120px;">Birth Place</th>
+                                <th style="min-width: 120px;">
+                                    <div class="text-truncate-cell" title="Address">Address</div>
+                                </th>
+                                <th style="min-width: 120px;">
+                                    <div class="text-truncate-cell" title="Birth Place">Birth Place</div>
+                                </th>
                                 <th class="actions-column">Actions</th>
                             </tr>
                         </thead>

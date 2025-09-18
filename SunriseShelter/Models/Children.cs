@@ -31,7 +31,7 @@ namespace SunriseShelter.Models
         public string Status { get; set; } = "Available"; // Child's adoption status ("Available", "In Process", "Adopted")
 
         // Foreign key linking child to an orphanage
-        [Display(Name = "Orphanage")]
+        [Required, Display(Name = "Orphanage")]
         public int OrphanageId { get; set; }
         public virtual Orphanage Orphanage { get; set; } // Navigation property to orphanage
 
