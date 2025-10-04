@@ -1,0 +1,3 @@
+﻿SELECT *
+FROM Children
+WHERE DateOfAdmission BETWEEN '2022-01-01' AND '2023-12-31';

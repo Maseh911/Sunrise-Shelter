@@ -1,14 +1,16 @@
-﻿@model SunriseShelter.Models.Adoption
+﻿@model SunriseShelter.Models.Adoption // Strongly typed model for creating an adoption request
 
 @{
-    ViewData["Title"] = "Adoption Request";
+    ViewData["Title"] = "Adoption Request"; // Sets the page title for layout and browser tab
 }
 
+<!-- Bootstrap Icons for visual enhancement -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8">
+            <!-- Card layout for form container -->
             <div class="card shadow">
                 <div class="card-header bg-success text-white py-3">
                     <h4 class="mb-0 text-center">
@@ -16,6 +18,8 @@
                     </h4>
                 </div>
                 <div class="card-body p-4">
+
+                    <!-- Display error message from TempData if present -->
                     @if (TempData["ErrorMessage"] != null)
                     {
                         <div class="alert alert-danger alert-dismissible fade show">
@@ -25,12 +29,14 @@
                         </div>
                     }
 
+                    <!-- Informational message for applicants -->
                     <div class="alert alert-info mb-4">
                         <h6 class="alert-heading"><i class="bi bi-info-circle me-2"></i>Important Information</h6>
                         <p class="mb-2">Thank you for considering adoption!</p>
                         <p class="mb-0">Our team will review your application</p>
                     </div>
 
+                    <!-- Display selected child details if available -->
                     @if (ViewBag.SelectedChild != null)
                     {
                         var child = ViewBag.SelectedChild as SunriseShelter.Models.Children;
@@ -41,10 +47,12 @@
                         </div>
                     }
 
+                    <!-- Begin form for submitting adoption request -->
                     <form asp-action="UserCreate">
+                        <!-- Display model-level validation errors -->
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
-                        <!-- Child Selection -->
+                        <!-- Child selection dropdown -->
                         <div class="form-group mb-4">
                             <label class="form-label fw-bold text-dark">
                                 <i class="bi bi-person-circle me-2"></i>Select Child for Adoption
@@ -57,7 +65,7 @@
                             <div class="form-text">Choose from children currently available for adoption</div>
                         </div>
 
-                        <!-- Auto-filled Information Display -->
+                        <!-- Auto-filled application details (read-only display) -->
                         <div class="card bg-light mb-4">
                             <div class="card-header">
                                 <h6 class="mb-0"><i class="bi bi-card-checklist me-2"></i>Application Details</h6>
@@ -76,7 +84,7 @@
                             </div>
                         </div>
 
-                        <!-- Action Buttons -->
+                        <!-- Submit and Cancel buttons -->
                         <div class="form-group">
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-success btn-lg py-3">
@@ -94,6 +102,7 @@
     </div>
 </div>
 
+<!-- Client-side validation scripts -->
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

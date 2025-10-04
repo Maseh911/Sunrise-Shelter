@@ -191,11 +191,11 @@ public async Task<IActionResult> Edit(int id, [Bind("AdoptionId,Status,ParentMes
             existingAdoption.ParentId = adoption.ParentId;
             existingAdoption.ChildrenId = adoption.ChildrenId;
 
-            // Handle status changes and date logic
+           
             if (adoption.Status == "Approved" && existingAdoption.Status != "Approved")
             {
                 existingAdoption.AdoptionDate = DateTime.Now;
-                // Update child status
+             
                 var child = await _context.Children.FindAsync(adoption.ChildrenId);
                 if (child != null)
                 {
@@ -206,7 +206,7 @@ public async Task<IActionResult> Edit(int id, [Bind("AdoptionId,Status,ParentMes
             else if (existingAdoption.Status == "Approved" && adoption.Status != "Approved")
             {
                 existingAdoption.AdoptionDate = null;
-                // Revert child status if needed
+       
                 var child = await _context.Children.FindAsync(adoption.ChildrenId);
                 if (child != null && child.Status == "In Process")
                 {
@@ -276,7 +276,7 @@ public async Task<IActionResult> Edit(int id, [Bind("AdoptionId,Status,ParentMes
 
             if (adoption != null)
             {
-                // If the adoption was approved, revert child status to Available
+        
                 if (adoption.Status == "Approved")
                 {
                     var child = await _context.Children.FindAsync(adoption.ChildrenId);

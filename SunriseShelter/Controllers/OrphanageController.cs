@@ -23,10 +23,10 @@ namespace SunriseShelter.Controllers
 
 
         // GET: Orphanage
-        public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber, string currentFilter) // The searchString parameter represents a keyword of a search which will be used for filtering //
+        public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber, string currentFilter) 
         {
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["CurrentFilter"] = searchString;       // This will pass the value from the controller to the view to display the filtered value //
+            ViewData["CurrentFilter"] = searchString;     
             ViewData["CurrentSort"] = sortOrder;
 
             if (searchString != null)
@@ -40,9 +40,9 @@ namespace SunriseShelter.Controllers
 
             var orphanages = from o in _context.Orphanage select o;
 
-            if (!String.IsNullOrEmpty(searchString))  // If the searchString is not empty then it will exectute the statement //
+            if (!String.IsNullOrEmpty(searchString)) 
             {
-                orphanages = orphanages.Where(o => o.Name.Contains(searchString) || o.State.Contains(searchString)); // It can filter the orphanage name as well as the state //
+                orphanages = orphanages.Where(o => o.Name.Contains(searchString) || o.State.Contains(searchString)); 
             }
 
             switch (sortOrder)

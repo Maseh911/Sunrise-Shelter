@@ -52,7 +52,7 @@ public class NewZealandPhone : RegularExpressionAttribute
     }
 }
 
-public class AgeRangeAttribute : ValidationAttribute
+public class AgeRangeAttribute : ValidationAttribute 
 {
     private readonly int _minAge;
     private readonly int _maxAge;

@@ -1,16 +1,17 @@
-﻿@model SunriseShelter.Models.Adoption
+﻿@model SunriseShelter.Models.Adoption // Strongly typed model for displaying adoption details
 
 @{
-    ViewData["Title"] = "Adoption Details";
+    ViewData["Title"] = "Adoption Details"; // Sets the page title for layout and browser tab
 }
 
+<!-- Bootstrap Icons for visual enhancement -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-6">
 
-            <!-- Card Container -->
+            <!-- Card layout for displaying adoption info -->
             <div class="card shadow-sm border-0">
                 <div class="card-header bg-light py-4">
                     <h4 class="card-title mb-0 text-center text-dark">
@@ -19,10 +20,11 @@
                 </div>
                 <div class="card-body p-5">
 
-                    <!-- Details Section -->
+                    <!-- Section for displaying adoption record fields -->
                     <div class="details-container bg-light rounded-3 p-4 mb-4">
                         <h5 class="text-center mb-4 text-muted">Adoption Information</h5>
 
+                        <!-- Adoption Date -->
                         <div class="row mb-3">
                             <div class="col-sm-4 fw-bold text-dark">
                                 <i class="bi bi-calendar-check me-2"></i>@Html.DisplayNameFor(model => model.AdoptionDate)
@@ -32,6 +34,7 @@
                             </div>
                         </div>
 
+                        <!-- Application Date -->
                         <div class="row mb-3">
                             <div class="col-sm-4 fw-bold text-dark">
                                 <i class="bi bi-calendar-event me-2"></i>@Html.DisplayNameFor(model => model.ApplicationDate)
@@ -41,6 +44,7 @@
                             </div>
                         </div>
 
+                        <!-- Status -->
                         <div class="row mb-3">
                             <div class="col-sm-4 fw-bold text-dark">
                                 <i class="bi bi-info-circle me-2"></i>@Html.DisplayNameFor(model => model.Status)
@@ -50,6 +54,7 @@
                             </div>
                         </div>
 
+                        <!-- Parent Name -->
                         <div class="row mb-3">
                             <div class="col-sm-4 fw-bold text-dark">
                                 <i class="bi bi-person me-2"></i>@Html.DisplayNameFor(model => model.Parent)
@@ -59,6 +64,7 @@
                             </div>
                         </div>
 
+                        <!-- Child Name and Birthplace -->
                         <div class="row mb-3">
                             <div class="col-sm-4 fw-bold text-dark">
                                 <i class="bi bi-people me-2"></i>@Html.DisplayNameFor(model => model.Children)
@@ -69,10 +75,9 @@
                             </div>
                         </div>
 
-
-                        <!-- Action Buttons -->
+                        <!-- Action buttons: Edit (admin only) and Back -->
                         <div class="d-flex justify-content-center gap-3 mt-4">
-                            @if (User.IsInRole("Admin"))
+                            @if (User.IsInRole("Admin")) // Only show Edit button for Admin users
                             {
                                 <a asp-action="Edit" asp-route-id="@Model?.AdoptionId" class="btn btn-outline-primary rounded-pill px-4 py-2">
                                     <i class="bi bi-pencil-square me-2"></i>Edit
@@ -88,6 +93,7 @@
         </div>
     </div>
 
+    <!-- Custom styling for layout and spacing -->
     <style>
         .card {
             border-radius: 15px;

@@ -1,18 +1,19 @@
 ﻿@model SunriseShelter.Models.Adoption
 
 @{
-    ViewData["Title"] = "Create Adoption";
-    var minDate = DateTime.Today.AddYears(-10).ToString("yyyy-MM-dd");
-    var maxDate = DateTime.Today.ToString("yyyy-MM-dd");
+    ViewData["Title"] = "Create Adoption"; // Page title for browser and layout
+    var minDate = DateTime.Today.AddYears(-10).ToString("yyyy-MM-dd"); // Minimum date allowed (10 years ago)
+    var maxDate = DateTime.Today.ToString("yyyy-MM-dd"); // Maximum date allowed (today)
 }
 
+<!-- Bootstrap Icons for UI enhancement -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-6">
 
-            <!-- Card Container -->
+            <!-- Card Container for form layout -->
             <div class="card shadow-sm border-0">
                 <div class="card-header bg-light py-4">
                     <h4 class="card-title mb-0 text-center text-dark">
@@ -20,25 +21,28 @@
                     </h4>
                 </div>
                 <div class="card-body p-5">
+                    <!-- Begin form for creating adoption -->
                     <form asp-action="Create">
+                        <!-- Display model-level validation errors -->
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
                         <div class="row">
+                            <!-- Application Date input -->
                             <div class="col-md-6 mb-4">
                                 <label asp-for="ApplicationDate" class="form-label fw-bold"></label>
                                 <input asp-for="ApplicationDate" type="date" class="form-control rounded-pill py-2"
-                                       min="@minDate"
-                                       max="@maxDate"
+                                       min="@minDate" max="@maxDate"
                                        oninvalid="this.setCustomValidity('Application date must be within the last 10 years and cannot be in the future.')"
                                        oninput="this.setCustomValidity('')" />
                                 <span asp-validation-for="ApplicationDate" class="text-danger small"></span>
                                 <small class="form-text text-muted">Must be within the last 10 years</small>
                             </div>
+
+                            <!-- Adoption Date input -->
                             <div class="col-md-6 mb-4">
                                 <label asp-for="AdoptionDate" class="form-label fw-bold"></label>
                                 <input asp-for="AdoptionDate" type="date" class="form-control rounded-pill py-2"
-                                       min="@minDate"
-                                       max="@maxDate"
+                                       min="@minDate" max="@maxDate"
                                        oninvalid="this.setCustomValidity('Adoption date must be within the last 10 years and cannot be in the future.')"
                                        oninput="this.setCustomValidity('')" />
                                 <span asp-validation-for="AdoptionDate" class="text-danger small"></span>
@@ -47,6 +51,7 @@
                         </div>
 
                         <div class="row">
+                            <!-- Status dropdown -->
                             <div class="col-12 mb-4">
                                 <label asp-for="Status" class="form-label fw-bold"></label>
                                 <select asp-for="Status" class="form-control rounded-pill py-2">
@@ -61,6 +66,7 @@
                         </div>
 
                         <div class="row">
+                            <!-- Parent selection dropdown -->
                             <div class="col-md-6 mb-4">
                                 <label asp-for="ParentId" class="form-label fw-bold"></label>
                                 <select asp-for="ParentId" class="form-control rounded-pill py-2" asp-items="ViewBag.ParentId">
@@ -68,6 +74,8 @@
                                 </select>
                                 <span asp-validation-for="ParentId" class="text-danger small"></span>
                             </div>
+
+                            <!-- Child selection dropdown -->
                             <div class="col-md-6 mb-4">
                                 <label asp-for="ChildrenId" class="form-label fw-bold"></label>
                                 <select asp-for="ChildrenId" class="form-control rounded-pill py-2" asp-items="ViewBag.ChildrenId">
@@ -77,6 +85,7 @@
                             </div>
                         </div>
 
+                        <!-- Submit and Cancel buttons -->
                         <div class="form-group mt-5">
                             <div class="d-flex justify-content-center gap-3">
                                 <button type="submit" class="btn btn-success rounded-pill px-4 py-2">
@@ -94,12 +103,14 @@
     </div>
 </div>
 
+<!-- Client-side validation scripts -->
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
 
+<!-- Custom styling for form layout -->
 <style>
     .card {
         border-radius: 15px;

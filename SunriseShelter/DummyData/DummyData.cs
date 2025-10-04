@@ -1,6 +1,4 @@
-﻿// ... your using statements remain unchanged
-
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SunriseShelter.Areas.Identity.Data;
 using SunriseShelter.Models;
