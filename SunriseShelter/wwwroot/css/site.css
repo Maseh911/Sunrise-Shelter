@@ -71,8 +71,9 @@ html, body {
 }
 
     .sunrise-navbar .navbar-brand {
-        font-family: 'Segoe UI', sans-serif;
+        font-family: 'Poppins', sans-serif;
         font-size: 1.4rem;
+        font-weight: 600;
     }
 
     .sunrise-navbar .nav-link {
