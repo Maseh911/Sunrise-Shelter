@@ -19,7 +19,7 @@ namespace SunriseShelter.Attributes
             : base(@"^[a-zA-Z ]+$")   // This makes it to where only characters and spaces can be entered and nothing else //
 
         {
-            ErrorMessage = "The field must contain only letters and spaces and no numbers";
+            ErrorMessage = "The field must contain only letters and spaces and no numbers and no special characters";
         }
     }
 }
