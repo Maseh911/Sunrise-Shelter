@@ -94,11 +94,12 @@ namespace SunriseShelter.Controllers
         // GET: Children/Create
         public IActionResult Create()
         {
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address");
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name");
             ViewData["StatusList"] = new SelectList(new[] { "Available", "In Process", "Adopted" });
             ViewData["GenderList"] = new SelectList(new[] { "Male", "Female", "Other" });
             return View();
         }
+
 
         // POST: Children/Create
         [HttpPost]
@@ -117,7 +118,7 @@ namespace SunriseShelter.Controllers
             {
                 ViewData["ValidationErrors"] = string.Join("; ", errors);
             }
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address", children.OrphanageId);
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name", children.OrphanageId);
             ViewData["StatusList"] = new SelectList(new[] { "Available", "In Process", "Adopted" }, children.Status);
             ViewData["GenderList"] = new SelectList(new[] { "Male", "Female", "Other" }, children.Gender);
             return View(children);
@@ -136,7 +137,7 @@ namespace SunriseShelter.Controllers
             {
                 return NotFound();
             }
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address", children.OrphanageId);
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name", children.OrphanageId);
             ViewData["StatusList"] = new SelectList(new[] { "Available", "In Process", "Adopted" }, children.Status);
             ViewData["GenderList"] = new SelectList(new[] { "Male", "Female", "Other" }, children.Gender);
             return View(children);
@@ -178,7 +179,7 @@ namespace SunriseShelter.Controllers
             {
                 ViewData["ValidationErrors"] = string.Join("; ", errors);
             }
-            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Address", children.OrphanageId);
+            ViewData["OrphanageId"] = new SelectList(_context.Orphanage, "OrphanageId", "Name", children.OrphanageId);
             ViewData["StatusList"] = new SelectList(new[] { "Available", "In Process", "Adopted" }, children.Status);
             ViewData["GenderList"] = new SelectList(new[] { "Male", "Female", "Other" }, children.Gender);
             return View(children);
